@@ -1,6 +1,6 @@
 import { View, Text, TouchableOpacity } from "react-native";
 import { useState, useEffect } from "react";
-import Logo from "../assets/images/logo.svg";
+import Logo from "../../assets/images/logo.svg";
 import SimpleLineIcons from "@expo/vector-icons/SimpleLineIcons";
 import FontAwesome6 from "@expo/vector-icons/FontAwesome6";
 import Ionicons from "@expo/vector-icons/Ionicons";
@@ -29,16 +29,16 @@ const TopHeader = () => {
                 </View>
                 <View className="flex flex-row items-center">
                     <TouchableOpacity activeOpacity={0.6} className="p-4">
-                        <SimpleLineIcons name="bell" size={24} color="black" />
+                        <SimpleLineIcons name="bell" size={22} color="black" />
                     </TouchableOpacity>
                     <TouchableOpacity activeOpacity={0.6} className="p-4">
-                        {/* <SimpleLineIcons name="heart" size={24} color="black" /> */}
-                        <SimpleLineIcons name="bag" size={24} color="black" />
+                        {/* <SimpleLineIcons name="heart" size={22} color="black" /> */}
+                        <SimpleLineIcons name="bag" size={22} color="black" />
                     </TouchableOpacity>
                     <TouchableOpacity activeOpacity={0.6} className="p-4">
                         <FontAwesome6
                             name="circle-user"
-                            size={24}
+                            size={22}
                             color="black"
                         />
                     </TouchableOpacity>
@@ -47,7 +47,7 @@ const TopHeader = () => {
 
             {/* Search bar */}
             <View
-                className="flex flex-row items-center justify-between h-12 px-5 mx-4 my-2 bg-white border border-gray-400 rounded-full"
+                className="flex flex-row items-center justify-between px-5 mx-4 my-2 bg-white border border-gray-400 rounded-full h-11"
                 style={{
                     shadowColor: "#000",
                     shadowOffset: { width: 0, height: 4 },
@@ -58,17 +58,17 @@ const TopHeader = () => {
             >
                 <TouchableOpacity
                     activeOpacity={0.6}
-                    className="flex flex-row items-center w-4/6 h-full gap-3"
+                    className="flex flex-row items-center w-4/6 h-full gap-2"
                 >
-                    <Ionicons name="search-sharp" size={24} color="#9ca3af" />
+                    <Ionicons name="search-sharp" size={20} color="#9ca3af" />
                     <Text className="text-gray-400">{displayedText}</Text>
                 </TouchableOpacity>
-                <View className="flex flex-row items-center gap-8">
+                <View className="flex flex-row items-center gap-5">
                     <TouchableOpacity activeOpacity={0.6} className="">
-                        <Feather name="camera" size={24} color="black" />
+                        <Feather name="camera" size={20} color="black" />
                     </TouchableOpacity>
                     <TouchableOpacity activeOpacity={0.6} className="">
-                        <Feather name="mic" size={24} color="black" />
+                        <Feather name="mic" size={20} color="black" />
                     </TouchableOpacity>
                 </View>
             </View>

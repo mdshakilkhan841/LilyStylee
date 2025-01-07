@@ -53,17 +53,17 @@ const TabBar = () => {
                     >
                         <tab.icon
                             name={tab.iconName}
-                            size={24}
+                            size={22}
                             color={
                                 currentScreen === tab.text ? "#db2777" : "black"
                             }
                         />
                         <Text
-                            className={
+                            className={`sm:text-base text-sm ${
                                 currentScreen === tab.text
                                     ? "text-pink-600"
                                     : "text-black"
-                            }
+                            }`}
                         >
                             {tab.text}
                         </Text>
