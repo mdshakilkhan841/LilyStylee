@@ -1,4 +1,10 @@
-import { View, Text, TouchableOpacity } from "react-native";
+import {
+    View,
+    Text,
+    TouchableOpacity,
+    Platform,
+    Dimensions,
+} from "react-native";
 import Feather from "@expo/vector-icons/Feather";
 import SimpleLineIcons from "@expo/vector-icons/SimpleLineIcons";
 import LinearGradient from "react-native-linear-gradient";
@@ -9,6 +15,7 @@ import { useState } from "react";
 }
 
 const TabBar = () => {
+    const width = Dimensions.get("window").width;
     const [currentScreen, setCurrentScreen] = useState("Home");
 
     const tabs = [
@@ -30,30 +37,39 @@ const TabBar = () => {
     ];
 
     return (
-        <View className="absolute bottom-0 flex flex-row h-16 border-t border-gray-50">
+        <View className="absolute bottom-0 flex flex-row w-full h-[60px] border-t border-gray-50">
             {tabs.map((tab) => (
-                <TouchableOpacity
+                <LinearGradient
                     key={tab.text}
-                    activeOpacity={0.6}
-                    className={`w-1/3 ${
-                        currentScreen === tab.text &&
-                        "border-t-2 border-pink-600"
-                    }`}
-                    onPress={() => setCurrentScreen(tab.text)}
+                    colors={
+                        currentScreen === tab.text
+                            ? ["#fbcfe8", "#fff"]
+                            : ["#fff", "#fff"]
+                    } // Gradient colors
+                    start={{ x: 0, y: 0 }}
+                    end={{ x: 0, y: 1 }} // Vertical gradient
+                    style={{
+                        width: width / 3,
+                        borderTopWidth: 2,
+                        borderTopColor:
+                            currentScreen === tab.text ? "#ec4899" : "white",
+                    }}
                 >
-                    <LinearGradient
-                        colors={
-                            currentScreen === tab.text
-                                ? ["#fbcfe8", "#fff"]
-                                : ["#fff", "#fff"]
-                        } // Gradient colors
-                        start={{ x: 0, y: 0 }}
-                        end={{ x: 0, y: 1 }} // Vertical gradient
-                        className="flex items-center justify-center w-full h-full"
+                    <TouchableOpacity
+                        activeOpacity={0.6}
+                        style={{
+                            flex: 1,
+                            // justifyContent: "center",
+                            alignItems: "center",
+                            height: "100%",
+                            width: "100%",
+                            paddingTop: 5,
+                        }}
+                        onPress={() => setCurrentScreen(tab.text)}
                     >
                         <tab.icon
                             name={tab.iconName}
-                            size={22}
+                            size={20}
                             color={
                                 currentScreen === tab.text ? "#db2777" : "black"
                             }
@@ -67,8 +83,8 @@ const TabBar = () => {
                         >
                             {tab.text}
                         </Text>
-                    </LinearGradient>
-                </TouchableOpacity>
+                    </TouchableOpacity>
+                </LinearGradient>
             ))}
         </View>
     );
