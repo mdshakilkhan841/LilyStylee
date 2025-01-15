@@ -28,12 +28,18 @@ const TopHeader = () => {
                     <Logo width={115} />
                 </View>
                 <View className="flex flex-row items-center">
-                    <TouchableOpacity activeOpacity={0.6} className="p-4">
+                    <TouchableOpacity activeOpacity={0.9} className="p-4">
                         <SimpleLineIcons name="bell" size={22} color="black" />
+                        <Text className="absolute flex items-center justify-center w-6 h-6 p-1 text-xs text-center text-white bg-pink-600 rounded-full right-1 top-1">
+                            5
+                        </Text>
                     </TouchableOpacity>
                     <TouchableOpacity activeOpacity={0.6} className="p-4">
                         {/* <SimpleLineIcons name="heart" size={22} color="black" /> */}
                         <SimpleLineIcons name="bag" size={22} color="black" />
+                        <Text className="absolute right-0 flex items-center justify-center w-6 h-6 p-1 text-xs text-center text-white bg-pink-600 rounded-full top-1">
+                            55
+                        </Text>
                     </TouchableOpacity>
                     <TouchableOpacity activeOpacity={0.6} className="p-4">
                         <FontAwesome6
