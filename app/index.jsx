@@ -5,6 +5,8 @@ import TopHeader from "../components/home/TopHeader";
 import Categories from "../components/home/Categories";
 import AdvertisementSlider from "../components/home/AdvertisementSlider";
 import DiscountCard from "../components/home/DiscountCard";
+import ProductCard from "../components/ProductCard";
+import { View } from "react-native";
 
 export default function Index() {
     return (
@@ -15,6 +17,12 @@ export default function Index() {
                 <Categories />
                 <AdvertisementSlider />
                 <DiscountCard />
+                <ScrollView horizontal showsHorizontalScrollIndicator={false}>
+                    <ProductCard />
+                    <ProductCard />
+                    <ProductCard />
+                    <ProductCard />
+                </ScrollView>
             </ScrollView>
             <TabBar />
         </SafeAreaView>
