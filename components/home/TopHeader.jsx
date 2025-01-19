@@ -34,7 +34,7 @@ const TopHeader = () => {
                             5
                         </Text>
                     </TouchableOpacity>
-                    <TouchableOpacity activeOpacity={0.6} className="p-4">
+                    <TouchableOpacity activeOpacity={0.9} className="p-4">
                         {/* <SimpleLineIcons name="heart" size={22} color="black" /> */}
                         <SimpleLineIcons name="bag" size={22} color="black" />
                         <Text className="absolute right-0 flex items-center justify-center w-6 h-6 p-1 text-xs text-center text-white bg-pink-600 rounded-full top-1">
