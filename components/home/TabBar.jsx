@@ -1,18 +1,9 @@
-import {
-    View,
-    Text,
-    TouchableOpacity,
-    Platform,
-    Dimensions,
-} from "react-native";
+import { View, Text, TouchableOpacity, Dimensions } from "react-native";
 import Feather from "@expo/vector-icons/Feather";
 import SimpleLineIcons from "@expo/vector-icons/SimpleLineIcons";
+import Entypo from "@expo/vector-icons/Entypo";
 import LinearGradient from "react-native-linear-gradient";
 import { useState } from "react";
-
-{
-    /* <Feather name="heart" size={24} color="black" />; */
-}
 
 const TabBar = () => {
     const width = Dimensions.get("window").width;
@@ -25,10 +16,16 @@ const TabBar = () => {
             iconName: "home",
         },
         {
+            text: "Lily's Choice",
+            icon: Entypo,
+            iconName: "star-outlined",
+        },
+        {
             text: "Wishlist",
             icon: Feather,
             iconName: "heart",
         },
+
         {
             text: "Bag",
             icon: Feather,
@@ -49,7 +46,7 @@ const TabBar = () => {
                     start={{ x: 0, y: 0 }}
                     end={{ x: 0, y: 1 }} // Vertical gradient
                     style={{
-                        width: width / 3,
+                        width: width / 4,
                         borderTopWidth: 2,
                         borderTopColor:
                             currentScreen === tab.text ? "#ec4899" : "white",
