@@ -10,11 +10,11 @@ const AdvertisementSlider = () => {
             image: require("@/assets/images/beauty.jpg"),
         },
         {
-            label: "EXTRA 10% OFF",
+            label: "Timeless Style, Every Day.",
             image: require("@/assets/images/fashion.jpg"),
         },
         {
-            label: "EXTRA 10% OFF",
+            label: "UP TO 50% OFF",
             image: require("@/assets/images/kids.jpg"),
         },
         {
@@ -22,7 +22,7 @@ const AdvertisementSlider = () => {
             image: require("@/assets/images/mens.jpg"),
         },
         {
-            label: "EXTRA 10% OFF",
+            label: "NEW Collections\nLily's Choice",
             image: require("@/assets/images/womens.jpg"),
         },
     ];
