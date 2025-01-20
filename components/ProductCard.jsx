@@ -1,12 +1,12 @@
-import { View, Text, Image, TouchableOpacity } from "react-native";
+import { View, Text, Image, TouchableOpacity, Pressable } from "react-native";
 import React from "react";
 import mens from "@/assets/images/mens.jpg";
-import Feather from "@expo/vector-icons/Feather";
-import FontAwesome from "@expo/vector-icons/FontAwesome";
+import Octicons from "@expo/vector-icons/Octicons";
 
-const ProductCard = () => {
+const ProductCard = ({ width }) => {
+    console.log("🚀 ~ ProductCard ~ width:", width);
     return (
-        <View className="w-[185px]">
+        <Pressable style={{ width: width }}>
             <View className="w-full h-52">
                 <Image source={mens} className="w-full h-full rounded-md" />
                 <View className="absolute flex flex-row items-center justify-center px-1 rounded-full py-0.5 bottom-2 left-2 bg-white/80">
@@ -14,7 +14,7 @@ const ProductCard = () => {
                         <Text className="text-xs font-bold text-center text-black">
                             3.9
                         </Text>
-                        <FontAwesome name="star" size={9} color="#db2777" />
+                        <Octicons name="star-fill" size={9} color="green" />
                     </View>
                     <Text className="px-2 text-xs font-bold text-center text-black">
                         3.5k
@@ -27,16 +27,16 @@ const ProductCard = () => {
                     Women Printed Kurta
                 </Text>
                 <TouchableOpacity activeOpacity={0.8} className="p-1">
-                    <Feather name="heart" size={18} color="#db2777" />
+                    <Octicons name="heart-fill" size={16} color="#db2777" />
                 </TouchableOpacity>
             </View>
             {/* Description */}
-            <Text numberOfLines={1} className="text-xs">
+            <Text numberOfLines={1} className="pr-2 text-xs">
                 Neque porro quisquam est qui dolorem ipsum quia
             </Text>
             {/* Price */}
-            <View className="flex-row flex-wrap items-center w-full gap-1 py-0.5">
-                <Text numberOfLines={1} className="">
+            <View className="flex flex-row flex-wrap items-center w-full gap-1 py-0.5">
+                <Text numberOfLines={1} className="text-[11px] line-through">
                     ৳1000
                 </Text>
                 <Text numberOfLines={1} className="font-bold">
@@ -51,7 +51,7 @@ const ProductCard = () => {
                 Delivery in 2-3 days
             </Text>
             {/* Add to cart */}
-        </View>
+        </Pressable>
     );
 };
 

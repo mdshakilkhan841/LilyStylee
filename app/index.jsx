@@ -18,10 +18,10 @@ export default function Index() {
                 <AdvertisementSlider />
                 <DiscountCard />
                 <ScrollView horizontal showsHorizontalScrollIndicator={false}>
-                    <ProductCard />
-                    <ProductCard />
-                    <ProductCard />
-                    <ProductCard />
+                    <ProductCard width={175} />
+                    <ProductCard width={175} />
+                    <ProductCard width={175} />
+                    <ProductCard width={175} />
                 </ScrollView>
             </ScrollView>
             <TabBar />
