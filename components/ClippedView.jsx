@@ -9,9 +9,17 @@ import Svg, {
     Stop,
 } from "react-native-svg";
 
-const ClippedView = ({ text }) => {
+const ClippedView = ({ text, width = 50, height = 18 }) => {
+    // Calculate dynamic points for the clip path
+    const clipPoints = `
+    0,0 
+    ${width},0 
+    ${width * 0.85},${height} 
+    0,${height}
+  `;
+
     return (
-        <View style={{ position: "relative", width: 70, height: 18 }}>
+        <View style={{ position: "relative", width, height }}>
             {/* Background with Clip Path */}
             <Svg
                 height="100%"
@@ -20,7 +28,7 @@ const ClippedView = ({ text }) => {
             >
                 <Defs>
                     <ClipPath id="clip">
-                        <Polygon points="0,0 62,0 52,20 0,20" />
+                        <Polygon points={clipPoints} />
                     </ClipPath>
                     {/* Define the gradient */}
                     <LinearGradient
@@ -48,8 +56,8 @@ const ClippedView = ({ text }) => {
                     height="100%"
                     fill="url(#gradient)" // Use the gradient defined above
                     clipPath="url(#clip)"
-                    rx="3" // Border radius
-                    ry="3"
+                    rx={height * 0.2} // Dynamic border radius
+                    ry={height * 0.2}
                 />
             </Svg>
 
@@ -59,7 +67,7 @@ const ClippedView = ({ text }) => {
                     width: "100%",
                     height: "100%",
                     justifyContent: "center",
-                    paddingLeft: 5,
+                    paddingLeft: height * 0.25,
                 }}
             >
                 <Text
@@ -67,7 +75,7 @@ const ClippedView = ({ text }) => {
                     style={{
                         fontWeight: "bold",
                         color: "#fff", // White text for better contrast
-                        fontSize: 11, // Adjust text size for the smaller container
+                        fontSize: height * 0.55, // Dynamic text size
                     }}
                 >
                     {text}
