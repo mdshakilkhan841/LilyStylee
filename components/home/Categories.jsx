@@ -1,5 +1,6 @@
 import { View, Text, ScrollView, TouchableOpacity, Image } from "react-native";
 import React from "react";
+import Octicons from "@expo/vector-icons/Octicons";
 
 const Categories = () => {
     const categories = [
@@ -52,11 +53,18 @@ const Categories = () => {
                     activeOpacity={0.6}
                     className="flex items-center gap-2"
                 >
-                    <Image
-                        source={category.image}
-                        className="w-16 h-16 rounded-full"
-                    />
-                    {/* <View className="w-16 h-16 bg-red-300 rounded-full"></View> */}
+                    <View className="w-16 h-16 p-0.5 bg-white border border-pink-600 rounded-full">
+                        <Image
+                            source={category.image}
+                            className="w-full h-full rounded-full"
+                        />
+                        <Octicons
+                            name="check-circle-fill"
+                            size={16}
+                            color="#db2777"
+                            className="absolute p-0.5 bg-slate-50 rounded-full -right-1 bottom-0"
+                        />
+                    </View>
                     <Text className="">{category.name}</Text>
                 </TouchableOpacity>
             ))}
