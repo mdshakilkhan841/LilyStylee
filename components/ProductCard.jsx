@@ -2,6 +2,7 @@ import { View, Text, Image, TouchableOpacity, Pressable } from "react-native";
 import React from "react";
 import mens from "@/assets/images/mens.jpg";
 import Octicons from "@expo/vector-icons/Octicons";
+import ClippedView from "./ClippedView";
 
 const ProductCard = ({ width }) => {
     console.log("🚀 ~ ProductCard ~ width:", width);
@@ -42,9 +43,7 @@ const ProductCard = ({ width }) => {
                 <Text numberOfLines={1} className="font-bold">
                     ৳800
                 </Text>
-                <Text numberOfLines={1} className="font-bold text-orange-600">
-                    {72}% OFF
-                </Text>
+                <ClippedView text={`${80}% OFF`} />
             </View>
             {/* Delivery time */}
             <Text numberOfLines={1} className="text-xs">
