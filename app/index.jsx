@@ -1,4 +1,4 @@
-import { ScrollView } from "react-native";
+import { FlatList, ScrollView } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import TabBar from "../components/home/TabBar";
 import TopHeader from "../components/home/TopHeader";
@@ -7,6 +7,7 @@ import AdvertisementSlider from "../components/home/AdvertisementSlider";
 import DiscountCard from "../components/home/DiscountCard";
 import ProductCard from "../components/ProductCard";
 import AddToBagButton from "../components/AddToBagButton";
+import products from "@/assets/data/products.json";
 
 export default function Index() {
     return (
@@ -17,12 +18,24 @@ export default function Index() {
                 <Categories />
                 <AdvertisementSlider />
                 <DiscountCard />
-                <ScrollView horizontal showsHorizontalScrollIndicator={false}>
-                    <ProductCard width={175} AddToBagButton={AddToBagButton} />
-                    <ProductCard width={175} />
-                    <ProductCard width={175} AddToBagButton={AddToBagButton} />
-                    <ProductCard width={175} />
-                </ScrollView>
+                {/* Offer Products */}
+                <FlatList
+                    data={products?.products}
+                    renderItem={({ item }) => (
+                        <ProductCard
+                            product={item}
+                            width={145}
+                            // AddToBagButton={AddToBagButton}
+                        />
+                    )}
+                    horizontal={true}
+                    showsHorizontalScrollIndicator={false}
+                    contentContainerStyle={{
+                        gap: 12,
+                        paddingHorizontal: 12,
+                        paddingVertical: 4,
+                    }}
+                />
             </ScrollView>
             <TabBar />
         </SafeAreaView>
