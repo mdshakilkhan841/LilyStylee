@@ -4,10 +4,9 @@ import mens from "@/assets/images/mens.jpg";
 import Octicons from "@expo/vector-icons/Octicons";
 import ClippedView from "./ClippedView";
 
-const ProductCard = ({ width }) => {
-    console.log("🚀 ~ ProductCard ~ width:", width);
+const ProductCard = ({ width, AddToBagButton }) => {
     return (
-        <Pressable style={{ width: width }}>
+        <Pressable style={{ width: width, paddingHorizontal: 10 }}>
             <View className="w-full h-52">
                 <Image source={mens} className="w-full h-full rounded-md" />
                 <View className="absolute flex flex-row items-center justify-center px-1 rounded-full py-0.5 bottom-2 left-2 bg-white/80">
@@ -49,7 +48,9 @@ const ProductCard = ({ width }) => {
             <Text numberOfLines={1} className="text-xs">
                 Delivery in 2-3 days
             </Text>
+
             {/* Add to cart */}
+            {AddToBagButton && <AddToBagButton />}
         </Pressable>
     );
 };
