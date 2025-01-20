@@ -6,7 +6,7 @@ import Categories from "../components/home/Categories";
 import AdvertisementSlider from "../components/home/AdvertisementSlider";
 import DiscountCard from "../components/home/DiscountCard";
 import ProductCard from "../components/ProductCard";
-import { View } from "react-native";
+import AddToBagButton from "../components/AddToBagButton";
 
 export default function Index() {
     return (
@@ -18,9 +18,9 @@ export default function Index() {
                 <AdvertisementSlider />
                 <DiscountCard />
                 <ScrollView horizontal showsHorizontalScrollIndicator={false}>
+                    <ProductCard width={175} AddToBagButton={AddToBagButton} />
                     <ProductCard width={175} />
-                    <ProductCard width={175} />
-                    <ProductCard width={175} />
+                    <ProductCard width={175} AddToBagButton={AddToBagButton} />
                     <ProductCard width={175} />
                 </ScrollView>
             </ScrollView>

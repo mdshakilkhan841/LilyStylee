@@ -48,8 +48,8 @@ const ClippedView = ({ text }) => {
                     height="100%"
                     fill="url(#gradient)" // Use the gradient defined above
                     clipPath="url(#clip)"
-                    rx="5" // Border radius
-                    ry="5"
+                    rx="3" // Border radius
+                    ry="3"
                 />
             </Svg>
 
