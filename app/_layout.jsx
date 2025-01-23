@@ -1,4 +1,4 @@
-import "../global.css";
+import "@/global.css";
 import { Stack } from "expo-router";
 import { StatusBar } from "expo-status-bar";
 
@@ -9,7 +9,7 @@ export default function RootLayout() {
                 <Stack.Screen name="index" options={{ headerShown: false }} />
                 <Stack.Screen name="+not-found" />
             </Stack>
-            <StatusBar style="auto" />
+            <StatusBar style="auto" backgroundColor="#ec4899" />
         </>
     );
 }
