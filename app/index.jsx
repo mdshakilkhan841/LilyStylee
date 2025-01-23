@@ -8,13 +8,14 @@ import DiscountCard from "../components/home/DiscountCard";
 import ProductCard from "../components/ProductCard";
 import AddToBagButton from "../components/AddToBagButton";
 import products from "@/assets/data/products.json";
+import SpecialOfferSection from "../components/home/SpecialOfferSection";
 
 export default function Index() {
     return (
         <SafeAreaView className="flex-1 bg-white">
             <TopHeader />
             {/* Body */}
-            <ScrollView className="flex-1">
+            <ScrollView className="flex-1" showsVerticalScrollIndicator={false}>
                 <Categories />
                 <AdvertisementSlider />
                 <DiscountCard />
@@ -36,6 +37,8 @@ export default function Index() {
                         paddingVertical: 4,
                     }}
                 />
+                {/* Special Offers */}
+                <SpecialOfferSection />
             </ScrollView>
             <TabBar />
         </SafeAreaView>

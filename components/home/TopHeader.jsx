@@ -1,6 +1,6 @@
 import { View, Text, TouchableOpacity } from "react-native";
 import { useState, useEffect } from "react";
-import Logo from "@/assets/images/logo.svg";
+import Lily from "@/assets/images/lily.svg";
 import SimpleLineIcons from "@expo/vector-icons/SimpleLineIcons";
 import FontAwesome6 from "@expo/vector-icons/FontAwesome6";
 import Ionicons from "@expo/vector-icons/Ionicons";
@@ -21,11 +21,11 @@ const TopHeader = () => {
     }, [typingIndex]);
 
     return (
-        <View className="">
+        <View>
             {/* Header */}
             <View className="flex flex-row items-center justify-between">
                 <View className="px-4">
-                    <Logo width={115} />
+                    <Lily width={130} height={30} />
                 </View>
                 <View className="flex flex-row items-center">
                     <TouchableOpacity activeOpacity={0.9} className="p-4">

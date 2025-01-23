@@ -1,9 +1,10 @@
 import { View, Text, TouchableOpacity, Dimensions } from "react-native";
 import Feather from "@expo/vector-icons/Feather";
 import SimpleLineIcons from "@expo/vector-icons/SimpleLineIcons";
-import Entypo from "@expo/vector-icons/Entypo";
+import FontAwesome6 from "@expo/vector-icons/FontAwesome6";
 import LinearGradient from "react-native-linear-gradient";
 import { useState } from "react";
+import LogoMain from "@/assets/images/logo-main.svg";
 
 const TabBar = () => {
     const width = Dimensions.get("window").width;
@@ -12,13 +13,13 @@ const TabBar = () => {
     const tabs = [
         {
             text: "Home",
-            icon: Feather,
+            icon: LogoMain,
             iconName: "home",
         },
         {
             text: "Lily's Choice",
-            icon: Entypo,
-            iconName: "star-outlined",
+            icon: FontAwesome6,
+            iconName: "chess-queen",
         },
         {
             text: "Wishlist",
@@ -34,7 +35,7 @@ const TabBar = () => {
     ];
 
     return (
-        <View className="absolute bottom-0 flex flex-row w-full h-[60px] border-t border-gray-50">
+        <View className="absolute bottom-0 flex flex-row w-full h-[60px]">
             {tabs.map((tab) => (
                 <LinearGradient
                     key={tab.text}
@@ -47,7 +48,7 @@ const TabBar = () => {
                     end={{ x: 0, y: 1 }} // Vertical gradient
                     style={{
                         width: width / 4,
-                        borderTopWidth: 2,
+                        borderTopWidth: 2.5,
                         borderTopColor:
                             currentScreen === tab.text ? "#ec4899" : "white",
                     }}
@@ -64,22 +65,30 @@ const TabBar = () => {
                         }}
                         onPress={() => setCurrentScreen(tab.text)}
                     >
-                        <tab.icon
-                            name={tab.iconName}
-                            size={20}
-                            color={
-                                currentScreen === tab.text ? "#db2777" : "black"
-                            }
-                        />
-                        <Text
-                            className={`sm:text-base text-sm ${
-                                currentScreen === tab.text
-                                    ? "text-pink-600"
-                                    : "text-black"
-                            }`}
-                        >
-                            {tab.text}
-                        </Text>
+                        {tab.text === "Home" ? (
+                            <LogoMain width={35} height={35} />
+                        ) : (
+                            <>
+                                <tab.icon
+                                    name={tab.iconName}
+                                    size={20}
+                                    color={
+                                        currentScreen === tab.text
+                                            ? "#db2777"
+                                            : "black"
+                                    }
+                                />
+                                <Text
+                                    className={`sm:text-base text-sm ${
+                                        currentScreen === tab.text
+                                            ? "text-pink-600"
+                                            : "text-black"
+                                    }`}
+                                >
+                                    {tab.text}
+                                </Text>
+                            </>
+                        )}
                     </TouchableOpacity>
                 </LinearGradient>
             ))}
