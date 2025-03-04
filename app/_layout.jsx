@@ -7,9 +7,13 @@ export default function RootLayout() {
         <>
             <Stack>
                 <Stack.Screen name="index" options={{ headerShown: false }} />
+                <Stack.Screen name="wishlist" options={{ headerShown: true }} />
                 <Stack.Screen name="+not-found" />
             </Stack>
-            <StatusBar style="auto" backgroundColor="#ec4899" />
+            <StatusBar
+                style="auto"
+                backgroundColor="rgba(236, 72, 153, 0.25)"
+            />
         </>
     );
 }

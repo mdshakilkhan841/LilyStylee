@@ -5,8 +5,10 @@ import FontAwesome6 from "@expo/vector-icons/FontAwesome6";
 import LinearGradient from "react-native-linear-gradient";
 import { useState } from "react";
 import LogoMain from "@/assets/images/logo-main.svg";
+import { useRouter } from "expo-router";
 
 const TabBar = () => {
+    const router = useRouter();
     const width = Dimensions.get("window").width;
     const [currentScreen, setCurrentScreen] = useState("Home");
 
@@ -15,22 +17,26 @@ const TabBar = () => {
             text: "Home",
             icon: LogoMain,
             iconName: "home",
+            screen: "index",
         },
         {
             text: "Lily's Choice",
             icon: FontAwesome6,
             iconName: "chess-queen",
+            screen: "lilyschoice",
         },
         {
             text: "Wishlist",
             icon: Feather,
             iconName: "heart",
+            screen: "wishlist",
         },
 
         {
             text: "Bag",
             icon: Feather,
             iconName: "shopping-bag",
+            screen: "bag",
         },
     ];
 
@@ -63,7 +69,12 @@ const TabBar = () => {
                             width: "100%",
                             paddingTop: 5,
                         }}
-                        onPress={() => setCurrentScreen(tab.text)}
+                        onPress={() => {
+                            // setCurrentScreen(tab.text);
+                            if (tab.screen !== "index") {
+                                router.navigate(tab.screen);
+                            }
+                        }}
                     >
                         {tab.text === "Home" ? (
                             <LogoMain width={35} height={35} />
