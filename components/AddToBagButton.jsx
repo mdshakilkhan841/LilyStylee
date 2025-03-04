@@ -1,16 +1,26 @@
-import { View, Text, TouchableOpacity } from "react-native";
-import React from "react";
+import { Button } from "react-native-paper";
 
 const AddToBagButton = () => {
     return (
-        <TouchableOpacity
-            activeOpacity={0.7}
-            className="mt-2 border border-pink-600 rounded-md"
+        <Button
+            mode="contained"
+            buttonColor="transparent"
+            textColor="#db2777"
+            labelStyle={{
+                fontSize: 13,
+                fontWeight: 700,
+                marginVertical: 5,
+            }}
+            style={{
+                borderRadius: 6,
+                borderWidth: 1,
+                borderColor: "#db2777",
+                marginTop: 8,
+            }}
+            onPress={() => {}}
         >
-            <Text className="p-1.5 font-bold text-center text-pink-600 text-sm">
-                ADD TO BAG
-            </Text>
-        </TouchableOpacity>
+            ADD TO BAG
+        </Button>
     );
 };
 
