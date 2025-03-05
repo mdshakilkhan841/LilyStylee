@@ -105,7 +105,7 @@ const TopHeader = () => {
 
             {/* Search bar */}
             <View
-                className="flex flex-row items-center justify-between px-5 my-2 bg-white border border-pink-400 rounded-full h-11"
+                className="flex flex-row items-center justify-between px-5 my-2 bg-white border border-pink-400 rounded-lg h-11"
                 style={{
                     shadowColor: "#db2777",
                     shadowOffset: { width: 0, height: 4 },

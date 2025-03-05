@@ -23,7 +23,7 @@ const TabBar = () => {
             text: "Lily's Choice",
             icon: FontAwesome6,
             iconName: "chess-queen",
-            screen: "lilyschoice",
+            screen: "lilysChoice",
         },
         {
             text: "Wishlist",
@@ -36,7 +36,7 @@ const TabBar = () => {
             text: "Bag",
             icon: Feather,
             iconName: "shopping-bag",
-            screen: "bag",
+            screen: "(cart)",
         },
     ];
 
