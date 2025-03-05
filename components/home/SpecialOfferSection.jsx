@@ -4,7 +4,7 @@ import superPrice from "@/assets/images/super-price-twenty.png";
 
 const SpecialOfferSection = () => {
     return (
-        <View className="flex-row items-center justify-center gap-3 my-2 py-0.5 bg-pink-50">
+        <View className="flex-row items-center justify-center gap-3 my-4 py-0.5 bg-pink-50">
             <Image source={superPrice} className="w-16 h-16" />
             <View>
                 <Text className="font-bold">
