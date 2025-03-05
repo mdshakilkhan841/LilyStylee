@@ -12,7 +12,7 @@ export default function RootLayout() {
             </Stack>
             <StatusBar
                 style="auto"
-                backgroundColor="rgba(236, 72, 153, 0.25)"
+                // backgroundColor="rgba(236, 72, 153, 0.25)"
             />
         </>
     );
