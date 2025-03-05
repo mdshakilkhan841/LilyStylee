@@ -14,28 +14,6 @@ const width = Dimensions.get("window").width;
 
 const OfferProducts = ({ products }) => {
     return (
-        // <FlatList
-        //     data={products?.products}
-        //     renderItem={({ item }) => (
-        //         <ProductCard
-        //             product={item}
-        //             width={width / 2 - 18}
-        //             AddToBagButton={AddToBagButton}
-        //         />
-        //     )}
-        //     // horizontal={true}
-        //     showsHorizontalScrollIndicator={false}
-        //     contentContainerStyle={{
-        //         // gap: 12,
-        //         paddingHorizontal: 12,
-        //         paddingVertical: 4,
-        //         flexDirection: "row",
-        //         flexWrap: "wrap",
-        //         justifyContent: "space-between",
-        //         alignContent: "center",
-        //         alignItems: "center",
-        //     }}
-        // />
         <View
             style={{
                 paddingHorizontal: 12,
@@ -45,6 +23,7 @@ const OfferProducts = ({ products }) => {
                 justifyContent: "space-between",
                 alignContent: "center",
                 alignItems: "center",
+                gap: 8,
             }}
         >
             {products?.products.map((item, index) => (
