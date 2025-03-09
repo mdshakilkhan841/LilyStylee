@@ -9,7 +9,7 @@ import ProductCard from "@/components/ProductCard";
 import AddToBagButton from "@/components/AddToBagButton";
 import products from "@/assets/data/products.json";
 import SpecialOfferSection from "@/components/home/SpecialOfferSection";
-import { useAnimatedStyle, useSharedValue } from "react-native-reanimated";
+
 const width = Dimensions.get("window").width;
 
 const OfferProducts = ({ products }) => {
