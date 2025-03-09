@@ -22,7 +22,7 @@ const Categories = () => {
         },
         {
             name: "Womens",
-            image: require("@/assets/images/womens.jpg"),
+            image: require("@/assets/images/womans.jpg"),
         },
         {
             name: "Kids",
@@ -34,7 +34,7 @@ const Categories = () => {
         },
         {
             name: "Womens",
-            image: require("@/assets/images/womens.jpg"),
+            image: require("@/assets/images/womans.jpg"),
         },
     ];
     return (

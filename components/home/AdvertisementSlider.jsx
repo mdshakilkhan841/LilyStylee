@@ -23,7 +23,7 @@ const AdvertisementSlider = () => {
         },
         {
             label: "NEW Collections\nLily's Choice",
-            image: require("@/assets/images/womens.jpg"),
+            image: require("@/assets/images/womans.jpg"),
         },
     ];
 
