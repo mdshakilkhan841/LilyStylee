@@ -1,4 +1,4 @@
-import { Dimensions, FlatList, ScrollView, View } from "react-native";
+import { Dimensions, FlatList, Platform, ScrollView, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import TabBar from "@/components/home/TabBar";
 import TopHeader from "@/components/home/TopHeader";
@@ -44,9 +44,13 @@ export default function Index() {
             <TopHeader />
             {/* Body */}
             <ScrollView
-                className="mb-[60px]"
+                style={{
+                    marginBottom: Platform.OS === "ios" ? 30 : 60,
+                }}
                 showsVerticalScrollIndicator={false}
-                contentContainerStyle={{ paddingBottom: 8 }}
+                contentContainerStyle={{
+                    paddingBottom: 8,
+                }}
             >
                 <Categories />
                 <AdvertisementSlider />

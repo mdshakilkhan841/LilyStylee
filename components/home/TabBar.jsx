@@ -1,4 +1,10 @@
-import { View, Text, TouchableOpacity, Dimensions } from "react-native";
+import {
+    View,
+    Text,
+    TouchableOpacity,
+    Dimensions,
+    Platform,
+} from "react-native";
 import Feather from "@expo/vector-icons/Feather";
 import SimpleLineIcons from "@expo/vector-icons/SimpleLineIcons";
 import FontAwesome6 from "@expo/vector-icons/FontAwesome6";
@@ -41,7 +47,13 @@ const TabBar = () => {
     ];
 
     return (
-        <View className="absolute bottom-0 flex flex-row w-full h-[60px]">
+        <View
+            className=" flex-row w-full h-[60px]"
+            style={{
+                position: "absolute",
+                bottom: Platform.OS === "ios" ? 4 : 0,
+            }}
+        >
             {tabs.map((tab) => (
                 <LinearGradient
                     key={tab.text}
