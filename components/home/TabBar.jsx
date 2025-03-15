@@ -52,9 +52,10 @@ const TabBar = () => {
             style={{
                 flexDirection: "row",
                 width: "100%",
-                position: "absolute",
-                height: Platform.OS === "ios" ? 64 : 60,
-                bottom: 0,
+                height: 55,
+                // position: "absolute",
+                // height: Platform.OS === "ios" ? 64 : 60,
+                // bottom: 0,
             }}
         >
             {tabs.map((tab) => (
