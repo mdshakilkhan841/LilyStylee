@@ -9,8 +9,16 @@ import {
 import React, { useEffect, useState } from "react";
 import { Appbar, Button } from "react-native-paper";
 import { router } from "expo-router";
+import {
+    AntDesign,
+    Ionicons,
+    MaterialCommunityIcons,
+} from "@expo/vector-icons";
+import Checkbox from "expo-checkbox";
+import CartItemCard from "@/components/cart/CartItemCard";
 
 const index = () => {
+    const [checked, setChecked] = useState(false);
     const [timeLeft, setTimeLeft] = useState(3600 * 24 * 7); // 7 days in seconds
 
     useEffect(() => {
@@ -38,6 +46,67 @@ const index = () => {
     };
 
     const { days, hours, minutes, seconds } = formatTime(timeLeft);
+
+    const demoProduct = {
+        id: 1,
+        title: "Essence Mascara Lash Princess",
+        description:
+            "The Essence Mascara Lash Princess is a popular mascara known for its volumizing and lengthening effects. Achieve dramatic lashes with this long-lasting and cruelty-free formula.",
+        category: "beauty",
+        price: 9.99,
+        discountPercentage: 7.17,
+        rating: 4.94,
+        stock: 5,
+        tags: ["beauty", "mascara"],
+        brand: "Essence",
+        sku: "RCH45Q1A",
+        weight: 2,
+        dimensions: {
+            width: 23.17,
+            height: 14.43,
+            depth: 28.01,
+        },
+        warrantyInformation: "1 month warranty",
+        shippingInformation: "Ships in 1 month",
+        availabilityStatus: "Low Stock",
+        reviews: [
+            {
+                rating: 2,
+                comment: "Very unhappy with my purchase!",
+                date: "2024-05-23T08:56:21.618Z",
+                reviewerName: "John Doe",
+                reviewerEmail: "john.doe@x.dummyjson.com",
+            },
+            {
+                rating: 2,
+                comment: "Not as described!",
+                date: "2024-05-23T08:56:21.618Z",
+                reviewerName: "Nolan Gonzalez",
+                reviewerEmail: "nolan.gonzalez@x.dummyjson.com",
+            },
+            {
+                rating: 5,
+                comment: "Very satisfied!",
+                date: "2024-05-23T08:56:21.618Z",
+                reviewerName: "Scarlett Wright",
+                reviewerEmail: "scarlett.wright@x.dummyjson.com",
+            },
+        ],
+        returnPolicy: "30 days return policy",
+        minimumOrderQuantity: 24,
+        meta: {
+            createdAt: "2024-05-23T08:56:21.618Z",
+            updatedAt: "2024-05-23T08:56:21.618Z",
+            barcode: "9164035109868",
+            qrCode: "https://assets.dummyjson.com/public/qr-code.png",
+        },
+        images: [
+            "https://cdn.dummyjson.com/products/images/beauty/Essence%20Mascara%20Lash%20Princess/1.png",
+        ],
+        thumbnail:
+            "https://cdn.dummyjson.com/products/images/beauty/Essence%20Mascara%20Lash%20Princess/thumbnail.png",
+    };
+
     return (
         <>
             <Appbar.Header
@@ -65,6 +134,7 @@ const index = () => {
                         <Text>Indicator</Text>
                     </View>
 
+                    {/* Sale ends */}
                     <View className="flex-row flex-wrap items-center justify-center px-4 py-2 bg-white">
                         <Text className="px-2 text-sm font-bold text-center text-black">
                             Sale Ends in
@@ -102,6 +172,7 @@ const index = () => {
                             </Text> */}
                     </View>
 
+                    {/* Deliver to */}
                     <View className="flex-row flex-wrap items-center justify-between px-4 py-2 bg-white">
                         <Text>
                             Deliver to:{" "}
@@ -113,14 +184,54 @@ const index = () => {
                             </Text>
                         </Pressable>
                     </View>
+
+                    {/* Selected Items */}
+                    <View>
+                        <View className="flex-row flex-wrap items-center justify-between px-4 py-3 bg-red-50">
+                            <View className="flex-row items-center gap-4">
+                                <Checkbox
+                                    style={{
+                                        height: 18,
+                                        width: 18,
+                                        backgroundColor:
+                                            "rgba(255, 255, 255, 0.5)",
+                                    }}
+                                    color={checked ? "#db2777" : "#4b5563"}
+                                    value={checked}
+                                    onValueChange={setChecked}
+                                />
+                                <Text className="text-sm font-bold text-center text-gray-600 uppercase">
+                                    0/1 Items Selected
+                                </Text>
+                            </View>
+                            <View className="flex-row items-center gap-5">
+                                <Ionicons
+                                    name="share-social-outline"
+                                    size={20}
+                                    color="black"
+                                />
+                                <AntDesign
+                                    name="delete"
+                                    size={20}
+                                    color="black"
+                                />
+                                <MaterialCommunityIcons
+                                    name="tag-heart-outline" // "cart-heart"
+                                    size={20}
+                                    color="black"
+                                />
+                            </View>
+                        </View>
+                        <CartItemCard product={demoProduct} />
+                    </View>
                 </ScrollView>
                 <View
-                    className="bg-pink-100"
+                    className="border-t border-red-300 bg-red-50"
                     style={{
                         bottom: Platform.OS === "ios" ? -34 : 0,
                     }}
                 >
-                    <Text className="p-1.5 text-sm text-center bg-pink-200">
+                    <Text className="p-1.5 text-sm text-center bg-red-100">
                         1 item selected for order
                     </Text>
                     <Button

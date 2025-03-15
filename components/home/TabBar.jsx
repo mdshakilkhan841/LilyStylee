@@ -12,6 +12,7 @@ import LinearGradient from "react-native-linear-gradient";
 import { useState } from "react";
 import LogoMain from "@/assets/images/logo-main.svg";
 import { useRouter } from "expo-router";
+import { TouchableRipple } from "react-native-paper";
 
 const TabBar = () => {
     const router = useRouter();
@@ -48,10 +49,12 @@ const TabBar = () => {
 
     return (
         <View
-            className=" flex-row w-full h-[60px]"
             style={{
+                flexDirection: "row",
+                width: "100%",
                 position: "absolute",
-                bottom: Platform.OS === "ios" ? 4 : 0,
+                height: Platform.OS === "ios" ? 64 : 60,
+                bottom: 0,
             }}
         >
             {tabs.map((tab) => (
@@ -66,13 +69,10 @@ const TabBar = () => {
                     end={{ x: 0, y: 1 }} // Vertical gradient
                     style={{
                         width: width / 4,
-                        borderTopWidth: 2.5,
-                        borderTopColor:
-                            currentScreen === tab.text ? "#ec4899" : "white",
                     }}
                 >
-                    <TouchableOpacity
-                        activeOpacity={0.6}
+                    <TouchableRipple
+                        rippleColor="rgba(236, 72, 153, 0.15)"
                         style={{
                             flex: 1,
                             // justifyContent: "center",
@@ -80,9 +80,13 @@ const TabBar = () => {
                             height: "100%",
                             width: "100%",
                             paddingTop: 5,
+                            borderTopWidth: 2.5,
+                            borderTopColor:
+                                currentScreen === tab.text
+                                    ? "#ec4899"
+                                    : "white",
                         }}
                         onPress={() => {
-                            // setCurrentScreen(tab.text);
                             if (tab.screen !== "index") {
                                 router.navigate(tab.screen);
                             }
@@ -112,7 +116,7 @@ const TabBar = () => {
                                 </Text>
                             </>
                         )}
-                    </TouchableOpacity>
+                    </TouchableRipple>
                 </LinearGradient>
             ))}
         </View>
