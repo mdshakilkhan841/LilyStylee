@@ -1,4 +1,11 @@
-import { Dimensions, FlatList, Platform, ScrollView, View } from "react-native";
+import {
+    Dimensions,
+    FlatList,
+    Platform,
+    ScrollView,
+    Text,
+    View,
+} from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import TabBar from "@/components/home/TabBar";
 import TopHeader from "@/components/home/TopHeader";
@@ -9,6 +16,7 @@ import ProductCard from "@/components/ProductCard";
 import AddToBagButton from "@/components/AddToBagButton";
 import products from "@/assets/data/products.json";
 import SpecialOfferSection from "@/components/home/SpecialOfferSection";
+import { Button } from "react-native-paper";
 
 const width = Dimensions.get("window").width;
 
@@ -40,42 +48,40 @@ const OfferProducts = ({ products }) => {
 
 export default function Index() {
     return (
-        <SafeAreaView className="flex-1 bg-white">
-            <TopHeader />
-            {/* Body */}
-            <ScrollView
-                style={{
-                    marginBottom: Platform.OS === "ios" ? 30 : 60,
-                }}
-                showsVerticalScrollIndicator={false}
-                contentContainerStyle={{
-                    paddingBottom: 8,
-                }}
-            >
-                <Categories />
-                <AdvertisementSlider />
-                <DiscountCard />
-                {/* Offer Products */}
-                <FlatList
-                    data={products?.products}
-                    renderItem={({ item }) => (
-                        <ProductCard
-                            product={item}
-                            width={145}
-                            // AddToBagButton={AddToBagButton}
-                        />
-                    )}
-                    horizontal={true}
-                    showsHorizontalScrollIndicator={false}
+        <>
+            <SafeAreaView className="flex-1 bg-white">
+                <TopHeader />
+                {/* Body */}
+                <ScrollView
+                    showsVerticalScrollIndicator={false}
                     contentContainerStyle={{
-                        gap: 12,
-                        paddingHorizontal: 12,
-                        paddingVertical: 4,
+                        paddingBottom: 8,
                     }}
-                />
-                {/* Special Offers */}
-                <SpecialOfferSection />
-                {/* <FlatList
+                >
+                    <Categories />
+                    <AdvertisementSlider />
+                    <DiscountCard />
+                    {/* Offer Products */}
+                    <FlatList
+                        data={products?.products}
+                        renderItem={({ item }) => (
+                            <ProductCard
+                                product={item}
+                                width={145}
+                                // AddToBagButton={AddToBagButton}
+                            />
+                        )}
+                        horizontal={true}
+                        showsHorizontalScrollIndicator={false}
+                        contentContainerStyle={{
+                            gap: 12,
+                            paddingHorizontal: 12,
+                            paddingVertical: 4,
+                        }}
+                    />
+                    {/* Special Offers */}
+                    <SpecialOfferSection />
+                    {/* <FlatList
                     data={products?.products}
                     renderItem={({ item }) => (
                         <ProductCard
@@ -97,9 +103,12 @@ export default function Index() {
                         alignItems: "center",
                     }}
                 /> */}
-                <OfferProducts products={products} />
-            </ScrollView>
-            <TabBar />
-        </SafeAreaView>
+                    <OfferProducts products={products} />
+                </ScrollView>
+
+                {/* Tab Bar */}
+                <TabBar />
+            </SafeAreaView>
+        </>
     );
 }
