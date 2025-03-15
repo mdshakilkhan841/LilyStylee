@@ -109,11 +109,7 @@ const index = () => {
 
     return (
         <>
-            <Appbar.Header
-                statusBarHeight={Platform.OS === "ios" ? 35 : 15}
-                safeAreaInsets={{ top: 15 }}
-                style={{ backgroundColor: "white" }}
-            >
+            <Appbar.Header style={{ backgroundColor: "white" }}>
                 <Appbar.BackAction
                     onPress={() => {
                         router.back();
@@ -126,10 +122,7 @@ const index = () => {
                 <Appbar.Action icon="heart-outline" onPress={() => {}} />
             </Appbar.Header>
             <SafeAreaView className="flex-1">
-                <ScrollView
-                    // style={{ backgroundColor: "red" }}
-                    contentContainerStyle={{ gap: 12 }}
-                >
+                <ScrollView showsVerticalScrollIndicator={false}>
                     <View className="px-4 py-2 bg-white">
                         <Text>Indicator</Text>
                     </View>
@@ -223,14 +216,35 @@ const index = () => {
                             </View>
                         </View>
                         <CartItemCard product={demoProduct} />
+                        <CartItemCard product={demoProduct} />
+                        <CartItemCard product={demoProduct} />
+                        <CartItemCard product={demoProduct} />
+                        <CartItemCard product={demoProduct} />
+                        <CartItemCard product={demoProduct} />
+                    </View>
+
+                    <View>
+                        <Text className="px-4 py-3 text-center text-gray-500">
+                            By Placing the order, you agree to LilyStylee{" "}
+                            <Text
+                                className="font-bold text-pink-600 underline"
+                                onPress={() => {}}
+                            >
+                                Terms of Use
+                            </Text>{" "}
+                            and{" "}
+                            <Text
+                                className="font-bold text-pink-600 underline"
+                                onPress={() => {}}
+                            >
+                                Privacy Policy
+                            </Text>
+                        </Text>
                     </View>
                 </ScrollView>
-                <View
-                    className="border-t border-red-300 bg-red-50"
-                    style={{
-                        bottom: Platform.OS === "ios" ? -34 : 0,
-                    }}
-                >
+
+                {/* Footer */}
+                <View className="border-t border-red-300 bg-red-50">
                     <Text className="p-1.5 text-sm text-center bg-red-100">
                         1 item selected for order
                     </Text>
