@@ -12,7 +12,7 @@ const CartItemCard = ({ product }) => {
         product?.price / (1 - product?.discountPercentage / 100);
 
     return (
-        <View className="flex-row p-3 bg-white">
+        <View className="flex-row p-3 mb-2.5 bg-white">
             <Image
                 className="w-[30%] h-full"
                 style={{ objectFit: "cover" }}
