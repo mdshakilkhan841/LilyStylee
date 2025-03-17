@@ -14,28 +14,25 @@ import OfferTiming from "@/components/cart/OfferTiming";
 
 const index = () => {
     const [checkedAll, setCheckedAll] = useState(false);
-    const [checkedItems, setCheckedItems] = useState(new Set());
+    const [checkedItems, setCheckedItems] = useState({});
     const products = CartProducts.products;
 
-    useEffect(() => {
-        setCheckedAll(checkedItems.size === products.length);
-    }, [checkedItems]);
-
     const handleSelectAll = () => {
-        if (checkedAll) {
-            setCheckedItems(new Set());
-        } else {
-            setCheckedItems(new Set(products.map((product) => product.id)));
-        }
+        const newCheckedItems = {};
+        products.forEach((product) => {
+            newCheckedItems[product.id] = !checkedAll;
+        });
+        setCheckedItems(newCheckedItems);
+        setCheckedAll(!checkedAll);
     };
 
     const handleSelectItem = (id) => {
-        setCheckedItems((prev) => {
-            const newChecked = new Set(prev);
-            newChecked.has(id) ? newChecked.delete(id) : newChecked.add(id);
-            return newChecked;
-        });
+        const newCheckedItems = { ...checkedItems, [id]: !checkedItems[id] };
+        setCheckedItems(newCheckedItems);
+        setCheckedAll(Object.values(newCheckedItems).every((value) => value));
     };
+
+    const selectedCount = Object.values(checkedItems).filter(Boolean).length;
 
     return (
         <>
@@ -94,7 +91,7 @@ const index = () => {
                                     onValueChange={handleSelectAll}
                                 />
                                 <Text className="text-sm font-bold text-center text-gray-600 uppercase">
-                                    {checkedItems.size}/{products.length} Items
+                                    {selectedCount}/{products.length} Items
                                     Selected
                                 </Text>
                             </View>
@@ -120,7 +117,7 @@ const index = () => {
                             <CartItemCard
                                 key={product.id}
                                 product={product}
-                                isChecked={checkedItems.has(product.id)}
+                                isChecked={checkedItems[product.id]}
                                 onCheck={() => handleSelectItem(product.id)}
                             />
                         ))}
@@ -129,10 +126,8 @@ const index = () => {
                     {/* Price Details */}
                     <View className="p-4 bg-white">
                         <Text className="text-sm font-bold text-black">
-                            PRICE DETAILS{" "}
-                            {checkedItems.size > 1
-                                ? `(${checkedItems.size} Items)`
-                                : `(${checkedItems.size} Item)`}
+                            PRICE DETAILS ({selectedCount}{" "}
+                            {selectedCount > 1 ? "Items" : "Item"})
                         </Text>
                         <View className="gap-2 py-3 my-3 border-t border-b border-gray-300">
                             <View className="flex-row flex-wrap items-center justify-between">
@@ -195,8 +190,10 @@ const index = () => {
                 {/* Footer */}
                 <View className="border-t border-red-300 bg-red-50">
                     <Text className="p-1.5 text-sm text-center bg-red-100 font-bold">
-                        {checkedItems.size > 0
-                            ? `${checkedItems.size} Items selected for order`
+                        {selectedCount > 0
+                            ? `${selectedCount} ${
+                                  selectedCount > 1 ? "Items" : "Item"
+                              } selected for order`
                             : "No items selected, select at least one item to place order"}
                     </Text>
                     <Button
