@@ -1,11 +1,4 @@
-import {
-    View,
-    Text,
-    Platform,
-    SafeAreaView,
-    ScrollView,
-    Pressable,
-} from "react-native";
+import { View, Text, SafeAreaView, ScrollView, Pressable } from "react-native";
 import React, { useEffect, useState } from "react";
 import { Appbar, Button } from "react-native-paper";
 import { router } from "expo-router";
@@ -16,95 +9,32 @@ import {
 } from "@expo/vector-icons";
 import Checkbox from "expo-checkbox";
 import CartItemCard from "@/components/cart/CartItemCard";
+import CartProducts from "@/assets/data/cartProducts.json";
+import OfferTiming from "@/components/cart/OfferTiming";
 
 const index = () => {
-    const [checked, setChecked] = useState(false);
-    const [timeLeft, setTimeLeft] = useState(3600 * 24 * 7); // 7 days in seconds
+    const [checkedAll, setCheckedAll] = useState(false);
+    const [checkedItems, setCheckedItems] = useState(new Set());
+    const products = CartProducts.products;
 
     useEffect(() => {
-        const interval = setInterval(() => {
-            setTimeLeft((prevTime) => (prevTime > 0 ? prevTime - 1 : 0));
-        }, 1000);
+        setCheckedAll(checkedItems.size === products.length);
+    }, [checkedItems]);
 
-        return () => clearInterval(interval);
-    }, []);
-
-    const formatTime = (seconds) => {
-        const days = Math.floor(seconds / 86400);
-        const hours = Math.floor((seconds % 86400) / 3600);
-        const minutes = Math.floor((seconds % 3600) / 60);
-        const remainingSeconds = seconds % 60;
-        return {
-            days: days < 10 ? `0${days}` : days,
-            hours: hours < 10 ? `0${hours}` : hours,
-            minutes: minutes < 10 ? `0${minutes}` : minutes,
-            seconds:
-                remainingSeconds < 10
-                    ? `0${remainingSeconds}`
-                    : remainingSeconds,
-        };
+    const handleSelectAll = () => {
+        if (checkedAll) {
+            setCheckedItems(new Set());
+        } else {
+            setCheckedItems(new Set(products.map((product) => product.id)));
+        }
     };
 
-    const { days, hours, minutes, seconds } = formatTime(timeLeft);
-
-    const demoProduct = {
-        id: 1,
-        title: "Essence Mascara Lash Princess",
-        description:
-            "The Essence Mascara Lash Princess is a popular mascara known for its volumizing and lengthening effects. Achieve dramatic lashes with this long-lasting and cruelty-free formula.",
-        category: "beauty",
-        price: 9.99,
-        discountPercentage: 7.17,
-        rating: 4.94,
-        stock: 5,
-        tags: ["beauty", "mascara"],
-        brand: "Essence",
-        sku: "RCH45Q1A",
-        weight: 2,
-        dimensions: {
-            width: 23.17,
-            height: 14.43,
-            depth: 28.01,
-        },
-        warrantyInformation: "1 month warranty",
-        shippingInformation: "Ships in 1 month",
-        availabilityStatus: "Low Stock",
-        reviews: [
-            {
-                rating: 2,
-                comment: "Very unhappy with my purchase!",
-                date: "2024-05-23T08:56:21.618Z",
-                reviewerName: "John Doe",
-                reviewerEmail: "john.doe@x.dummyjson.com",
-            },
-            {
-                rating: 2,
-                comment: "Not as described!",
-                date: "2024-05-23T08:56:21.618Z",
-                reviewerName: "Nolan Gonzalez",
-                reviewerEmail: "nolan.gonzalez@x.dummyjson.com",
-            },
-            {
-                rating: 5,
-                comment: "Very satisfied!",
-                date: "2024-05-23T08:56:21.618Z",
-                reviewerName: "Scarlett Wright",
-                reviewerEmail: "scarlett.wright@x.dummyjson.com",
-            },
-        ],
-        returnPolicy: "30 days return policy",
-        minimumOrderQuantity: 24,
-        meta: {
-            createdAt: "2024-05-23T08:56:21.618Z",
-            updatedAt: "2024-05-23T08:56:21.618Z",
-            barcode: "9164035109868",
-            qrCode: "https://assets.dummyjson.com/public/qr-code.png",
-        },
-        images: [
-            "https://cdn.dummyjson.com/products/images/beauty/Essence%20Mascara%20Lash%20Princess/1.png",
-        ],
-        thumbnail:
-            "https://cdn.dummyjson.com/products/images/beauty/Essence%20Mascara%20Lash%20Princess/thumbnail.png",
+    const handleSelectItem = (id) => {
+        setCheckedItems((prev) => {
+            const newChecked = new Set(prev);
+            newChecked.has(id) ? newChecked.delete(id) : newChecked.add(id);
+            return newChecked;
+        });
     };
 
     return (
@@ -128,42 +58,7 @@ const index = () => {
                     </View>
 
                     {/* Sale ends */}
-                    <View className="flex-row flex-wrap items-center justify-center px-4 py-2 bg-white">
-                        <Text className="px-2 text-sm font-bold text-center text-black">
-                            Sale Ends in
-                        </Text>
-
-                        <Text className="px-1.5 py-0.5 font-bold text-center text-orange-600 bg-orange-100 rounded-lg text-sm">
-                            {days}
-                        </Text>
-                        <Text className="text-sm text-center text-black">
-                            {" "}
-                            Days :{"  "}
-                        </Text>
-
-                        <Text className="px-1.5 py-0.5 font-bold text-center text-orange-600 bg-orange-100 rounded-lg text-sm">
-                            {hours}
-                        </Text>
-                        <Text className="text-sm text-center text-black">
-                            {" "}
-                            Hrs :{"  "}
-                        </Text>
-
-                        <Text className="px-1.5 py-0.5 font-bold text-center text-orange-600 bg-orange-100 rounded-lg text-sm">
-                            {minutes}
-                        </Text>
-                        <Text className="text-sm text-center text-black">
-                            {" "}
-                            Min
-                        </Text>
-                        {/* <Text className="px-1.5 py-0.5 font-bold text-center text-orange-600 bg-orange-100 rounded-lg text-sm">
-                                {seconds}
-                            </Text>
-                            <Text className="text-sm text-center text-black">
-                                {" "}
-                                Sec
-                            </Text> */}
-                    </View>
+                    <OfferTiming />
 
                     {/* Deliver to */}
                     <View className="flex-row flex-wrap items-center justify-between px-4 py-2 bg-white">
@@ -189,12 +84,13 @@ const index = () => {
                                         backgroundColor:
                                             "rgba(255, 255, 255, 0.5)",
                                     }}
-                                    color={checked ? "#db2777" : "#4b5563"}
-                                    value={checked}
-                                    onValueChange={setChecked}
+                                    color={checkedAll ? "#db2777" : "#4b5563"}
+                                    value={checkedAll}
+                                    onValueChange={handleSelectAll}
                                 />
                                 <Text className="text-sm font-bold text-center text-gray-600 uppercase">
-                                    0/1 Items Selected
+                                    {checkedItems.size}/{products.length} Items
+                                    Selected
                                 </Text>
                             </View>
                             <View className="flex-row items-center gap-5">
@@ -215,14 +111,17 @@ const index = () => {
                                 />
                             </View>
                         </View>
-                        <CartItemCard product={demoProduct} />
-                        <CartItemCard product={demoProduct} />
-                        <CartItemCard product={demoProduct} />
-                        <CartItemCard product={demoProduct} />
-                        <CartItemCard product={demoProduct} />
-                        <CartItemCard product={demoProduct} />
+                        {products.map((product) => (
+                            <CartItemCard
+                                key={product.id}
+                                product={product}
+                                isChecked={checkedItems.has(product.id)}
+                                onCheck={() => handleSelectItem(product.id)}
+                            />
+                        ))}
                     </View>
 
+                    {/* Privacy Policy */}
                     <View>
                         <Text className="px-4 py-3 text-center text-gray-500">
                             By Placing the order, you agree to LilyStylee{" "}
@@ -246,7 +145,8 @@ const index = () => {
                 {/* Footer */}
                 <View className="border-t border-red-300 bg-red-50">
                     <Text className="p-1.5 text-sm text-center bg-red-100">
-                        1 item selected for order
+                        {Object.values(checkedItems).filter(Boolean).length}{" "}
+                        item(s) selected for order
                     </Text>
                     <Button
                         buttonColor="#db2777"

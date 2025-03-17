@@ -5,9 +5,7 @@ import { Feather, FontAwesome } from "@expo/vector-icons";
 import ClippedView from "@/components/ClippedView";
 import Checkbox from "expo-checkbox";
 
-const CartItemCard = ({ product }) => {
-    const [checked, setChecked] = useState(false);
-
+const CartItemCard = ({ product, isChecked, onCheck }) => {
     const originalPrice =
         product?.price / (1 - product?.discountPercentage / 100);
 
@@ -83,9 +81,9 @@ const CartItemCard = ({ product }) => {
                     width: 18,
                     backgroundColor: "rgba(255, 255, 255, 0.5)",
                 }}
-                color={checked ? "#db2777" : "#4b5563"}
-                value={checked}
-                onValueChange={setChecked}
+                color={isChecked ? "#db2777" : "#4b5563"}
+                value={isChecked}
+                onValueChange={onCheck}
             />
             <Feather
                 className="absolute right-4 top-3"
