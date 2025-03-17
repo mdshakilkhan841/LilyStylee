@@ -1,6 +1,6 @@
 import { View, Text, SafeAreaView, ScrollView, Pressable } from "react-native";
 import React, { useEffect, useState } from "react";
-import { Appbar, Button } from "react-native-paper";
+import { Appbar, Button, Divider } from "react-native-paper";
 import { router } from "expo-router";
 import {
     AntDesign,
@@ -52,7 +52,10 @@ const index = () => {
                 <Appbar.Action icon="heart-outline" onPress={() => {}} />
             </Appbar.Header>
             <SafeAreaView className="flex-1">
-                <ScrollView showsVerticalScrollIndicator={false}>
+                <ScrollView
+                    showsVerticalScrollIndicator={false}
+                    contentContainerStyle={{ gap: 12 }}
+                >
                     <View className="px-4 py-2 bg-white">
                         <Text>Indicator</Text>
                     </View>
@@ -64,7 +67,9 @@ const index = () => {
                     <View className="flex-row flex-wrap items-center justify-between px-4 py-2 bg-white">
                         <Text>
                             Deliver to:{" "}
-                            <Text className="font-bold">769008</Text>
+                            <Text className="font-bold">
+                                Shakil Khan, 769008
+                            </Text>
                         </Text>
                         <Pressable>
                             <Text className="font-bold text-pink-600">
@@ -121,6 +126,51 @@ const index = () => {
                         ))}
                     </View>
 
+                    {/* Price Details */}
+                    <View className="p-4 bg-white">
+                        <Text className="text-sm font-bold text-black">
+                            PRICE DETAILS{" "}
+                            {checkedItems.size > 1
+                                ? `(${checkedItems.size} Items)`
+                                : `(${checkedItems.size} Item)`}
+                        </Text>
+                        <View className="gap-2 py-3 my-3 border-t border-b border-gray-300">
+                            <View className="flex-row flex-wrap items-center justify-between">
+                                <Text className="">Total MRP</Text>
+                                <Text className="">$123.45</Text>
+                            </View>
+                            <View className="flex-row flex-wrap items-center justify-between">
+                                <Text className="">Discount on MRP</Text>
+                                <Text className="text-green-600">
+                                    - $123.45
+                                </Text>
+                            </View>
+                            <View className="flex-row flex-wrap items-center justify-between">
+                                <Text className="">Coupon Discount</Text>
+                                <Pressable
+                                    onPress={() => {
+                                        console.log("Apply Coupon");
+                                    }}
+                                >
+                                    <Text className="text-pink-600">
+                                        Apply Coupon
+                                    </Text>
+                                </Pressable>
+                            </View>
+                            <View className="flex-row flex-wrap items-center justify-between">
+                                <Text className="">Shipping Fee</Text>
+                                <Text className="text-green-600 uppercase">
+                                    Free
+                                </Text>
+                            </View>
+                        </View>
+
+                        <View className="flex-row flex-wrap items-center justify-between">
+                            <Text className="font-bold">Total Amount</Text>
+                            <Text className="font-bold">$123.45</Text>
+                        </View>
+                    </View>
+
                     {/* Privacy Policy */}
                     <View>
                         <Text className="px-4 py-3 text-center text-gray-500">
@@ -144,9 +194,10 @@ const index = () => {
 
                 {/* Footer */}
                 <View className="border-t border-red-300 bg-red-50">
-                    <Text className="p-1.5 text-sm text-center bg-red-100">
-                        {Object.values(checkedItems).filter(Boolean).length}{" "}
-                        item(s) selected for order
+                    <Text className="p-1.5 text-sm text-center bg-red-100 font-bold">
+                        {checkedItems.size > 0
+                            ? `${checkedItems.size} Items selected for order`
+                            : "No items selected, select at least one item to place order"}
                     </Text>
                     <Button
                         buttonColor="#db2777"
