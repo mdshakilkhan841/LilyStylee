@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { View, Image, Dimensions, Text } from "react-native";
+// import Carousel from "react-native-snap-carousel";
 import Carousel from "react-native-reanimated-carousel";
 
 const AdvertisementSlider = () => {
@@ -31,6 +32,15 @@ const AdvertisementSlider = () => {
 
     return (
         <View style={{ flex: 1, justifyContent: "center" }}>
+            {/* <Carousel
+                ref={(c) => {
+                    this._carousel = c;
+                }}
+                data={this.state.entries}
+                // renderItem={this._renderItem}
+                sliderWidth={width}
+                itemWidth={width}
+            /> */}
             <Carousel
                 loop
                 defaultIndex={0}

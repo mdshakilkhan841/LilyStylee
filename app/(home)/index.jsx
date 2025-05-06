@@ -18,9 +18,8 @@ import products from "@/assets/data/products.json";
 import SpecialOfferSection from "@/components/home/SpecialOfferSection";
 import { Button } from "react-native-paper";
 
-const width = Dimensions.get("window").width;
-
 const OfferProducts = ({ products }) => {
+    const width = Dimensions.get("window").width;
     return (
         <View
             style={{
@@ -49,7 +48,7 @@ const OfferProducts = ({ products }) => {
 export default function Index() {
     return (
         <>
-            <SafeAreaView className="flex-1 bg-white">
+            <SafeAreaView className="flex-1 bg-blue-100">
                 <TopHeader />
                 {/* Body */}
                 <ScrollView
@@ -81,28 +80,7 @@ export default function Index() {
                     />
                     {/* Special Offers */}
                     <SpecialOfferSection />
-                    {/* <FlatList
-                    data={products?.products}
-                    renderItem={({ item }) => (
-                        <ProductCard
-                            product={item}
-                            width={width / 2 - 18}
-                            AddToBagButton={AddToBagButton}
-                        />
-                    )}
-                    // horizontal={true}
-                    showsHorizontalScrollIndicator={false}
-                    contentContainerStyle={{
-                        // gap: 12,
-                        paddingHorizontal: 12,
-                        paddingVertical: 4,
-                        flexDirection: "row",
-                        flexWrap: "wrap",
-                        justifyContent: "space-between",
-                        alignContent: "center",
-                        alignItems: "center",
-                    }}
-                /> */}
+
                     <OfferProducts products={products} />
                 </ScrollView>
 
