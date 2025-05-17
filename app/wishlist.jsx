@@ -9,6 +9,7 @@ const wishlist = () => {
         <SafeAreaView edges={["bottom"]} className="flex-1">
             <Appbar.Header style={{ backgroundColor: "white" }}>
                 <Appbar.BackAction
+                    rippleColor="rgba(236, 72, 153, 0.15)"
                     onPress={() => {
                         router.back();
                     }}
@@ -23,6 +24,7 @@ const wishlist = () => {
                     style={{
                         borderRadius: 100,
                         padding: 10,
+                        marginRight: 8,
                     }}
                     onPress={() => {}}
                 >
