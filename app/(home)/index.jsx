@@ -47,46 +47,44 @@ const OfferProducts = ({ products }) => {
 
 export default function Index() {
     return (
-        <>
-            <SafeAreaView className="flex-1">
-                <TopHeader />
-                {/* Body */}
-                <ScrollView
-                    showsVerticalScrollIndicator={false}
+        <SafeAreaView edges={["top"]} className="flex-1">
+            <TopHeader />
+            {/* Body */}
+            <ScrollView
+                showsVerticalScrollIndicator={false}
+                contentContainerStyle={{
+                    paddingBottom: 8,
+                }}
+            >
+                <Categories />
+                <AdvertisementSlider />
+                <DiscountCard />
+                {/* Offer Products */}
+                <FlatList
+                    data={products?.products}
+                    renderItem={({ item }) => (
+                        <ProductCard
+                            product={item}
+                            width={145}
+                            // AddToBagButton={AddToBagButton}
+                        />
+                    )}
+                    horizontal={true}
+                    showsHorizontalScrollIndicator={false}
                     contentContainerStyle={{
-                        paddingBottom: 8,
+                        gap: 12,
+                        paddingHorizontal: 12,
+                        paddingVertical: 4,
                     }}
-                >
-                    <Categories />
-                    <AdvertisementSlider />
-                    <DiscountCard />
-                    {/* Offer Products */}
-                    <FlatList
-                        data={products?.products}
-                        renderItem={({ item }) => (
-                            <ProductCard
-                                product={item}
-                                width={145}
-                                // AddToBagButton={AddToBagButton}
-                            />
-                        )}
-                        horizontal={true}
-                        showsHorizontalScrollIndicator={false}
-                        contentContainerStyle={{
-                            gap: 12,
-                            paddingHorizontal: 12,
-                            paddingVertical: 4,
-                        }}
-                    />
-                    {/* Special Offers */}
-                    <SpecialOfferSection />
+                />
+                {/* Special Offers */}
+                <SpecialOfferSection />
 
-                    <OfferProducts products={products} />
-                </ScrollView>
+                <OfferProducts products={products} />
+            </ScrollView>
 
-                {/* Tab Bar */}
-                <TabBar />
-            </SafeAreaView>
-        </>
+            {/* Tab Bar */}
+            <TabBar />
+        </SafeAreaView>
     );
 }
