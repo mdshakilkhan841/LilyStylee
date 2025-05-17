@@ -2,7 +2,7 @@ import { View, Text } from "react-native";
 import React, { useState } from "react";
 import { Image } from "react-native";
 import { Feather, FontAwesome } from "@expo/vector-icons";
-import ClippedView from "@/components/ClippedView";
+import ClippedView from "@/components/product/ClippedView";
 import Checkbox from "expo-checkbox";
 
 const CartItemCard = ({ product, isChecked, onCheck }) => {
