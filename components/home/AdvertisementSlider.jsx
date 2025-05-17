@@ -45,8 +45,8 @@ const AdvertisementSlider = () => {
                 loop
                 defaultIndex={0}
                 width={width}
-                height={width / 3}
-                // height={240 * 0.7}
+                // height={width / 3}
+                height={240 * 0.7}
                 autoPlay={true}
                 data={banners}
                 scrollAnimationDuration={2000}
