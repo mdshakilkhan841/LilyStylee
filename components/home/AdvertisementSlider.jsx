@@ -1,10 +1,13 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import { View, Image, Dimensions, Text } from "react-native";
-// import Carousel from "react-native-snap-carousel";
-import Carousel from "react-native-reanimated-carousel";
+import { useSharedValue } from "react-native-reanimated";
+import Carousel, { Pagination } from "react-native-reanimated-carousel";
 
 const AdvertisementSlider = () => {
     const width = Dimensions.get("window").width;
+    const ref = useRef(null);
+    const progress = useSharedValue(0);
+
     const banners = [
         {
             label: "EXTRA 10% OFF",
@@ -28,28 +31,26 @@ const AdvertisementSlider = () => {
         },
     ];
 
-    const [currentIndex, setCurrentIndex] = useState(0); // Track active slide
+    const onPressPagination = (index) => {
+        ref.current?.scrollTo({
+            count: index - progress.value,
+            animated: true,
+        });
+    };
 
     return (
         <View style={{ flex: 1, justifyContent: "center" }}>
-            {/* <Carousel
-                ref={(c) => {
-                    this._carousel = c;
-                }}
-                data={this.state.entries}
-                // renderItem={this._renderItem}
-                sliderWidth={width}
-                itemWidth={width}
-            /> */}
             <Carousel
+                ref={ref}
                 loop
                 defaultIndex={0}
                 width={width}
                 height={width / 3}
+                // height={240 * 0.7}
                 autoPlay={true}
                 data={banners}
                 scrollAnimationDuration={2000}
-                onScrollEnd={(index) => setCurrentIndex(index)}
+                onProgressChange={progress}
                 renderItem={({ item }) => (
                     <View>
                         <Image
@@ -68,29 +69,18 @@ const AdvertisementSlider = () => {
                     </View>
                 )}
             />
-            {/* Pagination Dots */}
-            <View
-                style={{
-                    flexDirection: "row",
-                    justifyContent: "center",
-                    alignItems: "center",
-                    marginTop: 10,
+            <Pagination.Basic
+                progress={progress}
+                data={banners}
+                dotStyle={{
+                    backgroundColor: "#db2777",
+                    width: 6,
+                    height: 6,
+                    borderRadius: 50,
                 }}
-            >
-                {banners.map((_, index) => (
-                    <View
-                        key={index}
-                        style={{
-                            width: 10,
-                            height: 3,
-                            borderRadius: 5,
-                            backgroundColor:
-                                currentIndex === index ? "#db2777" : "gray",
-                            marginHorizontal: 5,
-                        }}
-                    />
-                ))}
-            </View>
+                containerStyle={{ gap: 5, marginTop: 8 }}
+                onPress={onPressPagination}
+            />
         </View>
     );
 };
