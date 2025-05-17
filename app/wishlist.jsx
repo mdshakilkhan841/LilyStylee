@@ -2,7 +2,6 @@ import { View, Text, ScrollView } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Appbar, Badge, TouchableRipple } from "react-native-paper";
 import { router } from "expo-router";
-import SimpleLineIcons from "@expo/vector-icons/SimpleLineIcons";
 import Feather from "@expo/vector-icons/Feather";
 
 const wishlist = () => {
@@ -24,7 +23,7 @@ const wishlist = () => {
                     rippleColor="rgba(236, 72, 153, 0.15)"
                     style={{
                         borderRadius: 100,
-                        padding: 10,
+                        padding: 14,
                         marginRight: 8,
                     }}
                     onPress={() => {}}
@@ -35,7 +34,7 @@ const wishlist = () => {
                             style={{
                                 position: "absolute",
                                 top: 5,
-                                right: 1.5,
+                                right: 5,
                                 backgroundColor: "#db2777",
                             }}
                         >
