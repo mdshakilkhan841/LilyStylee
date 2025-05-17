@@ -47,7 +47,7 @@ const OfferProducts = ({ products }) => {
 
 export default function Index() {
     return (
-        <SafeAreaView edges={["top"]} className="flex-1">
+        <SafeAreaView className="flex-1">
             <TopHeader />
             {/* Body */}
             <ScrollView
