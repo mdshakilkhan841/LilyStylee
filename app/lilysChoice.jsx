@@ -8,6 +8,7 @@ const lilysChoice = () => {
         <SafeAreaView edges={["bottom"]} className="flex-1">
             <Appbar.Header style={{ backgroundColor: "white" }}>
                 <Appbar.BackAction
+                    rippleColor="rgba(236, 72, 153, 0.15)"
                     onPress={() => {
                         router.back();
                     }}
