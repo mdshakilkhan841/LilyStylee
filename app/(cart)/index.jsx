@@ -39,6 +39,7 @@ const index = () => {
         <SafeAreaView edges={["bottom"]} className="flex-1">
             <Appbar.Header style={{ backgroundColor: "white" }}>
                 <Appbar.BackAction
+                    rippleColor="rgba(236, 72, 153, 0.15)"
                     onPress={() => {
                         router.back();
                     }}
@@ -47,7 +48,11 @@ const index = () => {
                     title="SHOPPING BAG"
                     titleStyle={{ fontSize: 16, fontWeight: "bold" }}
                 />
-                <Appbar.Action icon="heart-outline" onPress={() => {}} />
+                <Appbar.Action
+                    rippleColor="rgba(236, 72, 153, 0.15)"
+                    icon="heart-outline"
+                    onPress={() => {}}
+                />
             </Appbar.Header>
 
             <ScrollView
