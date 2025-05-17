@@ -6,6 +6,7 @@ import FontAwesome6 from "@expo/vector-icons/FontAwesome6";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import Feather from "@expo/vector-icons/Feather";
 import { Badge, TouchableRipple } from "react-native-paper";
+import { router } from "expo-router";
 
 const TopHeader = () => {
     const fullText = "Search for brands and products";
@@ -63,7 +64,9 @@ const TopHeader = () => {
                             borderRadius: 100,
                             padding: 12,
                         }}
-                        onPress={() => {}}
+                        onPress={() => {
+                            router.navigate("(cart)");
+                        }}
                     >
                         <>
                             <SimpleLineIcons
