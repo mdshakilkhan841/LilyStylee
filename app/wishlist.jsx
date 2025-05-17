@@ -3,6 +3,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { Appbar, Badge, TouchableRipple } from "react-native-paper";
 import { router } from "expo-router";
 import SimpleLineIcons from "@expo/vector-icons/SimpleLineIcons";
+import Feather from "@expo/vector-icons/Feather";
 
 const wishlist = () => {
     return (
@@ -29,7 +30,7 @@ const wishlist = () => {
                     onPress={() => {}}
                 >
                     <>
-                        <SimpleLineIcons name="bag" size={22} color="black" />
+                        <Feather name="shopping-bag" size={22} color="black" />
                         <Badge
                             style={{
                                 position: "absolute",
