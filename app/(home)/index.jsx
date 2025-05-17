@@ -20,6 +20,7 @@ import { Button } from "react-native-paper";
 
 const OfferProducts = ({ products }) => {
     const width = Dimensions.get("window").width;
+    const itemNumber = width >= 768 ? 3 : 2;
     return (
         <View
             style={{
@@ -37,7 +38,7 @@ const OfferProducts = ({ products }) => {
                 <ProductCard
                     key={index}
                     product={item}
-                    width={width / 2 - 18}
+                    width={width / itemNumber - 18}
                     AddToBagButton={AddToBagButton}
                 />
             ))}
