@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import mens from "@/assets/images/mens.jpg";
 import Octicons from "@expo/vector-icons/Octicons";
 import ClippedView from "./ClippedView";
+import { router } from "expo-router";
 
 const ProductCard = ({ product, width, AddToBagButton }) => {
     const [addWishlist, setAddWishlist] = useState(false);
@@ -15,7 +16,13 @@ const ProductCard = ({ product, width, AddToBagButton }) => {
         product?.price / (1 - product?.discountPercentage / 100);
 
     return (
-        <Pressable style={{ width: width }}>
+        <TouchableOpacity
+            activeOpacity={0.8}
+            onPress={() => {
+                router.push("productDetails");
+            }}
+            style={{ width: width }}
+        >
             <View className="w-full h-52">
                 <Image
                     source={{ uri: product?.thumbnail }}
@@ -77,7 +84,7 @@ const ProductCard = ({ product, width, AddToBagButton }) => {
 
             {/* Add to cart */}
             {AddToBagButton && <AddToBagButton />}
-        </Pressable>
+        </TouchableOpacity>
     );
 };
 
