@@ -1,42 +1,28 @@
 import { View, Text, ScrollView, TouchableOpacity, Image } from "react-native";
-import React from "react";
+import React, { useEffect } from "react";
 import Octicons from "@expo/vector-icons/Octicons";
+import { useCategoryStore } from "../../store/useCategoryStore";
+import { ActivityIndicator } from "react-native-paper";
 
 const Categories = () => {
-    const categories = [
-        {
-            name: "Beauty",
-            image: require("@/assets/images/beauty.jpg"),
-        },
-        {
-            name: "Fashion",
-            image: require("@/assets/images/fashion.jpg"),
-        },
-        {
-            name: "Kids",
-            image: require("@/assets/images/kids.jpg"),
-        },
-        {
-            name: "Mens",
-            image: require("@/assets/images/mens.jpg"),
-        },
-        {
-            name: "Womens",
-            image: require("@/assets/images/womans.jpg"),
-        },
-        {
-            name: "Kids",
-            image: require("@/assets/images/kids.jpg"),
-        },
-        {
-            name: "Mens",
-            image: require("@/assets/images/mens.jpg"),
-        },
-        {
-            name: "Womens",
-            image: require("@/assets/images/womans.jpg"),
-        },
+    const { categories, loading, fetchCategories } = useCategoryStore();
+    const categoryImages = [
+        require("@/assets/images/beauty.jpg"),
+        require("@/assets/images/fashion.jpg"),
+        require("@/assets/images/kids.jpg"),
+        require("@/assets/images/mens.jpg"),
+        require("@/assets/images/womans.jpg"),
+        require("@/assets/images/kids.jpg"),
+        require("@/assets/images/mens.jpg"),
+        require("@/assets/images/womans.jpg"),
     ];
+
+    useEffect(() => {
+        if (categories.length === 0) fetchCategories();
+    }, []);
+
+    if (loading && categories.length === 0)
+        return <ActivityIndicator style={{ margin: 16 }} />;
     return (
         <ScrollView
             horizontal
@@ -55,7 +41,9 @@ const Categories = () => {
                 >
                     <View className="w-16 h-16 p-0.5 bg-white border border-pink-600 rounded-full">
                         <Image
-                            source={category.image}
+                            source={
+                                categoryImages[index % categoryImages.length]
+                            }
                             className="w-full h-full rounded-full"
                         />
                         <Octicons
@@ -65,7 +53,9 @@ const Categories = () => {
                             className="absolute p-0.5 bg-slate-50 rounded-full -right-1 bottom-0"
                         />
                     </View>
-                    <Text className="">{category.name}</Text>
+                    <Text className="w-20 text-center" numberOfLines={1}>
+                        {category.name}
+                    </Text>
                 </TouchableOpacity>
             ))}
         </ScrollView>
