@@ -8,6 +8,7 @@ export default function RootLayout() {
             <Stack.Screen name="user" />
             <Stack.Screen name="notifications" />
             <Stack.Screen name="productDetails" />
+            <Stack.Screen name="searchProducts" />
         </Stack>
     );
 }

@@ -120,6 +120,7 @@ const TopHeader = () => {
                 <TouchableOpacity
                     activeOpacity={0.6}
                     className="flex flex-row items-center w-4/6 h-full gap-2"
+                    onPress={() => router.push("searchProducts")}
                 >
                     <Ionicons name="search-sharp" size={20} color="#9ca3af" />
                     <Text className="text-sm text-gray-400">
