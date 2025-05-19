@@ -5,7 +5,7 @@ import Octicons from "@expo/vector-icons/Octicons";
 import ClippedView from "./ClippedView";
 import { router } from "expo-router";
 
-const ProductCard = ({ product, width, AddToBagButton }) => {
+const ProductCard = React.memo(({ product, width, AddToBagButton }) => {
     const [addWishlist, setAddWishlist] = useState(false);
 
     const handleWishlist = () => {
@@ -86,6 +86,6 @@ const ProductCard = ({ product, width, AddToBagButton }) => {
             {AddToBagButton && <AddToBagButton />}
         </TouchableOpacity>
     );
-};
+});
 
 export default ProductCard;
