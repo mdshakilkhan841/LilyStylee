@@ -1,6 +1,7 @@
 import { View, ActivityIndicator, Dimensions, FlatList } from "react-native";
 import ProductCard from "@/components/product/ProductCard";
 import AddToBagButton from "@/components/product/AddToBagButton";
+import ProductCardSkeleton from "@/components/skeleton/ProductCardSkeleton";
 import { useEffect } from "react";
 import { useProductStore } from "@/store/useProductStore";
 
@@ -30,7 +31,25 @@ const Products = () => {
     );
 
     if (loading && products.length === 0)
-        return <ActivityIndicator size="large" />;
+        return (
+            <View
+                style={{
+                    flexDirection: "row",
+                    flexWrap: "wrap",
+                    justifyContent: "space-between",
+                    gap: 12,
+                    paddingHorizontal: 12,
+                    paddingBottom: 12,
+                }}
+            >
+                {Array.from({ length: 6 }).map((_, idx) => (
+                    <ProductCardSkeleton
+                        key={idx}
+                        width={width / itemNumber - 18}
+                    />
+                ))}
+            </View>
+        );
 
     return (
         <FlatList
@@ -48,11 +67,23 @@ const Products = () => {
             onEndReachedThreshold={0.5}
             ListFooterComponent={
                 loading && products.length > 0 ? (
-                    <ActivityIndicator
-                        color={"#db2777"}
-                        size="small"
-                        style={{ margin: 16 }}
-                    />
+                    <View
+                        style={{
+                            flexDirection: "row",
+                            flexWrap: "wrap",
+                            justifyContent: "space-between",
+                            gap: 12,
+                            paddingHorizontal: 12,
+                            paddingBottom: 12,
+                        }}
+                    >
+                        {Array.from({ length: 6 }).map((_, idx) => (
+                            <ProductCardSkeleton
+                                key={idx}
+                                width={width / itemNumber - 18}
+                            />
+                        ))}
+                    </View>
                 ) : null
             }
         />
