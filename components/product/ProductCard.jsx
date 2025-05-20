@@ -19,7 +19,10 @@ const ProductCard = React.memo(({ product, width, AddToBagButton }) => {
         <TouchableOpacity
             activeOpacity={0.8}
             onPress={() => {
-                router.push("productDetails");
+                router.push({
+                    pathname: "productDetails",
+                    params: { product: JSON.stringify(product) },
+                });
             }}
             style={{ width: width }}
         >
