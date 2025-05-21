@@ -6,42 +6,62 @@ const CART_KEY = "cart";
 const useCartStore = create((set, get) => ({
     cart: [],
     loadCart: async () => {
-        const storedCart = await AsyncStorage.getItem(CART_KEY);
-        if (storedCart) {
-            set({ cart: JSON.parse(storedCart) });
+        try {
+            const storedCart = await AsyncStorage.getItem(CART_KEY);
+            if (storedCart) {
+                set({ cart: JSON.parse(storedCart) });
+            }
+        } catch (error) {
+            console.error("Failed to load cart:", error);
         }
     },
     addToCart: async (product) => {
-        const cart = get().cart;
-        let newCart;
-        const existing = cart.find((item) => item.id === product.id);
-        if (existing) {
-            newCart = cart.map((item) =>
-                item.id === product.id
-                    ? { ...item, quantity: item.quantity + 1 }
-                    : item
-            );
-        } else {
-            newCart = [...cart, { ...product, quantity: 1 }];
+        try {
+            const cart = get().cart;
+            let newCart;
+            const existing = cart.find((item) => item.id === product.id);
+            if (existing) {
+                newCart = cart.map((item) =>
+                    item.id === product.id
+                        ? { ...item, quantity: item.quantity + 1 }
+                        : item
+                );
+            } else {
+                newCart = [...cart, { ...product, quantity: 1 }];
+            }
+            set({ cart: newCart });
+            await AsyncStorage.setItem(CART_KEY, JSON.stringify(newCart));
+        } catch (error) {
+            console.error("Failed to add to cart:", error);
         }
-        set({ cart: newCart });
-        await AsyncStorage.setItem(CART_KEY, JSON.stringify(newCart));
     },
     removeFromCart: async (productId) => {
-        const newCart = get().cart.filter((item) => item.id !== productId);
-        set({ cart: newCart });
-        await AsyncStorage.setItem(CART_KEY, JSON.stringify(newCart));
+        try {
+            const newCart = get().cart.filter((item) => item.id !== productId);
+            set({ cart: newCart });
+            await AsyncStorage.setItem(CART_KEY, JSON.stringify(newCart));
+        } catch (error) {
+            console.error("Failed to remove from cart:", error);
+        }
     },
     updateQuantity: async (productId, quantity) => {
-        const newCart = get().cart.map((item) =>
-            item.id === productId ? { ...item, quantity } : item
-        );
-        set({ cart: newCart });
-        await AsyncStorage.setItem(CART_KEY, JSON.stringify(newCart));
+        try {
+            const newCart = get().cart.map((item) =>
+                item.id === productId ? { ...item, quantity } : item
+            );
+            set({ cart: newCart });
+            await AsyncStorage.setItem(CART_KEY, JSON.stringify(newCart));
+        } catch (error) {
+            console.error("Failed to update quantity:", error);
+        }
     },
     clearCart: async () => {
-        set({ cart: [] });
-        await AsyncStorage.removeItem(CART_KEY);
+        try {
+            set({ cart: [] });
+            await AsyncStorage.removeItem(CART_KEY);
+        } catch (error) {
+            console.error("Failed to clear cart:", error);
+        }
     },
 }));
 
