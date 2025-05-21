@@ -21,15 +21,6 @@ const Products = () => {
         }
     };
 
-    const renderItem = ({ item }) => (
-        <ProductCard
-            key={item.id}
-            product={item}
-            width={width / itemNumber - 18}
-            AddToBagButton={AddToBagButton}
-        />
-    );
-
     if (loading || products.length === 0)
         return (
             <View
@@ -55,7 +46,14 @@ const Products = () => {
         <FlatList
             showsVerticalScrollIndicator={false}
             data={products}
-            renderItem={renderItem}
+            renderItem={({ item }) => (
+                <ProductCard
+                    key={item.id}
+                    product={item}
+                    width={width / itemNumber - 18}
+                    AddToBagButton={AddToBagButton}
+                />
+            )}
             keyExtractor={(item) => item.id.toString() + Math.random()}
             numColumns={itemNumber}
             columnWrapperStyle={{
