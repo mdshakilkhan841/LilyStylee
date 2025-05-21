@@ -1,38 +1,30 @@
-import { View, ActivityIndicator, Dimensions, FlatList } from "react-native";
+import { View, Dimensions, FlatList } from "react-native";
 import ProductCard from "@/components/product/ProductCard";
 import AddToBagButton from "@/components/product/AddToBagButton";
 import ProductCardSkeleton from "@/components/skeleton/ProductCardSkeleton";
-import { useEffect } from "react";
+import { useEffect, useCallback } from "react";
 import { useProductStore } from "@/store/useProductStore";
 
 const width = Dimensions.get("window").width;
 const itemNumber = width >= 768 ? 3 : 2;
 
 const Products = () => {
-    const { products, loading, skip, total, fetchProducts } = useProductStore();
+    const { products, loading, initialLoading, skip, total, fetchProducts } =
+        useProductStore();
 
     useEffect(() => {
-        fetchProducts(0);
+        fetchProducts(0); // Only on first mount or refresh
     }, []);
 
-    const handleLoadMore = () => {
+    const handleLoadMore = useCallback(() => {
         if (!loading && products.length < total) {
-            fetchProducts(products.length);
+            fetchProducts(skip);
         }
-    };
+    }, [loading, products.length, total, fetchProducts, skip]);
 
-    if (loading || products.length === 0)
+    if (initialLoading || products.length === 0)
         return (
-            <View
-                style={{
-                    flexDirection: "row",
-                    flexWrap: "wrap",
-                    justifyContent: "space-between",
-                    gap: 12,
-                    paddingHorizontal: 12,
-                    paddingBottom: 12,
-                }}
-            >
+            <View style={styles.skeletonStyle}>
                 {Array.from({ length: 6 }).map((_, idx) => (
                     <ProductCardSkeleton
                         key={idx}
@@ -44,37 +36,25 @@ const Products = () => {
 
     return (
         <FlatList
-            showsVerticalScrollIndicator={false}
             data={products}
             renderItem={({ item }) => (
                 <ProductCard
-                    key={item.id}
                     product={item}
                     width={width / itemNumber - 18}
                     AddToBagButton={AddToBagButton}
                 />
             )}
-            keyExtractor={(item) => item.id.toString() + Math.random()}
+            keyExtractor={(item) => item.id.toString()}
             numColumns={itemNumber}
-            columnWrapperStyle={{
-                justifyContent: "space-between",
-                paddingHorizontal: 12,
-                paddingBottom: 12,
-            }}
+            columnWrapperStyle={styles.columnWrapperStyle}
             onEndReached={handleLoadMore}
             onEndReachedThreshold={0.5}
+            initialNumToRender={6}
+            windowSize={5}
+            removeClippedSubviews={true}
             ListFooterComponent={
                 loading && products.length > 0 ? (
-                    <View
-                        style={{
-                            flexDirection: "row",
-                            flexWrap: "wrap",
-                            justifyContent: "space-between",
-                            gap: 12,
-                            paddingHorizontal: 12,
-                            paddingBottom: 12,
-                        }}
-                    >
+                    <View style={styles.skeletonStyle}>
                         {Array.from({ length: 6 }).map((_, idx) => (
                             <ProductCardSkeleton
                                 key={idx}
@@ -89,3 +69,19 @@ const Products = () => {
 };
 
 export default Products;
+
+const styles = {
+    skeletonStyle: {
+        flexDirection: "row",
+        flexWrap: "wrap",
+        justifyContent: "space-between",
+        gap: 12,
+        paddingHorizontal: 12,
+        paddingBottom: 12,
+    },
+    columnWrapperStyle: {
+        justifyContent: "space-between",
+        paddingHorizontal: 12,
+        paddingBottom: 12,
+    },
+};
