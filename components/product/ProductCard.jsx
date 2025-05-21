@@ -86,7 +86,7 @@ const ProductCard = React.memo(({ product, width, AddToBagButton }) => {
             </Text>
 
             {/* Add to cart */}
-            {AddToBagButton && <AddToBagButton />}
+            {AddToBagButton && <AddToBagButton product={product} />}
         </TouchableOpacity>
     );
 });

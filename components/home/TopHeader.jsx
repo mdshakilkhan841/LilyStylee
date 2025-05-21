@@ -7,11 +7,13 @@ import Ionicons from "@expo/vector-icons/Ionicons";
 import Feather from "@expo/vector-icons/Feather";
 import { Badge, TouchableRipple } from "react-native-paper";
 import { router } from "expo-router";
+import useCartStore from "../../store/useCartStore";
 
 const TopHeader = () => {
     const fullText = "Search for brands and products";
     const [displayedText, setDisplayedText] = useState("");
     const [typingIndex, setTypingIndex] = useState(0);
+    const { cart } = useCartStore();
 
     useEffect(() => {
         const interval = setInterval(() => {
@@ -45,7 +47,7 @@ const TopHeader = () => {
                                 size={22}
                                 color="black"
                             />
-                            <Badge
+                            {/* <Badge
                                 style={{
                                     position: "absolute",
                                     top: 5,
@@ -54,7 +56,7 @@ const TopHeader = () => {
                                 }}
                             >
                                 3
-                            </Badge>
+                            </Badge> */}
                         </>
                     </TouchableRipple>
                     <TouchableRipple
@@ -74,16 +76,18 @@ const TopHeader = () => {
                                 size={22}
                                 color="black"
                             />
-                            <Badge
-                                style={{
-                                    position: "absolute",
-                                    top: 5,
-                                    right: 5,
-                                    backgroundColor: "#db2777",
-                                }}
-                            >
-                                30
-                            </Badge>
+                            {cart.length > 0 && (
+                                <Badge
+                                    style={{
+                                        position: "absolute",
+                                        top: 5,
+                                        right: 5,
+                                        backgroundColor: "#db2777",
+                                    }}
+                                >
+                                    {cart.length}
+                                </Badge>
+                            )}
                         </>
                     </TouchableRipple>
                     <TouchableRipple
