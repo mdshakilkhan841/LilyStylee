@@ -1,13 +1,14 @@
 import { Button } from "react-native-paper";
 import useCartStore from "../../store/useCartStore";
-import { useEffect } from "react";
+import React from "react";
 
-const AddToBagButton = ({ product }) => {
-    const { loadCart, addToCart } = useCartStore();
+const AddToBagButton = React.memo(({ product }) => {
+    const { addToCart } = useCartStore();
 
-    const handleAddToCart = (product) => {
+    const handleAddToCart = () => {
         addToCart(product);
     };
+
     return (
         <Button
             mode="contained"
@@ -24,11 +25,11 @@ const AddToBagButton = ({ product }) => {
                 borderColor: "#db2777",
                 marginTop: 8,
             }}
-            onPress={() => handleAddToCart(product)}
+            onPress={handleAddToCart}
         >
             ADD TO BAG
         </Button>
     );
-};
+});
 
 export default AddToBagButton;
