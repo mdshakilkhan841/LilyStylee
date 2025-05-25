@@ -1,73 +1,45 @@
 import { create } from "zustand";
+import { persist, createJSONStorage } from "zustand/middleware";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
-const CART_KEY = "cart";
-
-const useCartStore = create((set, get) => ({
-    cart: [],
-    loadCart: async () => {
-        try {
-            const storedCart = await AsyncStorage.getItem(CART_KEY);
-            if (storedCart) {
-                set({ cart: JSON.parse(storedCart) });
-            }
-        } catch (error) {
-            console.error("Failed to load cart:", error);
-        }
-    },
-    addToCart: async (product) => {
-        try {
-            const cart = get().cart;
-            let newCart;
-            const existing = cart.find((item) => item.id === product.id);
-            if (existing) {
-                newCart = cart.map((item) =>
-                    item.id === product.id
-                        ? { ...item, quantity: item.quantity + 1 }
-                        : item
+const useCartStore = create(
+    persist(
+        (set, get) => ({
+            cart: [],
+            addToCart: (product) => {
+                const cart = get().cart;
+                let newCart;
+                const existing = cart.find((item) => item.id === product.id);
+                if (existing) {
+                    newCart = cart.map((item) =>
+                        item.id === product.id
+                            ? { ...item, quantity: item.quantity + 1 }
+                            : item
+                    );
+                } else {
+                    newCart = [...cart, { ...product, quantity: 1 }];
+                }
+                set({ cart: newCart });
+            },
+            removeFromCart: (productIds) => {
+                const newCart = get().cart.filter(
+                    (item) => !productIds.includes(item.id)
                 );
-            } else {
-                newCart = [...cart, { ...product, quantity: 1 }];
-            }
-            set({ cart: newCart });
-            await AsyncStorage.setItem(CART_KEY, JSON.stringify(newCart));
-        } catch (error) {
-            console.error("Failed to add to cart:", error);
+                set({ cart: newCart });
+            },
+            updateQuantity: (productId, quantity) => {
+                const newCart = get().cart.map((item) =>
+                    item.id === productId ? { ...item, quantity } : item
+                );
+                set({ cart: newCart });
+            },
+            clearCart: () => set({ cart: [] }),
+        }),
+        {
+            name: "cart",
+            storage: createJSONStorage(() => AsyncStorage),
         }
-    },
-    removeFromCart: async (productIds) => {
-        try {
-            const newCart = get().cart.filter(
-                (item) => !productIds.includes(item.id)
-            );
-            set({ cart: newCart });
-            await AsyncStorage.setItem(CART_KEY, JSON.stringify(newCart));
-        } catch (error) {
-            console.error("Failed to remove item(s) from cart:", error);
-        }
-    },
-    updateQuantity: async (productId, quantity) => {
-        try {
-            const newCart = get().cart.map((item) =>
-                item.id === productId ? { ...item, quantity } : item
-            );
-            set({ cart: newCart });
-            await AsyncStorage.setItem(CART_KEY, JSON.stringify(newCart));
-        } catch (error) {
-            console.error("Failed to update quantity:", error);
-        }
-    },
-    clearCart: async () => {
-        try {
-            set({ cart: [] });
-            await AsyncStorage.removeItem(CART_KEY);
-        } catch (error) {
-            console.error("Failed to clear cart:", error);
-        }
-    },
-}));
-
-// Load cart on startup
-useCartStore.getState().loadCart();
+    )
+);
 
 export default useCartStore;
