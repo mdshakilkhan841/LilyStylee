@@ -44,7 +44,7 @@ const Products = () => {
                     AddToBagButton={AddToBagButton}
                 />
             )}
-            keyExtractor={(item) => item.id.toString()}
+            keyExtractor={(item, index) => `${index}_${item.id.toString()}`}
             numColumns={itemNumber}
             columnWrapperStyle={styles.columnWrapperStyle}
             onEndReached={handleLoadMore}
