@@ -3,12 +3,19 @@ import React, { useState } from "react";
 import Octicons from "@expo/vector-icons/Octicons";
 import ClippedView from "./ClippedView";
 import { router } from "expo-router";
+import useWishListStore from "../../store/useWishListStore";
 
 const ProductCard = React.memo(({ product, width, AddToBagButton }) => {
-    const [addWishlist, setAddWishlist] = useState(false);
+    const { addToWishList, removeFromWishList, isInWishList } =
+        useWishListStore();
+    const inWishList = isInWishList(product.id);
 
     const handleWishlist = () => {
-        setAddWishlist(!addWishlist);
+        if (inWishList) {
+            removeFromWishList(product.id);
+        } else {
+            addToWishList(product);
+        }
     };
 
     const originalPrice =
@@ -54,7 +61,7 @@ const ProductCard = React.memo(({ product, width, AddToBagButton }) => {
                     onPress={handleWishlist}
                 >
                     <Octicons
-                        name={addWishlist ? "heart-fill" : "heart"}
+                        name={inWishList ? "heart-fill" : "heart"}
                         size={16}
                         color="#db2777"
                     />
@@ -80,7 +87,6 @@ const ProductCard = React.memo(({ product, width, AddToBagButton }) => {
             </View>
             {/* Delivery time */}
             <Text numberOfLines={1} className="text-xs">
-                {/* Delivery in 2-3 days */}
                 {product?.shippingInformation}
             </Text>
 
