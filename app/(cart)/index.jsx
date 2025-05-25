@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useMemo } from "react";
 import { View, Text, ScrollView, Pressable } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Appbar, Button, Divider } from "react-native-paper";
@@ -14,53 +14,78 @@ import OfferTiming from "@/components/cart/OfferTiming";
 import useCartStore from "../../store/useCartStore";
 
 const index = () => {
-    const [checkedAll, setCheckedAll] = useState(false);
-    const [checkedItems, setCheckedItems] = useState([]);
-    console.log("🚀 ~ index ~ checkedItems:", checkedItems);
-
     const { cart, removeFromCart } = useCartStore();
+    const [checkedAll, setCheckedAll] = useState(false);
+    const [checkedItemsId, setCheckedItemsId] = useState([]);
+    const [selectedItems, setSelectedItems] = useState([]);
+
+    // Update selectedItems whenever checkedItemsId or cart changes
+    useEffect(() => {
+        setSelectedItems(
+            cart.filter((item) => checkedItemsId.includes(item.id))
+        );
+    }, [checkedItemsId, cart]);
+
+    // Calculate totals using selectedItems
+    const totalMRP = useMemo(() => {
+        return selectedItems.reduce((sum, item) => {
+            // Assuming item.price is discounted price, and item.discountPercentage exists
+            const originalPrice =
+                item.price / (1 - item.discountPercentage / 100);
+            return sum + originalPrice * item.quantity;
+        }, 0);
+    }, [selectedItems]);
+
+    const totalDiscount = useMemo(() => {
+        return selectedItems.reduce((sum, item) => {
+            const originalPrice =
+                item.price / (1 - item.discountPercentage / 100);
+            const discount = (originalPrice - item.price) * item.quantity;
+            return sum + discount;
+        }, 0);
+    }, [selectedItems]);
 
     const handleSelectAll = () => {
         if (checkedAll) {
-            setCheckedItems([]);
+            setCheckedItemsId([]);
             setCheckedAll(false);
         } else {
-            setCheckedItems(cart.map((product) => product.id));
+            setCheckedItemsId(cart.map((product) => product.id));
             setCheckedAll(true);
         }
     };
 
     const handleSelectItem = (id) => {
         let newCheckedItems;
-        if (checkedItems.includes(id)) {
-            newCheckedItems = checkedItems.filter((itemId) => itemId !== id);
+        if (checkedItemsId.includes(id)) {
+            newCheckedItems = checkedItemsId.filter((itemId) => itemId !== id);
         } else {
-            newCheckedItems = [...checkedItems, id];
+            newCheckedItems = [...checkedItemsId, id];
         }
-        setCheckedItems(newCheckedItems);
+        setCheckedItemsId(newCheckedItems);
         setCheckedAll(
             cart.length > 0 && newCheckedItems.length === cart.length
         );
     };
 
-    // New handler to remove and update checkedItems
+    // New handler to remove and update checkedItemsId
     const handleRemoveSingleItem = (id) => {
         removeFromCart([id]);
-        setCheckedItems((prev) => prev.filter((itemId) => itemId !== id));
+        setCheckedItemsId((prev) => prev.filter((itemId) => itemId !== id));
         setCheckedAll(
             cart.length - 1 > 0 &&
-                checkedItems.filter((itemId) => itemId !== id).length ===
+                checkedItemsId.filter((itemId) => itemId !== id).length ===
                     cart.length - 1
         );
     };
 
     const handleRemoveAllItems = () => {
-        removeFromCart(checkedItems);
-        setCheckedItems([]);
+        removeFromCart(checkedItemsId);
+        setCheckedItemsId([]);
         setCheckedAll(false);
     };
 
-    const selectedCount = checkedItems.length;
+    const selectedCount = checkedItemsId.length;
 
     return (
         <SafeAreaView edges={["bottom"]} className="flex-1">
@@ -146,7 +171,7 @@ const index = () => {
                         <CartItemCard
                             key={product.id}
                             product={product}
-                            isChecked={checkedItems.includes(product.id)}
+                            isChecked={checkedItemsId.includes(product.id)}
                             onCheck={() => handleSelectItem(product.id)}
                             onRemove={handleRemoveSingleItem}
                         />
@@ -162,11 +187,13 @@ const index = () => {
                     <View className="gap-2 py-3 my-3 border-t border-b border-gray-300">
                         <View className="flex-row flex-wrap items-center justify-between">
                             <Text className="">Total MRP</Text>
-                            <Text className="">$123.45</Text>
+                            <Text className="">${totalMRP.toFixed(2)}</Text>
                         </View>
                         <View className="flex-row flex-wrap items-center justify-between">
                             <Text className="">Discount on MRP</Text>
-                            <Text className="text-green-600">- $123.45</Text>
+                            <Text className="text-green-600">
+                                - ${totalDiscount.toFixed(2)}
+                            </Text>
                         </View>
                         <View className="flex-row flex-wrap items-center justify-between">
                             <Text className="">Coupon Discount</Text>
@@ -190,7 +217,9 @@ const index = () => {
 
                     <View className="flex-row flex-wrap items-center justify-between">
                         <Text className="font-bold">Total Amount</Text>
-                        <Text className="font-bold">$123.45</Text>
+                        <Text className="font-bold">
+                            ${(totalMRP - totalDiscount).toFixed()}
+                        </Text>
                     </View>
                 </View>
 
