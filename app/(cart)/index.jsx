@@ -10,30 +10,57 @@ import {
 } from "@expo/vector-icons";
 import Checkbox from "expo-checkbox";
 import CartItemCard from "@/components/cart/CartItemCard";
-import CartProducts from "@/assets/data/cartProducts.json";
 import OfferTiming from "@/components/cart/OfferTiming";
+import useCartStore from "../../store/useCartStore";
 
 const index = () => {
     const [checkedAll, setCheckedAll] = useState(false);
-    const [checkedItems, setCheckedItems] = useState({});
-    const products = CartProducts.products;
+    const [checkedItems, setCheckedItems] = useState([]);
+    console.log("🚀 ~ index ~ checkedItems:", checkedItems);
+
+    const { cart, removeFromCart } = useCartStore();
 
     const handleSelectAll = () => {
-        const newCheckedItems = {};
-        products.forEach((product) => {
-            newCheckedItems[product.id] = !checkedAll;
-        });
-        setCheckedItems(newCheckedItems);
-        setCheckedAll(!checkedAll);
+        if (checkedAll) {
+            setCheckedItems([]);
+            setCheckedAll(false);
+        } else {
+            setCheckedItems(cart.map((product) => product.id));
+            setCheckedAll(true);
+        }
     };
 
     const handleSelectItem = (id) => {
-        const newCheckedItems = { ...checkedItems, [id]: !checkedItems[id] };
+        let newCheckedItems;
+        if (checkedItems.includes(id)) {
+            newCheckedItems = checkedItems.filter((itemId) => itemId !== id);
+        } else {
+            newCheckedItems = [...checkedItems, id];
+        }
         setCheckedItems(newCheckedItems);
-        setCheckedAll(Object.values(newCheckedItems).every((value) => value));
+        setCheckedAll(
+            cart.length > 0 && newCheckedItems.length === cart.length
+        );
     };
 
-    const selectedCount = Object.values(checkedItems).filter(Boolean).length;
+    // New handler to remove and update checkedItems
+    const handleRemoveSingleItem = (id) => {
+        removeFromCart([id]);
+        setCheckedItems((prev) => prev.filter((itemId) => itemId !== id));
+        setCheckedAll(
+            cart.length - 1 > 0 &&
+                checkedItems.filter((itemId) => itemId !== id).length ===
+                    cart.length - 1
+        );
+    };
+
+    const handleRemoveAllItems = () => {
+        removeFromCart(checkedItems);
+        setCheckedItems([]);
+        setCheckedAll(false);
+    };
+
+    const selectedCount = checkedItems.length;
 
     return (
         <SafeAreaView edges={["bottom"]} className="flex-1">
@@ -92,7 +119,7 @@ const index = () => {
                                 onValueChange={handleSelectAll}
                             />
                             <Text className="text-sm font-bold text-center text-gray-600 uppercase">
-                                {selectedCount}/{products.length} Items Selected
+                                {selectedCount}/{cart.length} Items Selected
                             </Text>
                         </View>
                         <View className="flex-row items-center gap-5">
@@ -101,7 +128,13 @@ const index = () => {
                                 size={20}
                                 color="black"
                             />
-                            <AntDesign name="delete" size={20} color="black" />
+                            <Pressable onPress={handleRemoveAllItems}>
+                                <AntDesign
+                                    name="delete"
+                                    size={20}
+                                    color="black"
+                                />
+                            </Pressable>
                             <MaterialCommunityIcons
                                 name="tag-heart-outline" // "cart-heart"
                                 size={20}
@@ -109,12 +142,13 @@ const index = () => {
                             />
                         </View>
                     </View>
-                    {products.map((product) => (
+                    {cart.map((product) => (
                         <CartItemCard
                             key={product.id}
                             product={product}
-                            isChecked={checkedItems[product.id]}
+                            isChecked={checkedItems.includes(product.id)}
                             onCheck={() => handleSelectItem(product.id)}
+                            onRemove={handleRemoveSingleItem}
                         />
                     ))}
                 </View>

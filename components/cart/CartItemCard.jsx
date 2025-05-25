@@ -1,11 +1,13 @@
-import { View, Text } from "react-native";
+import { View, Text, Pressable } from "react-native";
 import React, { useState } from "react";
 import { Image } from "react-native";
 import { Feather, FontAwesome } from "@expo/vector-icons";
 import ClippedView from "@/components/product/ClippedView";
 import Checkbox from "expo-checkbox";
+import useCartStore from "../../store/useCartStore";
 
-const CartItemCard = ({ product, isChecked, onCheck }) => {
+const CartItemCard = ({ product, isChecked, onCheck, onRemove }) => {
+    const { removeFromCart } = useCartStore();
     const originalPrice =
         product?.price / (1 - product?.discountPercentage / 100);
 
@@ -85,12 +87,15 @@ const CartItemCard = ({ product, isChecked, onCheck }) => {
                 value={isChecked}
                 onValueChange={onCheck}
             />
-            <Feather
-                className="absolute right-4 top-3"
-                name="x"
-                size={20}
-                color="black"
-            />
+            {/* need to pass item id as an array */}
+            <Pressable onPress={() => onRemove(product.id)}>
+                <Feather
+                    className="absolute right-4 top-3"
+                    name="x"
+                    size={20}
+                    color="black"
+                />
+            </Pressable>
         </View>
     );
 };

@@ -35,13 +35,15 @@ const useCartStore = create((set, get) => ({
             console.error("Failed to add to cart:", error);
         }
     },
-    removeFromCart: async (productId) => {
+    removeFromCart: async (productIds) => {
         try {
-            const newCart = get().cart.filter((item) => item.id !== productId);
+            const newCart = get().cart.filter(
+                (item) => !productIds.includes(item.id)
+            );
             set({ cart: newCart });
             await AsyncStorage.setItem(CART_KEY, JSON.stringify(newCart));
         } catch (error) {
-            console.error("Failed to remove from cart:", error);
+            console.error("Failed to remove item(s) from cart:", error);
         }
     },
     updateQuantity: async (productId, quantity) => {
