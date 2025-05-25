@@ -4,10 +4,8 @@ import { Image } from "react-native";
 import { Feather, FontAwesome } from "@expo/vector-icons";
 import ClippedView from "@/components/product/ClippedView";
 import Checkbox from "expo-checkbox";
-import useCartStore from "../../store/useCartStore";
 
 const CartItemCard = ({ product, isChecked, onCheck, onRemove }) => {
-    const { removeFromCart } = useCartStore();
     const originalPrice =
         product?.price / (1 - product?.discountPercentage / 100);
 
