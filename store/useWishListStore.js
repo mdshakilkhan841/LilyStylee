@@ -1,6 +1,22 @@
+import { MMKV } from "react-native-mmkv";
 import { create } from "zustand";
 import { persist, createJSONStorage } from "zustand/middleware";
-import AsyncStorage from "@react-native-async-storage/async-storage";
+
+const storage = new MMKV();
+
+// MMKV adapter for Zustand
+const zustandStorage = {
+    getItem: (name) => {
+        const value = storage.getString(name);
+        return value ?? null;
+    },
+    setItem: (name, value) => {
+        storage.set(name, value);
+    },
+    removeItem: (name) => {
+        storage.delete(name);
+    },
+};
 
 const useWishListStore = create(
     persist(
@@ -25,7 +41,7 @@ const useWishListStore = create(
         }),
         {
             name: "wishlist", // key for local storage
-            storage: createJSONStorage(() => AsyncStorage),
+            storage: createJSONStorage(() => zustandStorage),
         }
     )
 );
