@@ -11,7 +11,7 @@ import AddToBagButton from "@/components/product/AddToBagButton";
 const width = Dimensions.get("window").width;
 const itemNumber = width >= 768 ? 3 : 2;
 
-const wishlist = () => {
+export default function Wishlist() {
     const { cart } = useCartStore();
     const { wishList } = useWishListStore();
 
@@ -93,9 +93,7 @@ const wishlist = () => {
             />
         </SafeAreaView>
     );
-};
-
-export default wishlist;
+}
 
 const styles = {
     skeletonStyle: {

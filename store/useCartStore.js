@@ -1,8 +1,19 @@
-import { MMKV } from "react-native-mmkv";
+import { createMMKV } from "react-native-mmkv";
 import { create } from "zustand";
 import { persist, createJSONStorage } from "zustand/middleware";
 
-const storage = new MMKV();
+let storage;
+try {
+    storage = createMMKV();
+} catch (e) {
+    console.error("MMKV could not be initialized. Native modules might be missing.", e);
+    // Mock storage for non-native environments
+    storage = {
+        getString: () => null,
+        set: () => {},
+        remove: () => {},
+    };
+}
 
 // MMKV adapter for Zustand
 const zustandStorage = {
@@ -14,7 +25,7 @@ const zustandStorage = {
         storage.set(name, value);
     },
     removeItem: (name) => {
-        storage.delete(name);
+        storage.remove(name);
     },
 };
 
@@ -30,7 +41,7 @@ const useCartStore = create(
                     newCart = cart.map((item) =>
                         item.id === product.id
                             ? { ...item, quantity: item.quantity + 1 }
-                            : item
+                            : item,
                     );
                 } else {
                     newCart = [...cart, { ...product, quantity: 1 }];
@@ -39,13 +50,13 @@ const useCartStore = create(
             },
             removeFromCart: (productIds) => {
                 const newCart = get().cart.filter(
-                    (item) => !productIds.includes(item.id)
+                    (item) => !productIds.includes(item.id),
                 );
                 set({ cart: newCart });
             },
             updateQuantity: (productId, quantity) => {
                 const newCart = get().cart.map((item) =>
-                    item.id === productId ? { ...item, quantity } : item
+                    item.id === productId ? { ...item, quantity } : item,
                 );
                 set({ cart: newCart });
             },
@@ -54,8 +65,8 @@ const useCartStore = create(
         {
             name: "cart",
             storage: createJSONStorage(() => zustandStorage),
-        }
-    )
+        },
+    ),
 );
 
 export default useCartStore;

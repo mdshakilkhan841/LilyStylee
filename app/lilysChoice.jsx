@@ -3,7 +3,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { Appbar, Badge, TouchableRipple } from "react-native-paper";
 import { router } from "expo-router";
 
-const lilysChoice = () => {
+export default function LilysChoice() {
     return (
         <SafeAreaView edges={["bottom"]} className="flex-1">
             <Appbar.Header style={{ backgroundColor: "white" }}>
@@ -27,6 +27,4 @@ const lilysChoice = () => {
             ></ScrollView>
         </SafeAreaView>
     );
-};
-
-export default lilysChoice;
+}

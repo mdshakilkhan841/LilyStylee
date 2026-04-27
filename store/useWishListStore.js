@@ -1,8 +1,19 @@
-import { MMKV } from "react-native-mmkv";
+import { createMMKV } from "react-native-mmkv";
 import { create } from "zustand";
 import { persist, createJSONStorage } from "zustand/middleware";
 
-const storage = new MMKV();
+let storage;
+try {
+    storage = createMMKV();
+} catch (e) {
+    console.error("MMKV could not be initialized. Native modules might be missing.", e);
+    // Mock storage for non-native environments
+    storage = {
+        getString: () => null,
+        set: () => {},
+        remove: () => {},
+    };
+}
 
 // MMKV adapter for Zustand
 const zustandStorage = {
@@ -14,7 +25,7 @@ const zustandStorage = {
         storage.set(name, value);
     },
     removeItem: (name) => {
-        storage.delete(name);
+        storage.remove(name);
     },
 };
 
@@ -32,7 +43,7 @@ const useWishListStore = create(
             removeFromWishList: (itemId) =>
                 set((state) => ({
                     wishList: state.wishList.filter(
-                        (item) => item.id !== itemId
+                        (item) => item.id !== itemId,
                     ),
                 })),
             clearWishList: () => set({ wishList: [] }),
@@ -42,8 +53,8 @@ const useWishListStore = create(
         {
             name: "wishlist", // key for local storage
             storage: createJSONStorage(() => zustandStorage),
-        }
-    )
+        },
+    ),
 );
 
 export default useWishListStore;

@@ -11,7 +11,6 @@ export default function RootLayout() {
                 <Stack.Screen name="lilysChoice" />
                 <Stack.Screen name="wishlist" />
                 <Stack.Screen name="(cart)" />
-                <Stack.Screen name="+not-found" />
             </Stack>
             <StatusBar
                 style="auto"

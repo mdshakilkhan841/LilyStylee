@@ -15,7 +15,7 @@ import useCartStore from "../../store/useCartStore";
 import ShoppingBag from "@/assets/animations/shopping-bag.svg";
 
 const { width } = Dimensions.get("window");
-const index = () => {
+export default function CartIndex() {
     const { cart, removeFromCart } = useCartStore();
     const [checkedAll, setCheckedAll] = useState(false);
     const [checkedItemsId, setCheckedItemsId] = useState([]);
@@ -24,7 +24,7 @@ const index = () => {
     // Update selectedItems whenever checkedItemsId or cart changes
     useEffect(() => {
         setSelectedItems(
-            cart.filter((item) => checkedItemsId.includes(item.id))
+            cart.filter((item) => checkedItemsId.includes(item.id)),
         );
     }, [checkedItemsId, cart]);
 
@@ -66,7 +66,7 @@ const index = () => {
         }
         setCheckedItemsId(newCheckedItems);
         setCheckedAll(
-            cart.length > 0 && newCheckedItems.length === cart.length
+            cart.length > 0 && newCheckedItems.length === cart.length,
         );
     };
 
@@ -77,7 +77,7 @@ const index = () => {
         setCheckedAll(
             cart.length - 1 > 0 &&
                 checkedItemsId.filter((itemId) => itemId !== id).length ===
-                    cart.length - 1
+                    cart.length - 1,
         );
     };
 
@@ -184,7 +184,7 @@ const index = () => {
                                     key={product.id}
                                     product={product}
                                     isChecked={checkedItemsId.includes(
-                                        product.id
+                                        product.id,
                                     )}
                                     onCheck={() => handleSelectItem(product.id)}
                                     onRemove={handleRemoveSingleItem}
@@ -299,6 +299,4 @@ const index = () => {
             )}
         </SafeAreaView>
     );
-};
-
-export default index;
+}
