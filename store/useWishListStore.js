@@ -9,7 +9,7 @@ try {
     storage = createMMKV();
     isMMKVAvailable = true;
 } catch (e) {
-    console.warn("MMKV could not be initialized. Falling back to AsyncStorage.", e);
+    console.warn("MMKV is not available in this environment (e.g. Expo Go). Falling back to AsyncStorage.");
 }
 
 let AsyncStorage;
