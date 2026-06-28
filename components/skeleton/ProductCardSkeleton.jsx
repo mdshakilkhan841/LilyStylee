@@ -1,32 +1,11 @@
-import { View, Animated, Dimensions } from "react-native";
-import React, { useEffect, useState } from "react";
+import { View, Dimensions } from "react-native";
+import React from "react";
+import { Skeleton } from "@/components/ui/Skeleton";
 
 const ProductCardSkeleton = ({ width, cartButton = true }) => {
-    const [pulseAnim] = useState(() => new Animated.Value(0));
     const skeletonWidth = width || Dimensions.get("window").width / 2;
-
-    useEffect(() => {
-        Animated.loop(
-            Animated.sequence([
-                Animated.timing(pulseAnim, {
-                    toValue: 1,
-                    duration: 900,
-                    useNativeDriver: false,
-                }),
-                Animated.timing(pulseAnim, {
-                    toValue: 0,
-                    duration: 900,
-                    useNativeDriver: false,
-                }),
-            ])
-        ).start();
-    }, []);
-
-    // Animate between two colors
-    const animatedBg = pulseAnim.interpolate({
-        inputRange: [0, 1],
-        outputRange: ["#fdf2f8", "#fce7f3"], // base to rippleColor
-    });
+    const baseColor = "#fdf2f8";
+    const highlightColor = "#fce7f3";
 
     return (
         <View
@@ -39,79 +18,75 @@ const ProductCardSkeleton = ({ width, cartButton = true }) => {
             }}
         >
             {/* Image skeleton */}
-            <Animated.View
-                style={{
-                    width: "100%",
-                    height: 155,
-                    borderRadius: 8,
-                    backgroundColor: animatedBg,
-                    marginBottom: 8,
-                }}
+            <Skeleton
+                width="100%"
+                height={155}
+                borderRadius={8}
+                style={{ marginBottom: 8 }}
+                baseColor={baseColor}
+                highlightColor={highlightColor}
             />
+            
             {/* Title skeleton */}
             <View
                 style={{
                     flexDirection: "row",
                     justifyContent: "space-between",
+                    marginBottom: 6,
                 }}
             >
-                <Animated.View
-                    style={{
-                        width: "70%",
-                        height: 18,
-                        borderRadius: 4,
-                        backgroundColor: animatedBg,
-                        marginBottom: 6,
-                    }}
+                <Skeleton
+                    width="70%"
+                    height={18}
+                    borderRadius={4}
+                    baseColor={baseColor}
+                    highlightColor={highlightColor}
                 />
-                <Animated.View
-                    style={{
-                        width: "20%",
-                        height: 18,
-                        borderRadius: 4,
-                        backgroundColor: animatedBg,
-                        marginBottom: 6,
-                    }}
+                <Skeleton
+                    width="20%"
+                    height={18}
+                    borderRadius={4}
+                    baseColor={baseColor}
+                    highlightColor={highlightColor}
                 />
             </View>
+
             {/* Description skeleton */}
-            <Animated.View
-                style={{
-                    width: "100%",
-                    height: 12,
-                    borderRadius: 4,
-                    backgroundColor: animatedBg,
-                    marginBottom: 6,
-                }}
+            <Skeleton
+                width="100%"
+                height={12}
+                borderRadius={4}
+                style={{ marginBottom: 6 }}
+                baseColor={baseColor}
+                highlightColor={highlightColor}
             />
-            <Animated.View
-                style={{
-                    width: "90%",
-                    height: 12,
-                    borderRadius: 4,
-                    backgroundColor: animatedBg,
-                    marginBottom: 6,
-                }}
+            <Skeleton
+                width="90%"
+                height={12}
+                borderRadius={4}
+                style={{ marginBottom: 6 }}
+                baseColor={baseColor}
+                highlightColor={highlightColor}
             />
+
             {/* Price skeleton */}
-            <Animated.View
-                style={{
-                    width: "50%",
-                    height: 16,
-                    borderRadius: 4,
-                    backgroundColor: animatedBg,
-                }}
+            <Skeleton
+                width="50%"
+                height={16}
+                borderRadius={4}
+                baseColor={baseColor}
+                highlightColor={highlightColor}
             />
+
             {/* Button skeleton */}
             {cartButton && (
-                <Animated.View
-                    style={{
-                        width: "100%",
-                        height: 28,
-                        borderRadius: 6,
-                        marginTop: 8,
-                        backgroundColor: animatedBg,
-                    }}
+                <Skeleton
+                    width="100%"
+                    height={28}
+                    borderRadius={6}
+                    style={{ marginTop: 8 }}
+                    baseColor={baseColor}
+                    highlightColor={highlightColor}
                 />
             )}
         </View>

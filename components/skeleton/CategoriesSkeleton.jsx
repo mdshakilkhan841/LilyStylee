@@ -1,31 +1,8 @@
-import { View, Animated } from "react-native";
-import React, { useEffect, useState } from "react";
+import { View } from "react-native";
+import React from "react";
+import { Skeleton } from "@/components/ui/Skeleton";
 
 const CategoriesSkeleton = () => {
-    const [pulseAnim] = useState(() => new Animated.Value(0));
-
-    useEffect(() => {
-        Animated.loop(
-            Animated.sequence([
-                Animated.timing(pulseAnim, {
-                    toValue: 1,
-                    duration: 1500,
-                    useNativeDriver: false,
-                }),
-                Animated.timing(pulseAnim, {
-                    toValue: 0,
-                    duration: 1500,
-                    useNativeDriver: false,
-                }),
-            ])
-        ).start();
-    }, []);
-
-    const animatedBg = pulseAnim.interpolate({
-        inputRange: [0, 1],
-        outputRange: ["#f3f3f3", "rgba(236, 72, 153, 0.25)"],
-    });
-
     return (
         <View
             style={{
@@ -39,13 +16,12 @@ const CategoriesSkeleton = () => {
                 alignItems: "center",
             }}
         >
-            <Animated.View
-                style={{
-                    width: "94%",
-                    height: "94%",
-                    borderRadius: 32,
-                    backgroundColor: animatedBg,
-                }}
+            <Skeleton
+                width="94%"
+                height="94%"
+                borderRadius={32}
+                baseColor="#f3f3f3"
+                highlightColor="rgba(236, 72, 153, 0.25)"
             />
         </View>
     );

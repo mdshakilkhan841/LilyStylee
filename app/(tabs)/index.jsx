@@ -16,13 +16,8 @@ const width = Dimensions.get("window").width;
 const itemNumber = width >= 768 ? 3 : 2;
 
 export default function Index() {
-    const {
-        data,
-        isLoading,
-        isFetchingNextPage,
-        fetchNextPage,
-        hasNextPage,
-    } = useProducts();
+    const { data, isLoading, isFetchingNextPage, fetchNextPage, hasNextPage } =
+        useProducts();
 
     const products = data ? data.pages.flatMap((page) => page.products) : [];
 
@@ -32,13 +27,16 @@ export default function Index() {
         }
     }, [isFetchingNextPage, hasNextPage, fetchNextPage]);
 
-    const renderItem = useCallback(({ item }) => (
-        <ProductCard
-            product={item}
-            width={width / itemNumber - 18}
-            AddToBagButton={AddToBagButton}
-        />
-    ), []);
+    const renderItem = useCallback(
+        ({ item }) => (
+            <ProductCard
+                product={item}
+                width={width / itemNumber - 18}
+                AddToBagButton={AddToBagButton}
+            />
+        ),
+        [],
+    );
 
     const keyExtractor = useCallback((item) => item.id.toString(), []);
 
