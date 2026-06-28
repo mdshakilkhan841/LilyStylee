@@ -26,7 +26,7 @@ const ProductCard = React.memo(({ product, width, AddToBagButton }) => {
             activeOpacity={0.8}
             onPress={() => {
                 router.push({
-                    pathname: "productDetails",
+                    pathname: "/productDetails",
                     params: { product: JSON.stringify(product) },
                 });
             }}

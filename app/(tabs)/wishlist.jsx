@@ -3,9 +3,9 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { Appbar, Badge, TouchableRipple } from "react-native-paper";
 import { router } from "expo-router";
 import Feather from "@expo/vector-icons/Feather";
-import useCartStore from "../store/useCartStore";
-import useWishListStore from "../store/useWishListStore";
-import WishListProductCard from "../components/product/WishListProductCard";
+import useCartStore from "../../store/useCartStore";
+import useWishListStore from "../../store/useWishListStore";
+import WishListProductCard from "../../components/product/WishListProductCard";
 import AddToBagButton from "@/components/product/AddToBagButton";
 
 const width = Dimensions.get("window").width;
@@ -37,7 +37,7 @@ export default function Wishlist() {
                         marginRight: 8,
                     }}
                     onPress={() => {
-                        router.push("(cart)");
+                        router.push("/cart");
                     }}
                 >
                     <>

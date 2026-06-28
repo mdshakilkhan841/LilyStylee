@@ -36,7 +36,7 @@ const WishListProductCard = React.memo(({ product, width }) => {
             activeOpacity={0.9}
             onPress={() => {
                 router.push({
-                    pathname: "productDetails",
+                    pathname: "/productDetails",
                     params: { product: JSON.stringify(product) },
                 });
             }}

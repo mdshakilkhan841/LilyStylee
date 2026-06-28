@@ -1,6 +1,5 @@
 import { FlatList } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import TabBar from "@/components/home/TabBar";
 import TopHeader from "@/components/home/TopHeader";
 import Categories from "@/components/home/Categories";
 import AdvertisementSlider from "@/components/home/AdvertisementSlider";
@@ -31,9 +30,6 @@ export default function Index() {
                     </>
                 }
             />
-
-            {/* Tab Bar */}
-            <TabBar />
         </SafeAreaView>
     );
 }

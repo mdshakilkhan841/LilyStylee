@@ -1,7 +1,7 @@
 import { useEffect, useState, useMemo } from "react";
 import { View, Text, ScrollView, Pressable, Dimensions } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { Appbar, Button, Divider } from "react-native-paper";
+import { Appbar, Button } from "react-native-paper";
 import { router } from "expo-router";
 import {
     AntDesign,
@@ -15,17 +15,15 @@ import useCartStore from "../../store/useCartStore";
 import ShoppingBag from "@/assets/animations/shopping-bag.svg";
 
 const { width } = Dimensions.get("window");
+
 export default function CartIndex() {
     const { cart, removeFromCart } = useCartStore();
     const [checkedAll, setCheckedAll] = useState(false);
     const [checkedItemsId, setCheckedItemsId] = useState([]);
-    const [selectedItems, setSelectedItems] = useState([]);
 
-    // Update selectedItems whenever checkedItemsId or cart changes
-    useEffect(() => {
-        setSelectedItems(
-            cart.filter((item) => checkedItemsId.includes(item.id)),
-        );
+    // Calculate selectedItems dynamically during render
+    const selectedItems = useMemo(() => {
+        return cart.filter((item) => checkedItemsId.includes(item.id));
     }, [checkedItemsId, cart]);
 
     // Calculate totals using selectedItems
@@ -173,7 +171,7 @@ export default function CartIndex() {
                                         />
                                     </Pressable>
                                     <MaterialCommunityIcons
-                                        name="tag-heart-outline" // "cart-heart"
+                                        name="tag-heart-outline"
                                         size={20}
                                         color="black"
                                     />
@@ -198,6 +196,7 @@ export default function CartIndex() {
                                 PRICE DETAILS ({selectedCount}{" "}
                                 {selectedCount > 1 ? "Items" : "Item"})
                             </Text>
+
                             <View className="gap-2 py-3 my-3 border-t border-b border-gray-300">
                                 <View className="flex-row flex-wrap items-center justify-between">
                                     <Text className="">Total MRP</Text>

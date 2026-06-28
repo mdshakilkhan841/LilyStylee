@@ -27,7 +27,7 @@ const ProductDetails = () => {
     // For "sticky until released" (optional advanced)
     const [isSticky, setIsSticky] = useState(true);
     const [buttonSegmentY, setButtonSegmentY] = useState(0);
-    const scrollY = useRef(new Animated.Value(0)).current;
+    const [scrollY] = useState(() => new Animated.Value(0));
     const { height: SCREEN_HEIGHT } = Dimensions.get("window");
 
     // Calculate fade out as you scroll past the sticky segment
@@ -64,7 +64,7 @@ const ProductDetails = () => {
                 <Appbar.Action
                     rippleColor="rgba(236, 72, 153, 0.15)"
                     icon="heart-outline"
-                    onPress={() => router.push("wishlist")}
+                    onPress={() => router.push("/wishlist")}
                 />
                 <TouchableRipple
                     borderless
@@ -74,7 +74,7 @@ const ProductDetails = () => {
                         padding: 14,
                         marginRight: 8,
                     }}
-                    onPress={() => router.push("(cart)")}
+                    onPress={() => router.push("/cart")}
                 >
                     <>
                         <Feather name="shopping-bag" size={20} color="black" />

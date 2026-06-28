@@ -7,10 +7,8 @@ export default function RootLayout() {
         <>
             <Stack screenOptions={{ headerShown: false }}>
                 <Stack.Screen name="index" />
+                <Stack.Screen name="(tabs)" />
                 <Stack.Screen name="(home)" />
-                <Stack.Screen name="lilysChoice" />
-                <Stack.Screen name="wishlist" />
-                <Stack.Screen name="(cart)" />
             </Stack>
             <StatusBar
                 style="auto"

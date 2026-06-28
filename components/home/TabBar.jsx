@@ -1,125 +1,131 @@
-import {
-    View,
-    Text,
-    TouchableOpacity,
-    Dimensions,
-    Platform,
-} from "react-native";
+import React from "react";
+import { View, Text, Dimensions } from "react-native";
 import Feather from "@expo/vector-icons/Feather";
-import SimpleLineIcons from "@expo/vector-icons/SimpleLineIcons";
 import FontAwesome6 from "@expo/vector-icons/FontAwesome6";
 import { LinearGradient } from "expo-linear-gradient";
-import { useState } from "react";
 import LogoMain from "@/assets/images/logo-main.svg";
-import { useRouter } from "expo-router";
 import { TouchableRipple } from "react-native-paper";
 
-const TabBar = () => {
-    const router = useRouter();
+const TabBar = ({ state, descriptors, navigation }) => {
     const width = Dimensions.get("window").width;
-    const [currentScreen, setCurrentScreen] = useState("Home");
 
-    const tabs = [
-        {
-            text: "Home",
-            icon: LogoMain,
-            iconName: "home",
-            screen: "index",
-        },
-        {
-            text: "Lily's Choice",
-            icon: FontAwesome6,
-            iconName: "chess-queen",
-            screen: "lilysChoice",
-        },
-        {
-            text: "Wishlist",
-            icon: Feather,
-            iconName: "heart",
-            screen: "wishlist",
-        },
+    const getTabIcon = (routeName, isFocused) => {
+        const color = isFocused ? "#db2777" : "black";
+        switch (routeName) {
+            case "index":
+                return <LogoMain width={35} height={35} />;
+            case "lilysChoice":
+                return <FontAwesome6 name="chess-queen" size={20} color={color} />;
+            case "wishlist":
+                return <Feather name="heart" size={20} color={color} />;
+            case "cart":
+                return <Feather name="shopping-bag" size={20} color={color} />;
+            default:
+                return null;
+        }
+    };
 
-        {
-            text: "Bag",
-            icon: Feather,
-            iconName: "shopping-bag",
-            screen: "(cart)",
-        },
-    ];
+    const getTabLabel = (routeName) => {
+        switch (routeName) {
+            case "index":
+                return "Home";
+            case "lilysChoice":
+                return "Lily's Choice";
+            case "wishlist":
+                return "Wishlist";
+            case "cart":
+                return "Bag";
+            default:
+                return routeName;
+        }
+    };
 
     return (
         <View
             style={{
                 flexDirection: "row",
                 width: "100%",
-                height: 55,
-                // position: "absolute",
-                // height: Platform.OS === "ios" ? 64 : 60,
-                // bottom: 0,
+                height: 70,
+                backgroundColor: "white",
+                elevation: 8,
+                shadowColor: "#000",
+                shadowOffset: { width: 0, height: -2 },
+                shadowOpacity: 0.1,
+                shadowRadius: 4,
             }}
         >
-            {tabs.map((tab) => (
-                <LinearGradient
-                    key={tab.text}
-                    colors={
-                        currentScreen === tab.text
-                            ? ["#fbcfe8", "#fff"]
-                            : ["#fff", "#fff"]
-                    } // Gradient colors
-                    start={{ x: 0, y: 0 }}
-                    end={{ x: 0, y: 1 }} // Vertical gradient
-                    style={{
-                        width: width / 4,
-                    }}
-                >
-                    <TouchableRipple
-                        rippleColor="rgba(236, 72, 153, 0.15)"
+            {state.routes.map((route, index) => {
+                const isFocused = state.index === index;
+
+                const onPress = () => {
+                    const event = navigation.emit({
+                        type: "tabPress",
+                        target: route.key,
+                        canPreventDefault: true,
+                    });
+
+                    if (!isFocused && !event.defaultPrevented) {
+                        navigation.navigate(route.name, route.params);
+                    }
+                };
+
+                const onLongPress = () => {
+                    navigation.emit({
+                        type: "tabLongPress",
+                        target: route.key,
+                    });
+                };
+
+                const label = getTabLabel(route.name);
+
+                return (
+                    <LinearGradient
+                        key={route.key}
+                        colors={
+                            isFocused
+                                ? ["#fbcfe8", "#fff"]
+                                : ["#fff", "#fff"]
+                        }
+                        start={{ x: 0, y: 0 }}
+                        end={{ x: 0, y: 1 }}
                         style={{
-                            flex: 1,
-                            // justifyContent: "center",
-                            alignItems: "center",
-                            height: "100%",
-                            width: "100%",
-                            paddingTop: 5,
-                            borderTopWidth: 2.5,
-                            borderTopColor:
-                                currentScreen === tab.text
-                                    ? "#ec4899"
-                                    : "white",
-                        }}
-                        onPress={() => {
-                            if (tab.screen !== "index") {
-                                router.navigate(tab.screen);
-                            }
+                            width: width / state.routes.length,
                         }}
                     >
-                        {tab.text === "Home" ? (
-                            <LogoMain width={35} height={35} />
-                        ) : (
-                            <>
-                                <tab.icon
-                                    name={tab.iconName}
-                                    size={20}
-                                    color={
-                                        currentScreen === tab.text
-                                            ? "#db2777"
-                                            : "black"
-                                    }
-                                />
-                                <Text
-                                    className={`sm:text-base text-sm ${
-                                        currentScreen === tab.text
-                                            ? "text-pink-600"
-                                            : "text-black"
-                                    }`}
-                                >
-                                    {tab.text}
-                                </Text>
-                            </>
-                        )}
-                    </TouchableRipple>
-                </LinearGradient>
-            ))}
+                        <TouchableRipple
+                            rippleColor="rgba(236, 72, 153, 0.15)"
+                            style={{
+                                flex: 1,
+                                alignItems: "center",
+                                height: "100%",
+                                width: "100%",
+                                paddingTop: 5,
+                                borderTopWidth: 2.5,
+                                borderTopColor: isFocused ? "#ec4899" : "white",
+                            }}
+                            onPress={onPress}
+                            onLongPress={onLongPress}
+                        >
+                            {route.name === "index" ? (
+                                <LogoMain width={35} height={35} />
+                            ) : (
+                                <>
+                                    {getTabIcon(route.name, isFocused)}
+                                    <Text
+                                        className={`sm:text-base text-xs ${
+                                            isFocused
+                                                ? "text-pink-600"
+                                                : "text-black"
+                                        }`}
+                                    >
+                                        {label}
+                                    </Text>
+                                </>
+                            )}
+                        </TouchableRipple>
+                    </LinearGradient>
+                );
+            })}
         </View>
     );
 };

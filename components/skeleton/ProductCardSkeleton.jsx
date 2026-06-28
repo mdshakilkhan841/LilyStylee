@@ -1,8 +1,8 @@
 import { View, Animated, Dimensions } from "react-native";
-import React, { useRef, useEffect } from "react";
+import React, { useEffect, useState } from "react";
 
 const ProductCardSkeleton = ({ width, cartButton = true }) => {
-    const pulseAnim = useRef(new Animated.Value(0)).current;
+    const [pulseAnim] = useState(() => new Animated.Value(0));
     const skeletonWidth = width || Dimensions.get("window").width / 2;
 
     useEffect(() => {

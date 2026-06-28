@@ -1,8 +1,8 @@
 import { View, Animated } from "react-native";
-import React, { useRef, useEffect } from "react";
+import React, { useEffect, useState } from "react";
 
 const CategoriesSkeleton = () => {
-    const pulseAnim = useRef(new Animated.Value(0)).current;
+    const [pulseAnim] = useState(() => new Animated.Value(0));
 
     useEffect(() => {
         Animated.loop(
