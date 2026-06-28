@@ -3,7 +3,7 @@ import useCartStore from "../../store/useCartStore";
 import React from "react";
 
 const AddToBagButton = React.memo(({ product }) => {
-    const { addToCart } = useCartStore();
+    const addToCart = useCartStore((state) => state.addToCart);
 
     const handleAddToCart = () => {
         addToCart(product);

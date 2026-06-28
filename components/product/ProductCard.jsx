@@ -6,9 +6,9 @@ import { router } from "expo-router";
 import useWishListStore from "../../store/useWishListStore";
 
 const ProductCard = React.memo(({ product, width, AddToBagButton }) => {
-    const { addToWishList, removeFromWishList, isInWishList } =
-        useWishListStore();
-    const inWishList = isInWishList(product.id);
+    const addToWishList = useWishListStore((state) => state.addToWishList);
+    const removeFromWishList = useWishListStore((state) => state.removeFromWishList);
+    const inWishList = useWishListStore((state) => state.wishList.some((item) => item.id === product.id));
 
     const handleWishlist = () => {
         if (inWishList) {
@@ -36,7 +36,7 @@ const ProductCard = React.memo(({ product, width, AddToBagButton }) => {
                 <Image
                     source={{ uri: product?.thumbnail }}
                     className="w-full h-full rounded-md"
-                    style={{ objectFit: "contain" }}
+                    resizeMode="contain"
                 />
                 <View className="absolute flex flex-row items-center justify-center px-1 rounded-full py-0.5 bottom-2 left-2 bg-white/80">
                     <View className="flex flex-row items-center gap-1 px-1.5">

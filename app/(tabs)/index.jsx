@@ -55,9 +55,10 @@ export default function Index() {
                 onEndReached={handleLoadMore}
                 onEndReachedThreshold={0.5}
                 showsVerticalScrollIndicator={false}
-                initialNumToRender={6}
-                windowSize={5}
+                initialNumToRender={10}
+                windowSize={11}
                 maxToRenderPerBatch={10}
+                removeClippedSubviews={false}
                 ListHeaderComponent={
                     <>
                         <Categories />
