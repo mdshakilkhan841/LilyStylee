@@ -1,7 +1,52 @@
-import React, { useState, useRef } from "react";
+import React, { useRef } from "react";
 import { View, Image, Dimensions, Text } from "react-native";
-import { useSharedValue } from "react-native-reanimated";
-import Carousel, { Pagination } from "react-native-reanimated-carousel";
+import Animated, { useAnimatedStyle, useSharedValue } from "react-native-reanimated";
+import Carousel from "react-native-reanimated-carousel";
+
+const PaginationDot = React.memo(({ index, progress, total }) => {
+    const animatedStyle = useAnimatedStyle(() => {
+        if (total === 0) return { opacity: 0.4, width: 6 };
+        const val = ((progress.value % total) + total) % total;
+        const diff = Math.abs(val - index);
+        const distance = Math.min(diff, total - diff);
+        const active = Math.max(1 - distance, 0);
+
+        return {
+            opacity: 0.4 + active * 0.6,
+            width: 6 + active * 8,
+        };
+    });
+
+    return (
+        <Animated.View
+            style={[
+                {
+                    height: 6,
+                    borderRadius: 3,
+                    backgroundColor: "#db2777",
+                },
+                animatedStyle,
+            ]}
+        />
+    );
+});
+
+PaginationDot.displayName = "PaginationDot";
+
+const CustomPagination = ({ progress, data }) => {
+    return (
+        <View style={{ flexDirection: "row", justifyContent: "center", gap: 6, marginTop: 12 }}>
+            {data.map((_, index) => (
+                <PaginationDot
+                    key={index}
+                    index={index}
+                    progress={progress}
+                    total={data.length}
+                />
+            ))}
+        </View>
+    );
+};
 
 const AdvertisementSlider = () => {
     const width = Dimensions.get("window").width;
@@ -31,13 +76,6 @@ const AdvertisementSlider = () => {
         },
     ];
 
-    const onPressPagination = (index) => {
-        ref.current?.scrollTo({
-            count: index - progress.value,
-            animated: true,
-        });
-    };
-
     return (
         <View style={{ flex: 1, justifyContent: "center" }}>
             <Carousel
@@ -46,13 +84,12 @@ const AdvertisementSlider = () => {
                 defaultIndex={0}
                 width={width}
                 height={width >= 768 ? 240 * 1.2 : 240 * 0.7}
-                // height={width / 3}
                 autoPlay={true}
                 data={banners}
                 scrollAnimationDuration={2000}
                 onProgressChange={progress}
                 renderItem={({ item }) => (
-                    <View>
+                    <View style={{ flex: 1 }}>
                         <Image
                             source={item.image}
                             style={{
@@ -69,18 +106,7 @@ const AdvertisementSlider = () => {
                     </View>
                 )}
             />
-            <Pagination.Basic
-                progress={progress}
-                data={banners}
-                dotStyle={{
-                    backgroundColor: "#db2777",
-                    width: 6,
-                    height: 6,
-                    borderRadius: 50,
-                }}
-                containerStyle={{ gap: 5, marginTop: 8 }}
-                onPress={onPressPagination}
-            />
+            <CustomPagination progress={progress} data={banners} />
         </View>
     );
 };
