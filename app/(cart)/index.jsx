@@ -292,7 +292,7 @@ export default function CartIndex() {
                         Hey, your shopping bag is empty!
                     </Text>
                     <Text className="px-4 text-xs text-center text-gray-500">
-                        There is nothing in your shopping bag, let's add some
+                        There is nothing in your shopping bag, let&apos;s add some
                         items.
                     </Text>
                 </View>

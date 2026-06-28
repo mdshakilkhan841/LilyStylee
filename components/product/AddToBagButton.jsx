@@ -32,4 +32,6 @@ const AddToBagButton = React.memo(({ product }) => {
     );
 });
 
+AddToBagButton.displayName = "AddToBagButton";
+
 export default AddToBagButton;

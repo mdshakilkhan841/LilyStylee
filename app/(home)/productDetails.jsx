@@ -17,7 +17,7 @@ import { SimpleLineIcons } from "@expo/vector-icons";
 
 const STICKY_SEGMENT_HEIGHT = 80; // Adjust to your button segment's height
 
-const productDetails = () => {
+const ProductDetails = () => {
     const { product } = useLocalSearchParams();
     const productObj = JSON.parse(product);
 
@@ -548,4 +548,4 @@ const productDetails = () => {
     );
 };
 
-export default productDetails;
+export default ProductDetails;

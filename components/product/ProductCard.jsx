@@ -96,4 +96,6 @@ const ProductCard = React.memo(({ product, width, AddToBagButton }) => {
     );
 });
 
+ProductCard.displayName = "ProductCard";
+
 export default ProductCard;

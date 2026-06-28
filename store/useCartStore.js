@@ -1,31 +1,50 @@
-import { createMMKV } from "react-native-mmkv";
 import { create } from "zustand";
 import { persist, createJSONStorage } from "zustand/middleware";
 
 let storage;
+let isMMKVAvailable = false;
+
 try {
+    const { createMMKV } = require("react-native-mmkv");
     storage = createMMKV();
+    isMMKVAvailable = true;
 } catch (e) {
-    console.error("MMKV could not be initialized. Native modules might be missing.", e);
-    // Mock storage for non-native environments
-    storage = {
-        getString: () => null,
-        set: () => {},
-        remove: () => {},
-    };
+    console.warn("MMKV could not be initialized. Falling back to AsyncStorage.", e);
 }
 
-// MMKV adapter for Zustand
-const zustandStorage = {
+let AsyncStorage;
+if (!isMMKVAvailable) {
+    try {
+        AsyncStorage = require("@react-native-async-storage/async-storage").default;
+    } catch (e) {
+        console.error("AsyncStorage fallback not available:", e);
+    }
+}
+
+// Custom storage adapter that dynamically uses MMKV or AsyncStorage
+const customStorage = {
     getItem: (name) => {
-        const value = storage.getString(name);
-        return value ?? null;
+        if (isMMKVAvailable && storage) {
+            const value = storage.getString(name);
+            return value ?? null;
+        } else if (AsyncStorage) {
+            return AsyncStorage.getItem(name);
+        }
+        return null;
     },
     setItem: (name, value) => {
-        storage.set(name, value);
+        if (isMMKVAvailable && storage) {
+            storage.set(name, value);
+        } else if (AsyncStorage) {
+            return AsyncStorage.setItem(name, value);
+        }
     },
     removeItem: (name) => {
-        storage.remove(name);
+        if (isMMKVAvailable && storage) {
+            storage.remove(name);
+        } else if (AsyncStorage) {
+            return AsyncStorage.removeItem(name);
+        }
     },
 };
 
@@ -64,7 +83,7 @@ const useCartStore = create(
         }),
         {
             name: "cart",
-            storage: createJSONStorage(() => zustandStorage),
+            storage: createJSONStorage(() => customStorage),
         },
     ),
 );

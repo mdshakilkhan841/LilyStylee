@@ -2,7 +2,7 @@ import { View, Text, Image, TouchableOpacity, Pressable } from "react-native";
 import React, { useState } from "react";
 import mens from "@/assets/images/mens.jpg";
 import Octicons from "@expo/vector-icons/Octicons";
-import ClippedView from "./ClippedView";
+import ClippedView from "../product/ClippedView";
 
 const WishListProductCard = ({ product, width, AddToBagButton }) => {
     const [addWishlist, setAddWishlist] = useState(false);

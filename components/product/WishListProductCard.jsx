@@ -7,7 +7,7 @@ import { router } from "expo-router";
 import useWishListStore from "../../store/useWishListStore";
 import useCartStore from "../../store/useCartStore";
 import { Button } from "react-native-paper";
-import LinearGradient from "react-native-linear-gradient";
+import { LinearGradient } from "expo-linear-gradient";
 
 const WishListProductCard = React.memo(({ product, width }) => {
     const { addToCart } = useCartStore();
@@ -267,5 +267,7 @@ const WishListProductCard = React.memo(({ product, width }) => {
         </TouchableOpacity>
     );
 });
+
+WishListProductCard.displayName = "WishListProductCard";
 
 export default WishListProductCard;

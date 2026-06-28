@@ -62,7 +62,7 @@ const DiscountCard = () => {
                     </View>
                 </View>
                 <Text className="w-1/3 font-bold text-center text-pink-600">
-                    HURRY TIMES'S TICKING
+                    HURRY TIMES&apos;S TICKING
                 </Text>
             </View>
 

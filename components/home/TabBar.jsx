@@ -8,7 +8,7 @@ import {
 import Feather from "@expo/vector-icons/Feather";
 import SimpleLineIcons from "@expo/vector-icons/SimpleLineIcons";
 import FontAwesome6 from "@expo/vector-icons/FontAwesome6";
-import LinearGradient from "react-native-linear-gradient";
+import { LinearGradient } from "expo-linear-gradient";
 import { useState } from "react";
 import LogoMain from "@/assets/images/logo-main.svg";
 import { useRouter } from "expo-router";
