@@ -1,6 +1,9 @@
 import React, { useRef } from "react";
 import { View, Image, Dimensions, Text } from "react-native";
-import Animated, { useAnimatedStyle, useSharedValue } from "react-native-reanimated";
+import Animated, {
+    useAnimatedStyle,
+    useSharedValue,
+} from "react-native-reanimated";
 import Carousel from "react-native-reanimated-carousel";
 
 const PaginationDot = React.memo(({ index, progress, total }) => {
@@ -35,7 +38,14 @@ PaginationDot.displayName = "PaginationDot";
 
 const CustomPagination = ({ progress, data }) => {
     return (
-        <View style={{ flexDirection: "row", justifyContent: "center", gap: 6, marginTop: 12 }}>
+        <View
+            style={{
+                flexDirection: "row",
+                justifyContent: "center",
+                gap: 6,
+                marginTop: 12,
+            }}
+        >
             {data.map((_, index) => (
                 <PaginationDot
                     key={index}
@@ -85,6 +95,7 @@ const AdvertisementSlider = () => {
                 width={width}
                 height={width >= 768 ? 240 * 1.2 : 240 * 0.7}
                 autoPlay={true}
+                autoPlayInterval={3000}
                 data={banners}
                 scrollAnimationDuration={2000}
                 onProgressChange={progress}
