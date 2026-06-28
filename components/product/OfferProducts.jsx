@@ -1,24 +1,25 @@
-import { View, FlatList, Dimensions, ActivityIndicator } from "react-native";
+import { View, FlatList, Dimensions } from "react-native";
 import ProductCard from "@/components/product/ProductCard";
-import AddToBagButton from "@/components/product/AddToBagButton";
-import { useCategoryProductStore } from "../../store/useCategoryProductStore";
-import { useEffect } from "react";
+import { useCategoryProducts } from "@/hooks/useCategoryProducts";
 import ProductCardSkeleton from "../skeleton/ProductCardSkeleton";
 
 const width = Dimensions.get("window").width;
 const itemNumber = width >= 768;
 
 const OfferProducts = () => {
-    const { products, loading, skip, total, fetchProducts } =
-        useCategoryProductStore();
+    const {
+        data,
+        isLoading,
+        isFetchingNextPage,
+        fetchNextPage,
+        hasNextPage,
+    } = useCategoryProducts("smartphones", 5);
 
-    useEffect(() => {
-        fetchProducts(0, 5, "smartphones");
-    }, []);
+    const products = data ? data.pages.flatMap((page) => page.products) : [];
 
     const handleLoadMore = () => {
-        if (!loading && products.length < total) {
-            fetchProducts(products.length);
+        if (!isFetchingNextPage && hasNextPage) {
+            fetchNextPage();
         }
     };
 
@@ -31,7 +32,7 @@ const OfferProducts = () => {
         />
     );
 
-    if (loading || products.length === 0)
+    if (isLoading || products.length === 0)
         return (
             <View
                 style={{
@@ -66,7 +67,7 @@ const OfferProducts = () => {
                 onEndReached={handleLoadMore}
                 onEndReachedThreshold={0.5}
                 ListFooterComponent={
-                    loading && products.length > 0 ? (
+                    isFetchingNextPage && products.length > 0 ? (
                         <View style={{ flexDirection: "row", gap: 12 }}>
                             {Array.from({ length: 3 }, (_, index) => (
                                 <ProductCardSkeleton

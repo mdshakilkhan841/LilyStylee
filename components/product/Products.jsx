@@ -2,27 +2,30 @@ import { View, Dimensions, FlatList } from "react-native";
 import ProductCard from "@/components/product/ProductCard";
 import AddToBagButton from "@/components/product/AddToBagButton";
 import ProductCardSkeleton from "@/components/skeleton/ProductCardSkeleton";
-import { useEffect, useCallback } from "react";
-import { useProductStore } from "@/store/useProductStore";
+import { useCallback } from "react";
+import { useProducts } from "@/hooks/useProducts";
 
 const width = Dimensions.get("window").width;
 const itemNumber = width >= 768 ? 3 : 2;
 
 const Products = () => {
-    const { products, loading, initialLoading, skip, total, fetchProducts } =
-        useProductStore();
+    const {
+        data,
+        isLoading,
+        isFetchingNextPage,
+        fetchNextPage,
+        hasNextPage,
+    } = useProducts();
 
-    useEffect(() => {
-        fetchProducts(0); // Only on first mount or refresh
-    }, []);
+    const products = data ? data.pages.flatMap((page) => page.products) : [];
 
     const handleLoadMore = useCallback(() => {
-        if (!loading && products.length < total) {
-            fetchProducts(skip);
+        if (!isFetchingNextPage && hasNextPage) {
+            fetchNextPage();
         }
-    }, [loading, products.length, total, fetchProducts, skip]);
+    }, [isFetchingNextPage, hasNextPage, fetchNextPage]);
 
-    if (initialLoading || products.length === 0)
+    if (isLoading || products.length === 0)
         return (
             <View style={styles.skeletonStyle}>
                 {Array.from({ length: 6 }).map((_, idx) => (
@@ -53,7 +56,7 @@ const Products = () => {
             windowSize={5}
             removeClippedSubviews={true}
             ListFooterComponent={
-                loading && products.length > 0 ? (
+                isFetchingNextPage && products.length > 0 ? (
                     <View style={styles.skeletonStyle}>
                         {Array.from({ length: 6 }).map((_, idx) => (
                             <ProductCardSkeleton

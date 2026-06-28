@@ -1,11 +1,11 @@
 import { View, Text, FlatList, TouchableOpacity, Image } from "react-native";
-import React, { useEffect } from "react";
+import React from "react";
 import Octicons from "@expo/vector-icons/Octicons";
-import { useCategoryStore } from "../../store/useCategoryStore";
+import { useCategories } from "@/hooks/useCategories";
 import CategoriesSkeleton from "../skeleton/CategoriesSkeleton";
 
 const Categories = () => {
-    const { categories, loading, fetchCategories } = useCategoryStore();
+    const { data: categories = [], isLoading } = useCategories();
     const categoryImages = [
         require("@/assets/images/beauty.jpg"),
         require("@/assets/images/fashion.jpg"),
@@ -17,11 +17,7 @@ const Categories = () => {
         require("@/assets/images/womans.jpg"),
     ];
 
-    useEffect(() => {
-        if (categories.length === 0) fetchCategories();
-    }, []);
-
-    if (loading || categories.length === 0)
+    if (isLoading || categories.length === 0)
         return (
             <View
                 style={{
