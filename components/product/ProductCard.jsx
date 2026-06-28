@@ -4,8 +4,9 @@ import Octicons from "@expo/vector-icons/Octicons";
 import ClippedView from "./ClippedView";
 import { router } from "expo-router";
 import useWishListStore from "../../store/useWishListStore";
+import AddToBagButton from "./AddToBagButton";
 
-const ProductCard = React.memo(({ product, width, AddToBagButton }) => {
+const ProductCard = React.memo(({ product, width }) => {
     const addToWishList = useWishListStore((state) => state.addToWishList);
     const removeFromWishList = useWishListStore((state) => state.removeFromWishList);
     const inWishList = useWishListStore((state) => state.wishList.some((item) => item.id === product.id));
@@ -37,6 +38,7 @@ const ProductCard = React.memo(({ product, width, AddToBagButton }) => {
                     source={{ uri: product?.thumbnail }}
                     className="w-full h-full rounded-md"
                     resizeMode="contain"
+                    fadeDuration={0}
                 />
                 <View className="absolute flex flex-row items-center justify-center px-1 rounded-full py-0.5 bottom-2 left-2 bg-white/80">
                     <View className="flex flex-row items-center gap-1 px-1.5">
@@ -91,7 +93,7 @@ const ProductCard = React.memo(({ product, width, AddToBagButton }) => {
             </Text>
 
             {/* Add to cart */}
-            {AddToBagButton && <AddToBagButton product={product} />}
+            <AddToBagButton product={product} />
         </TouchableOpacity>
     );
 });

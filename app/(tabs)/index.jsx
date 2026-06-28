@@ -7,19 +7,34 @@ import DiscountCard from "@/components/home/DiscountCard";
 import OfferProducts from "@/components/product/OfferProducts";
 import SpecialOfferSection from "@/components/home/SpecialOfferSection";
 import ProductCard from "@/components/product/ProductCard";
-import AddToBagButton from "@/components/product/AddToBagButton";
 import ProductCardSkeleton from "@/components/skeleton/ProductCardSkeleton";
-import React, { useCallback } from "react";
+import React, { useCallback, useMemo } from "react";
 import { useProducts } from "@/hooks/useProducts";
 
 const width = Dimensions.get("window").width;
 const itemNumber = width >= 768 ? 3 : 2;
 
+const HomeHeader = React.memo(() => {
+    return (
+        <>
+            <Categories />
+            <AdvertisementSlider />
+            <DiscountCard />
+            <OfferProducts />
+            <SpecialOfferSection />
+        </>
+    );
+});
+
+HomeHeader.displayName = "HomeHeader";
+
 export default function Index() {
     const { data, isLoading, isFetchingNextPage, fetchNextPage, hasNextPage } =
         useProducts();
 
-    const products = data ? data.pages.flatMap((page) => page.products) : [];
+    const products = useMemo(() => {
+        return data ? data.pages.flatMap((page) => page.products) : [];
+    }, [data]);
 
     const handleLoadMore = useCallback(() => {
         if (!isFetchingNextPage && hasNextPage) {
@@ -32,13 +47,14 @@ export default function Index() {
             <ProductCard
                 product={item}
                 width={width / itemNumber - 18}
-                AddToBagButton={AddToBagButton}
             />
         ),
         [],
     );
 
     const keyExtractor = useCallback((item) => item.id.toString(), []);
+
+    const renderHeader = useCallback(() => <HomeHeader />, []);
 
     return (
         <SafeAreaView className="flex-1 bg-white">
@@ -55,19 +71,11 @@ export default function Index() {
                 onEndReached={handleLoadMore}
                 onEndReachedThreshold={0.5}
                 showsVerticalScrollIndicator={false}
-                initialNumToRender={10}
-                windowSize={11}
+                initialNumToRender={12}
+                windowSize={21}
                 maxToRenderPerBatch={10}
                 removeClippedSubviews={false}
-                ListHeaderComponent={
-                    <>
-                        <Categories />
-                        <AdvertisementSlider />
-                        <DiscountCard />
-                        <OfferProducts />
-                        <SpecialOfferSection />
-                    </>
-                }
+                ListHeaderComponent={renderHeader}
                 ListEmptyComponent={
                     isLoading ? (
                         <View style={styles.skeletonStyle}>
