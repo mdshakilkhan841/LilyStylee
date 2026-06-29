@@ -147,7 +147,9 @@ export default function CartIndex() {
                                                 "rgba(255, 255, 255, 0.5)",
                                         }}
                                         color={
-                                            checkedAll ? Colors.primary : "#4b5563"
+                                            checkedAll
+                                                ? Colors.primary
+                                                : "#4b5563"
                                         }
                                         value={checkedAll}
                                         onValueChange={handleSelectAll}
@@ -285,7 +287,7 @@ export default function CartIndex() {
                     </View>
                 </>
             ) : (
-                <View className="items-center flex-1">
+                <View className="items-center flex-1 justify-center">
                     <ShoppingBag height={width * 0.8} width={"80%"} />
                     <Text className="py-2 text-2xl font-bold text-center text-black">
                         Hey, your shopping bag is empty!
