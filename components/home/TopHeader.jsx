@@ -79,11 +79,13 @@ const TopHeader = () => {
                             />
                             {cart.length > 0 && (
                                 <Badge
+                                    size={16}
                                     style={{
                                         position: "absolute",
-                                        top: 5,
-                                        right: 5,
+                                        top: 8,
+                                        right: 3,
                                         backgroundColor: Colors.primary,
+                                        fontSize: 10,
                                     }}
                                 >
                                     {cart.length}
