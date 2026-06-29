@@ -71,10 +71,11 @@ export default function Index() {
                 onEndReached={handleLoadMore}
                 onEndReachedThreshold={0.5}
                 showsVerticalScrollIndicator={false}
-                initialNumToRender={12}
-                windowSize={21}
-                maxToRenderPerBatch={10}
-                removeClippedSubviews={false}
+                initialNumToRender={8}
+                windowSize={7}
+                maxToRenderPerBatch={6}
+                updateCellsBatchingPeriod={50}
+                removeClippedSubviews={true}
                 ListHeaderComponent={renderHeader}
                 ListEmptyComponent={
                     isLoading ? (
