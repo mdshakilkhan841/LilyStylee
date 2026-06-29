@@ -1,6 +1,5 @@
 import { useEffect, useState, useMemo } from "react";
 import { View, Text, ScrollView, Pressable, Dimensions } from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
 import { Appbar, Button } from "react-native-paper";
 import { router } from "expo-router";
 import {
@@ -88,7 +87,7 @@ export default function CartIndex() {
     const selectedCount = checkedItemsId.length;
 
     return (
-        <SafeAreaView edges={["top"]} className="flex-1">
+        <View className="flex-1">
             <Appbar.Header style={{ backgroundColor: "white" }}>
                 <Appbar.BackAction
                     rippleColor="rgba(236, 72, 153, 0.15)"
@@ -296,6 +295,6 @@ export default function CartIndex() {
                     </Text>
                 </View>
             )}
-        </SafeAreaView>
+        </View>
     );
 }

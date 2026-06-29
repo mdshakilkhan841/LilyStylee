@@ -1,11 +1,10 @@
-import { View, Text, ScrollView } from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
-import { Appbar, Badge, TouchableRipple } from "react-native-paper";
+import { View, ScrollView } from "react-native";
+import { Appbar } from "react-native-paper";
 import { router } from "expo-router";
 
 export default function LilysChoice() {
     return (
-        <SafeAreaView edges={["top"]} className="flex-1">
+        <View className="flex-1">
             <Appbar.Header style={{ backgroundColor: "white" }}>
                 <Appbar.BackAction
                     rippleColor="rgba(236, 72, 153, 0.15)"
@@ -25,6 +24,6 @@ export default function LilysChoice() {
                 //     paddingBottom: 8,
                 // }}
             ></ScrollView>
-        </SafeAreaView>
+        </View>
     );
 }

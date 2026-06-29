@@ -1,5 +1,4 @@
-import { View, Text, ScrollView, FlatList, Dimensions } from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
+import { View, FlatList, Dimensions } from "react-native";
 import { Appbar, Badge, TouchableRipple } from "react-native-paper";
 import { router } from "expo-router";
 import Feather from "@expo/vector-icons/Feather";
@@ -16,7 +15,7 @@ export default function Wishlist() {
     const { wishList } = useWishListStore();
 
     return (
-        <SafeAreaView edges={["top"]} className="flex-1">
+        <View className="flex-1 bg-white">
             <Appbar.Header style={{ backgroundColor: "white" }}>
                 <Appbar.BackAction
                     rippleColor="rgba(236, 72, 153, 0.15)"
@@ -91,7 +90,7 @@ export default function Wishlist() {
                 //     ) : null
                 // }
             />
-        </SafeAreaView>
+        </View>
     );
 }
 
