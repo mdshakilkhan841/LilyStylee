@@ -122,25 +122,32 @@ const ProductDetails = () => {
                 {/* Image Slider Container with Floating Wishlist Button */}
                 <View style={{ position: "relative" }}>
                     <ProductImageSlider images={productObj.images} />
-                    <TouchableRipple
-                        borderless
-                        rippleColor="rgba(236, 72, 153, 0.15)"
-                        onPress={handleWishlist}
+                    <View
                         style={{
                             position: "absolute",
                             top: 16,
                             right: 16,
-                            padding: 10,
-                            zIndex: 10,
+                            backgroundColor: "rgba(236, 72, 153, 0.1)",
                             borderRadius: 100,
+                            overflow: "hidden",
+                            zIndex: 10,
                         }}
                     >
-                        <Octicons
-                            name={inWishList ? "heart-fill" : "heart"}
-                            size={22}
-                            color={Colors.primary}
-                        />
-                    </TouchableRipple>
+                        <TouchableRipple
+                            borderless
+                            rippleColor="rgba(236, 72, 153, 0.15)"
+                            onPress={handleWishlist}
+                            style={{
+                                padding: 10,
+                            }}
+                        >
+                            <Octicons
+                                name={inWishList ? "heart-fill" : "heart"}
+                                size={22}
+                                color={Colors.primary}
+                            />
+                        </TouchableRipple>
+                    </View>
                 </View>
 
                 {/* Title, Brand, Rating */}
