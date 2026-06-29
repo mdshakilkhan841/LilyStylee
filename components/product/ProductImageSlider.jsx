@@ -1,6 +1,9 @@
 import React, { useRef } from "react";
 import { View, Image, Dimensions } from "react-native";
-import Animated, { useAnimatedStyle, useSharedValue } from "react-native-reanimated";
+import Animated, {
+    useAnimatedStyle,
+    useSharedValue,
+} from "react-native-reanimated";
 import { Colors } from "../../constants/Colors";
 import Carousel from "react-native-reanimated-carousel";
 
@@ -36,7 +39,14 @@ PaginationDot.displayName = "PaginationDot";
 
 const CustomPagination = ({ progress, data }) => {
     return (
-        <View style={{ flexDirection: "row", justifyContent: "center", gap: 6, marginTop: 12 }}>
+        <View
+            style={{
+                flexDirection: "row",
+                justifyContent: "center",
+                gap: 6,
+                marginTop: 12,
+            }}
+        >
             {data.map((_, index) => (
                 <PaginationDot
                     key={index}
@@ -64,6 +74,7 @@ const ProductImageSlider = ({ images = [] }) => {
                 width={width}
                 height={width >= 768 ? height * 0.35 : height * 0.5}
                 autoPlay={true}
+                autoPlayInterval={3000}
                 data={images}
                 scrollAnimationDuration={2000}
                 onProgressChange={progress}

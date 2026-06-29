@@ -1,27 +1,22 @@
 import React, { useRef, useState } from "react";
-import {
-    View,
-    Text,
-    ScrollView,
-    FlatList,
-    Dimensions,
-    Animated,
-} from "react-native";
+import { View, Text, FlatList, Dimensions, Animated } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Appbar, Badge, TouchableRipple, Button } from "react-native-paper";
 import { router, useLocalSearchParams } from "expo-router";
-import Feather from "@expo/vector-icons/Feather";
 import Octicons from "@expo/vector-icons/Octicons";
 import { MaterialDesignIcons } from "@react-native-vector-icons/material-design-icons";
 import ProductImageSlider from "../../components/product/ProductImageSlider";
 import { SimpleLineIcons } from "@expo/vector-icons";
 import { Colors } from "../../constants/Colors";
 import useWishListStore from "../../store/useWishListStore";
+import useCartStore from "../../store/useCartStore";
 
 const STICKY_SEGMENT_HEIGHT = 80; // Adjust to your button segment's height
 
 const ProductDetails = () => {
     const { product } = useLocalSearchParams();
+    const { cart } = useCartStore();
+
     const productObj = JSON.parse(product);
 
     const addToWishList = useWishListStore((state) => state.addToWishList);
@@ -42,9 +37,6 @@ const ProductDetails = () => {
 
     const originalPrice =
         productObj.price / (1 - productObj.discountPercentage / 100);
-
-    // For "sticky until released" (optional advanced)
-    const [isSticky, setIsSticky] = useState(true);
     const [buttonSegmentY, setButtonSegmentY] = useState(0);
     const [scrollY] = useState(() => new Animated.Value(0));
     const { height: SCREEN_HEIGHT } = Dimensions.get("window");
@@ -83,30 +75,39 @@ const ProductDetails = () => {
                 <Appbar.Action
                     rippleColor={Colors.ripple}
                     icon="heart-outline"
+                    color="black"
                     onPress={() => router.push("/wishlist")}
                 />
                 <TouchableRipple
                     borderless
                     rippleColor={Colors.ripple}
                     style={{
-                        borderRadius: 50,
-                        padding: 14,
                         marginRight: 8,
+                        borderRadius: 100,
+                        padding: 12,
                     }}
                     onPress={() => router.push("/cart")}
                 >
                     <>
-                        <Feather name="shopping-bag" size={20} color="black" />
-                        <Badge
-                            style={{
-                                position: "absolute",
-                                top: 5,
-                                right: 5,
-                                backgroundColor: Colors.primary,
-                            }}
-                        >
-                            30
-                        </Badge>
+                        <MaterialDesignIcons
+                            name="shopping-outline"
+                            color="black"
+                            size={22}
+                        />
+                        {cart.length > 0 && (
+                            <Badge
+                                size={16}
+                                style={{
+                                    position: "absolute",
+                                    top: 8,
+                                    right: 3,
+                                    backgroundColor: Colors.primary,
+                                    fontSize: 10,
+                                }}
+                            >
+                                {cart.length}
+                            </Badge>
+                        )}
                     </>
                 </TouchableRipple>
             </Appbar.Header>
@@ -379,10 +380,10 @@ const ProductDetails = () => {
                             // Add to bag logic here
                         }}
                     >
-                        <SimpleLineIcons
-                            name="bag"
-                            size={17}
+                        <MaterialDesignIcons
+                            name="shopping-outline"
                             color={Colors.primary}
+                            size={20}
                         />
                         {"  "}
                         Buy Now
@@ -406,7 +407,11 @@ const ProductDetails = () => {
                             // Add to bag logic here
                         }}
                     >
-                        <SimpleLineIcons name="bag" size={17} color="white" />
+                        <MaterialDesignIcons
+                            name="shopping-outline"
+                            color="white"
+                            size={20}
+                        />
                         {"  "}
                         ADD TO BAG
                     </Button>
@@ -528,10 +533,10 @@ const ProductDetails = () => {
                         // Add to bag logic here
                     }}
                 >
-                    <SimpleLineIcons
-                        name="bag"
-                        size={17}
+                    <MaterialDesignIcons
+                        name="shopping-outline"
                         color={Colors.primary}
+                        size={20}
                     />
                     {"  "}
                     Buy Now
@@ -554,7 +559,12 @@ const ProductDetails = () => {
                         // Add to bag logic here
                     }}
                 >
-                    <SimpleLineIcons name="bag" size={17} color="white" />
+                    {/* <SimpleLineIcons name="bag" size={17} color="white" /> */}
+                    <MaterialDesignIcons
+                        name="shopping-outline"
+                        color="white"
+                        size={20}
+                    />
                     {"  "}
                     ADD TO BAG
                 </Button>
