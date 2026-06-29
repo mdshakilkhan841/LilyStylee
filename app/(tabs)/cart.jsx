@@ -88,7 +88,7 @@ export default function CartIndex() {
     const selectedCount = checkedItemsId.length;
 
     return (
-        <SafeAreaView edges={["bottom"]} className="flex-1">
+        <SafeAreaView edges={["top"]} className="flex-1">
             <Appbar.Header style={{ backgroundColor: "white" }}>
                 <Appbar.BackAction
                     rippleColor="rgba(236, 72, 153, 0.15)"
@@ -291,8 +291,8 @@ export default function CartIndex() {
                         Hey, your shopping bag is empty!
                     </Text>
                     <Text className="px-4 text-xs text-center text-gray-500">
-                        There is nothing in your shopping bag, let&apos;s add some
-                        items.
+                        There is nothing in your shopping bag, let&apos;s add
+                        some items.
                     </Text>
                 </View>
             )}

@@ -57,7 +57,7 @@ export default function Index() {
     const renderHeader = useCallback(() => <HomeHeader />, []);
 
     return (
-        <SafeAreaView className="flex-1 bg-white">
+        <SafeAreaView edges={["top"]} className="flex-1 bg-white">
             {/* Sticky Top Header */}
             <TopHeader />
 

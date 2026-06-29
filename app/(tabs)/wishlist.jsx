@@ -16,7 +16,7 @@ export default function Wishlist() {
     const { wishList } = useWishListStore();
 
     return (
-        <SafeAreaView edges={["bottom"]} className="flex-1">
+        <SafeAreaView edges={["top"]} className="flex-1">
             <Appbar.Header style={{ backgroundColor: "white" }}>
                 <Appbar.BackAction
                     rippleColor="rgba(236, 72, 153, 0.15)"
