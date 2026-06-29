@@ -14,6 +14,7 @@ import Feather from "@expo/vector-icons/Feather";
 import Octicons from "@expo/vector-icons/Octicons";
 import ProductImageSlider from "../../components/product/ProductImageSlider";
 import { SimpleLineIcons } from "@expo/vector-icons";
+import { Colors } from "../../constants/Colors";
 
 const STICKY_SEGMENT_HEIGHT = 80; // Adjust to your button segment's height
 
@@ -83,7 +84,7 @@ const ProductDetails = () => {
                                 position: "absolute",
                                 top: 5,
                                 right: 5,
-                                backgroundColor: "#db2777",
+                                backgroundColor: Colors.primary,
                             }}
                         >
                             30
@@ -186,7 +187,7 @@ const ProductDetails = () => {
                         style={{
                             fontSize: 22,
                             fontWeight: "bold",
-                            color: "#db2777",
+                            color: Colors.primary,
                         }}
                     >
                         ₹{productObj.price?.toFixed(0)}
@@ -241,14 +242,14 @@ const ProductDetails = () => {
                 >
                     <View
                         style={{
-                            backgroundColor: "#fdf2f8",
+                            backgroundColor: Colors.primaryBg,
                             borderRadius: 8,
                             padding: 10,
                             flex: 1,
                             minWidth: 120,
                         }}
                     >
-                        <Text style={{ color: "#db2777", fontWeight: "bold" }}>
+                        <Text style={{ color: Colors.primary, fontWeight: "bold" }}>
                             Stock
                         </Text>
                         <Text style={{ color: "#222" }}>
@@ -326,11 +327,11 @@ const ProductDetails = () => {
                         }}
                         onPress={() => {}}
                     >
-                        <Feather name="heart" size={26} color="#db2777" />
+                        <Feather name="heart" size={26} color={Colors.primary} />
                     </TouchableRipple>
                     <Button
                         mode="outlined"
-                        textColor="#db2777"
+                        textColor={Colors.primary}
                         contentStyle={
                             {
                                 // paddingVertical: 0,
@@ -344,20 +345,20 @@ const ProductDetails = () => {
                         }}
                         style={{
                             borderRadius: 8,
-                            borderColor: "#db2777",
+                            borderColor: Colors.primary,
                         }}
                         onPress={() => {
                             // Add to bag logic here
                         }}
                     >
-                        <SimpleLineIcons name="bag" size={17} color="#db2777" />
+                        <SimpleLineIcons name="bag" size={17} color={Colors.primary} />
                         {"  "}
                         Buy Now
                     </Button>
 
                     <Button
                         mode="contained"
-                        buttonColor="#db2777"
+                        buttonColor={Colors.primary}
                         contentStyle={{}}
                         labelStyle={{
                             fontWeight: "bold",
@@ -367,7 +368,7 @@ const ProductDetails = () => {
                         }}
                         style={{
                             borderRadius: 8,
-                            borderColor: "#db2777",
+                            borderColor: Colors.primary,
                             borderWidth: 1,
                         }}
                         onPress={() => {
@@ -498,11 +499,11 @@ const ProductDetails = () => {
                     }}
                     onPress={() => {}}
                 >
-                    <Feather name="heart" size={26} color="#db2777" />
+                    <Feather name="heart" size={26} color={Colors.primary} />
                 </TouchableRipple>
                 <Button
                     mode="outlined"
-                    textColor="#db2777"
+                    textColor={Colors.primary}
                     labelStyle={{
                         fontWeight: "medium",
                         fontSize: 16,
@@ -511,19 +512,19 @@ const ProductDetails = () => {
                     }}
                     style={{
                         borderRadius: 8,
-                        borderColor: "#db2777",
+                        borderColor: Colors.primary,
                     }}
                     onPress={() => {
                         // Add to bag logic here
                     }}
                 >
-                    <SimpleLineIcons name="bag" size={17} color="#db2777" />
+                    <SimpleLineIcons name="bag" size={17} color={Colors.primary} />
                     {"  "}
                     Buy Now
                 </Button>
                 <Button
                     mode="contained"
-                    buttonColor="#db2777"
+                    buttonColor={Colors.primary}
                     labelStyle={{
                         fontWeight: "bold",
                         fontSize: 14,
@@ -532,7 +533,7 @@ const ProductDetails = () => {
                     }}
                     style={{
                         borderRadius: 8,
-                        borderColor: "#db2777",
+                        borderColor: Colors.primary,
                         borderWidth: 1,
                     }}
                     onPress={() => {

@@ -1,6 +1,7 @@
 import { Button } from "react-native-paper";
 import useCartStore from "../../store/useCartStore";
 import React from "react";
+import { Colors } from "../../constants/Colors";
 
 const AddToBagButton = React.memo(({ product }) => {
     const addToCart = useCartStore((state) => state.addToCart);
@@ -13,7 +14,7 @@ const AddToBagButton = React.memo(({ product }) => {
         <Button
             mode="contained"
             buttonColor="transparent"
-            textColor="#db2777"
+            textColor={Colors.primary}
             labelStyle={{
                 fontSize: 13,
                 fontWeight: 700,
@@ -22,7 +23,7 @@ const AddToBagButton = React.memo(({ product }) => {
             style={{
                 borderRadius: 6,
                 borderWidth: 1,
-                borderColor: "#db2777",
+                borderColor: Colors.primary,
                 marginTop: 8,
             }}
             onPress={handleAddToCart}

@@ -6,6 +6,7 @@ import useCartStore from "../../store/useCartStore";
 import useWishListStore from "../../store/useWishListStore";
 import WishListProductCard from "../../components/product/WishListProductCard";
 import AddToBagButton from "@/components/product/AddToBagButton";
+import { Colors } from "../../constants/Colors";
 
 const width = Dimensions.get("window").width;
 const itemNumber = width >= 768 ? 3 : 2;
@@ -47,7 +48,7 @@ export default function Wishlist() {
                                     position: "absolute",
                                     top: 5,
                                     right: 5,
-                                    backgroundColor: "#db2777",
+                                    backgroundColor: Colors.primary,
                                 }}
                             >
                                 {cart.length}

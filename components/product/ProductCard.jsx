@@ -5,6 +5,7 @@ import ClippedView from "./ClippedView";
 import { router } from "expo-router";
 import useWishListStore from "../../store/useWishListStore";
 import AddToBagButton from "./AddToBagButton";
+import { Colors } from "../../constants/Colors";
 
 const ProductCard = React.memo(({ product, width }) => {
     const addToWishList = useWishListStore((state) => state.addToWishList);
@@ -65,7 +66,7 @@ const ProductCard = React.memo(({ product, width }) => {
                     <Octicons
                         name={inWishList ? "heart-fill" : "heart"}
                         size={16}
-                        color="#db2777"
+                        color={Colors.primary}
                     />
                 </TouchableOpacity>
             </View>

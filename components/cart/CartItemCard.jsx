@@ -4,6 +4,7 @@ import { Image } from "react-native";
 import { Feather, FontAwesome } from "@expo/vector-icons";
 import ClippedView from "@/components/product/ClippedView";
 import Checkbox from "expo-checkbox";
+import { Colors } from "../../constants/Colors";
 
 const CartItemCard = ({ product, isChecked, onCheck, onRemove }) => {
     const originalPrice =
@@ -81,7 +82,7 @@ const CartItemCard = ({ product, isChecked, onCheck, onRemove }) => {
                     width: 18,
                     backgroundColor: "rgba(255, 255, 255, 0.5)",
                 }}
-                color={isChecked ? "#db2777" : "#4b5563"}
+                color={isChecked ? Colors.primary : "#4b5563"}
                 value={isChecked}
                 onValueChange={onCheck}
             />

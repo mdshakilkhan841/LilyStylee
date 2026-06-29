@@ -8,6 +8,7 @@ import Feather from "@expo/vector-icons/Feather";
 import { Badge, TouchableRipple } from "react-native-paper";
 import { router } from "expo-router";
 import useCartStore from "../../store/useCartStore";
+import { Colors } from "../../constants/Colors";
 
 const TopHeader = () => {
     const fullText = "Search for brands and products";
@@ -82,7 +83,7 @@ const TopHeader = () => {
                                         position: "absolute",
                                         top: 5,
                                         right: 5,
-                                        backgroundColor: "#db2777",
+                                        backgroundColor: Colors.primary,
                                     }}
                                 >
                                     {cart.length}
@@ -112,9 +113,9 @@ const TopHeader = () => {
 
             {/* Search bar */}
             <View
-                className="flex flex-row items-center justify-between px-5 my-2 bg-white border border-pink-400 rounded-lg h-11"
+                className="flex flex-row items-center justify-between px-5 my-2 bg-white border border-primaryLight rounded-lg h-11"
                 style={{
-                    shadowColor: "#db2777",
+                    shadowColor: Colors.primary,
                     shadowOffset: { width: 0, height: 4 },
                     shadowOpacity: 0.3,
                     shadowRadius: 100,

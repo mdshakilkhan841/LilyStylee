@@ -2,6 +2,7 @@ import { useEffect, useState, useMemo } from "react";
 import { View, Text, ScrollView, Pressable, Dimensions } from "react-native";
 import { Appbar, Button } from "react-native-paper";
 import { router } from "expo-router";
+import { Colors } from "../../constants/Colors";
 import {
     AntDesign,
     Ionicons,
@@ -128,7 +129,7 @@ export default function CartIndex() {
                                 </Text>
                             </Text>
                             <Pressable>
-                                <Text className="font-bold text-pink-600">
+                                <Text className="font-bold text-primary">
                                     Change
                                 </Text>
                             </Pressable>
@@ -136,7 +137,7 @@ export default function CartIndex() {
 
                         {/* Selected Items */}
                         <View>
-                            <View className="flex-row flex-wrap items-center justify-between px-4 py-3 bg-red-50">
+                            <View className="flex-row flex-wrap items-center justify-between px-4 py-3 bg-primaryBg">
                                 <View className="flex-row items-center gap-4">
                                     <Checkbox
                                         style={{
@@ -146,7 +147,7 @@ export default function CartIndex() {
                                                 "rgba(255, 255, 255, 0.5)",
                                         }}
                                         color={
-                                            checkedAll ? "#db2777" : "#4b5563"
+                                            checkedAll ? Colors.primary : "#4b5563"
                                         }
                                         value={checkedAll}
                                         onValueChange={handleSelectAll}
@@ -216,7 +217,7 @@ export default function CartIndex() {
                                             console.log("Apply Coupon");
                                         }}
                                     >
-                                        <Text className="text-pink-600">
+                                        <Text className="text-primary">
                                             Apply Coupon
                                         </Text>
                                     </Pressable>
@@ -242,14 +243,14 @@ export default function CartIndex() {
                             <Text className="px-4 py-3 text-center text-gray-500">
                                 By Placing the order, you agree to LilyStylee{" "}
                                 <Text
-                                    className="font-bold text-pink-600 underline"
+                                    className="font-bold text-primary underline"
                                     onPress={() => {}}
                                 >
                                     Terms of Use
                                 </Text>{" "}
                                 and{" "}
                                 <Text
-                                    className="font-bold text-pink-600 underline"
+                                    className="font-bold text-primary underline"
                                     onPress={() => {}}
                                 >
                                     Privacy Policy
@@ -259,8 +260,8 @@ export default function CartIndex() {
                     </ScrollView>
 
                     {/* Footer */}
-                    <View className="border-t border-red-300 bg-red-50">
-                        <Text className="p-1.5 text-sm text-center bg-red-100 font-bold">
+                    <View className="border-t border-primaryLight bg-primaryBg">
+                        <Text className="p-1.5 text-sm text-center bg-primaryLight font-bold">
                             {selectedCount > 0
                                 ? `${selectedCount} ${
                                       selectedCount > 1 ? "Items" : "Item"
@@ -268,7 +269,7 @@ export default function CartIndex() {
                                 : "No items selected, select at least one item to place order"}
                         </Text>
                         <Button
-                            buttonColor="#db2777"
+                            buttonColor={Colors.primary}
                             mode="contained"
                             textColor="white"
                             style={{

@@ -1,11 +1,12 @@
 import { View, Dimensions } from "react-native";
 import React from "react";
 import { Skeleton } from "@/components/ui/Skeleton";
+import { Colors } from "../../constants/Colors";
 
 const ProductCardSkeleton = ({ width, cartButton = true }) => {
     const skeletonWidth = width || Dimensions.get("window").width / 2;
-    const baseColor = "#fdf2f8";
-    const highlightColor = "#fce7f3";
+    const baseColor = Colors.primaryBg;
+    const highlightColor = Colors.primaryLight;
 
     return (
         <View

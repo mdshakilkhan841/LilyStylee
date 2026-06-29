@@ -5,12 +5,13 @@ import FontAwesome6 from "@expo/vector-icons/FontAwesome6";
 import { LinearGradient } from "expo-linear-gradient";
 import LogoMain from "@/assets/images/logo-main.svg";
 import { TouchableRipple } from "react-native-paper";
+import { Colors } from "../../constants/Colors";
 
 const TabBar = ({ state, descriptors, navigation }) => {
     const width = Dimensions.get("window").width;
 
     const getTabIcon = (routeName, isFocused) => {
-        const color = isFocused ? "#db2777" : "black";
+        const color = isFocused ? Colors.primary : "black";
         switch (routeName) {
             case "index":
                 return <LogoMain width={35} height={35} />;
@@ -83,7 +84,7 @@ const TabBar = ({ state, descriptors, navigation }) => {
                         key={route.key}
                         colors={
                             isFocused
-                                ? ["#fbcfe8", "#fff"]
+                                ? [Colors.primaryLight, "#fff"]
                                 : ["#fff", "#fff"]
                         }
                         start={{ x: 0, y: 0 }}
@@ -101,7 +102,7 @@ const TabBar = ({ state, descriptors, navigation }) => {
                                 width: "100%",
                                 paddingTop: 5,
                                 borderTopWidth: 2.5,
-                                borderTopColor: isFocused ? "#ec4899" : "white",
+                                borderTopColor: isFocused ? Colors.primaryHover : "white",
                             }}
                             onPress={onPress}
                             onLongPress={onLongPress}

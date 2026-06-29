@@ -1,6 +1,7 @@
 import React, { useRef } from "react";
 import { View, Image, Dimensions } from "react-native";
 import Animated, { useAnimatedStyle, useSharedValue } from "react-native-reanimated";
+import { Colors } from "../../constants/Colors";
 import Carousel from "react-native-reanimated-carousel";
 
 const PaginationDot = React.memo(({ index, progress, total }) => {
@@ -23,7 +24,7 @@ const PaginationDot = React.memo(({ index, progress, total }) => {
                 {
                     height: 6,
                     borderRadius: 3,
-                    backgroundColor: "#db2777",
+                    backgroundColor: Colors.primary,
                 },
                 animatedStyle,
             ]}

@@ -8,6 +8,7 @@ import useWishListStore from "../../store/useWishListStore";
 import useCartStore from "../../store/useCartStore";
 import { Button } from "react-native-paper";
 import { LinearGradient } from "expo-linear-gradient";
+import { Colors } from "../../constants/Colors";
 
 const WishListProductCard = React.memo(({ product, width }) => {
     const { addToCart } = useCartStore();
@@ -46,8 +47,8 @@ const WishListProductCard = React.memo(({ product, width }) => {
                 // borderRadius: 2,
                 paddingVertical: 6,
                 borderWidth: 1.5,
-                borderColor: "#db2777",
-                shadowColor: "#db2777",
+                borderColor: Colors.primary,
+                shadowColor: Colors.primary,
                 shadowOffset: { width: 0, height: 4 },
                 shadowOpacity: 0.1,
                 shadowRadius: 8,
@@ -132,7 +133,7 @@ const WishListProductCard = React.memo(({ product, width }) => {
                             backgroundColor: "#fff",
                             borderRadius: 16,
                             padding: 2,
-                            shadowColor: "#db2777",
+                            shadowColor: Colors.primary,
                             shadowOpacity: 0.15,
                             shadowRadius: 4,
                         }}
@@ -141,7 +142,7 @@ const WishListProductCard = React.memo(({ product, width }) => {
                         <Ionicons
                             name="close-sharp"
                             size={22}
-                            color="#db2777"
+                            color={Colors.primary}
                         />
                     </TouchableOpacity>
                 </View>
@@ -193,7 +194,7 @@ const WishListProductCard = React.memo(({ product, width }) => {
                         style={{
                             fontSize: 16,
                             fontWeight: "bold",
-                            color: "#db2777",
+                            color: Colors.primary,
                         }}
                     >
                         ${product?.price?.toFixed()}
@@ -219,7 +220,7 @@ const WishListProductCard = React.memo(({ product, width }) => {
             {/* Add to cart */}
             {/* <Button
                 mode="contained"
-                buttonColor="#db2777"
+                buttonColor={Colors.primary}
                 textColor="#fff"
                 labelStyle={{
                     fontSize: 13,
@@ -229,7 +230,7 @@ const WishListProductCard = React.memo(({ product, width }) => {
                 style={{
                     borderRadius: 0,
                     marginTop: 8,
-                    backgroundColor: "#db2777",
+                    backgroundColor: Colors.primary,
                     elevation: 0,
                 }}
                 onPress={handleAddToCart}
@@ -237,7 +238,7 @@ const WishListProductCard = React.memo(({ product, width }) => {
                 MOVE TO BAG
             </Button> */}
             <LinearGradient
-                colors={["rgba(234,88,12,0.6)", "#db2777"]}
+                colors={["rgba(234,88,12,0.6)", Colors.primary]}
                 start={{ x: 0, y: 0 }}
                 end={{ x: 1, y: 0 }}
                 style={{

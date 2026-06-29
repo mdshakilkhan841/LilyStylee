@@ -5,6 +5,7 @@ import Animated, {
     useSharedValue,
 } from "react-native-reanimated";
 import Carousel from "react-native-reanimated-carousel";
+import { Colors } from "../../constants/Colors";
 
 const PaginationDot = React.memo(({ index, progress, total }) => {
     const animatedStyle = useAnimatedStyle(() => {
@@ -26,7 +27,7 @@ const PaginationDot = React.memo(({ index, progress, total }) => {
                 {
                     height: 6,
                     borderRadius: 3,
-                    backgroundColor: "#db2777",
+                    backgroundColor: Colors.primary,
                 },
                 animatedStyle,
             ]}

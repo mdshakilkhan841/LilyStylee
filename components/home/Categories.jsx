@@ -3,6 +3,7 @@ import React from "react";
 import Octicons from "@expo/vector-icons/Octicons";
 import { useCategories } from "@/hooks/useCategories";
 import CategoriesSkeleton from "../skeleton/CategoriesSkeleton";
+import { Colors } from "../../constants/Colors";
 
 const Categories = () => {
     const { data: categories = [], isLoading } = useCategories();
@@ -45,7 +46,7 @@ const Categories = () => {
                     padding: 2,
                     backgroundColor: "#fff",
                     borderWidth: 1,
-                    borderColor: "#db2777",
+                    borderColor: Colors.primary,
                     borderRadius: 999,
                     justifyContent: "center",
                     alignItems: "center",
