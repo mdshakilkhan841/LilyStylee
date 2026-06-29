@@ -1,12 +1,11 @@
-import React, { useRef, useState } from "react";
+import { useState } from "react";
 import { View, Text, FlatList, Dimensions, Animated } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Appbar, Badge, TouchableRipple, Button } from "react-native-paper";
 import { router, useLocalSearchParams } from "expo-router";
 import Octicons from "@expo/vector-icons/Octicons";
-import { MaterialDesignIcons } from "@react-native-vector-icons/material-design-icons";
 import ProductImageSlider from "../../components/product/ProductImageSlider";
-import { SimpleLineIcons } from "@expo/vector-icons";
+import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
 import { Colors } from "../../constants/Colors";
 import useWishListStore from "../../store/useWishListStore";
 import useCartStore from "../../store/useCartStore";
@@ -89,7 +88,7 @@ const ProductDetails = () => {
                     onPress={() => router.push("/cart")}
                 >
                     <>
-                        <MaterialDesignIcons
+                        <MaterialCommunityIcons
                             name="shopping-outline"
                             color="black"
                             size={22}
@@ -143,7 +142,7 @@ const ProductDetails = () => {
                                 padding: 8,
                             }}
                         >
-                            <MaterialDesignIcons
+                            <MaterialCommunityIcons
                                 name={inWishList ? "heart" : "heart-outline"}
                                 color={Colors.primary}
                                 size={24}
@@ -380,7 +379,7 @@ const ProductDetails = () => {
                             // Add to bag logic here
                         }}
                     >
-                        <MaterialDesignIcons
+                        <MaterialCommunityIcons
                             name="shopping-outline"
                             color={Colors.primary}
                             size={20}
@@ -407,7 +406,7 @@ const ProductDetails = () => {
                             // Add to bag logic here
                         }}
                     >
-                        <MaterialDesignIcons
+                        <MaterialCommunityIcons
                             name="shopping-outline"
                             color="white"
                             size={20}
@@ -533,7 +532,7 @@ const ProductDetails = () => {
                         // Add to bag logic here
                     }}
                 >
-                    <MaterialDesignIcons
+                    <MaterialCommunityIcons
                         name="shopping-outline"
                         color={Colors.primary}
                         size={20}
@@ -560,7 +559,7 @@ const ProductDetails = () => {
                     }}
                 >
                     {/* <SimpleLineIcons name="bag" size={17} color="white" /> */}
-                    <MaterialDesignIcons
+                    <MaterialCommunityIcons
                         name="shopping-outline"
                         color="white"
                         size={20}

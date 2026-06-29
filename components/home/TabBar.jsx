@@ -1,10 +1,10 @@
 import { View, Text, Dimensions } from "react-native";
 import FontAwesome6 from "@expo/vector-icons/FontAwesome6";
+import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
 import { LinearGradient } from "expo-linear-gradient";
 import LogoMain from "@/assets/images/logo-main.svg";
 import { TouchableRipple } from "react-native-paper";
 import { Colors } from "../../constants/Colors";
-import MaterialDesignIcons from "@react-native-vector-icons/material-design-icons";
 
 const TabBar = ({ state, descriptors, navigation }) => {
     const width = Dimensions.get("window").width;
@@ -20,7 +20,7 @@ const TabBar = ({ state, descriptors, navigation }) => {
                 );
             case "wishlist":
                 return (
-                    <MaterialDesignIcons
+                    <MaterialCommunityIcons
                         name="heart-outline"
                         size={20}
                         color={color}
@@ -28,7 +28,7 @@ const TabBar = ({ state, descriptors, navigation }) => {
                 );
             case "cart":
                 return (
-                    <MaterialDesignIcons
+                    <MaterialCommunityIcons
                         name="shopping-outline"
                         size={20}
                         color={color}

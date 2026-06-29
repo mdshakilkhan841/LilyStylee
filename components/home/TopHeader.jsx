@@ -3,11 +3,11 @@ import { useState, useEffect } from "react";
 import Lily from "@/assets/images/lily.svg";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import Feather from "@expo/vector-icons/Feather";
+import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
 import { Badge, TouchableRipple } from "react-native-paper";
 import { router } from "expo-router";
 import useCartStore from "../../store/useCartStore";
 import { Colors } from "../../constants/Colors";
-import MaterialDesignIcons from "@react-native-vector-icons/material-design-icons";
 
 const TopHeader = () => {
     const fullText = "Search for brands and products";
@@ -45,10 +45,10 @@ const TopHeader = () => {
                         }}
                     >
                         <>
-                            <MaterialDesignIcons
+                            <MaterialCommunityIcons
                                 name="shopping-outline"
-                                color="black"
                                 size={22}
+                                color="black"
                             />
                             {cart.length > 0 && (
                                 <Badge
@@ -105,10 +105,10 @@ const TopHeader = () => {
                 }}
             >
                 <View className="flex flex-row items-center gap-1">
-                    <MaterialDesignIcons
+                    <MaterialCommunityIcons
                         name="map-marker-radius-outline"
-                        color={Colors.primary}
                         size={16}
+                        color={Colors.primary}
                     />
                     <Text
                         numberOfLines={1}
@@ -121,10 +121,10 @@ const TopHeader = () => {
                             location name
                         </Text>
                     </Text>
-                    <MaterialDesignIcons
+                    <MaterialCommunityIcons
                         name="chevron-down"
-                        color="black"
                         size={16}
+                        color="black"
                     />
                 </View>
             </TouchableRipple>
