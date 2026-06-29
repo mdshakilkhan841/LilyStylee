@@ -9,6 +9,12 @@ const Colors = {
     borderDark: "#d1d5db",
     success: "#22c55e",
     error: "#ef4444",
+
+    // Skeleton specific colors
+    skeletonBase: "#fdf2f8",
+    skeletonHighlight: "#fce7f3",
+    skeletonGrayBase: "#f3f3f3",
+    skeletonGrayHighlight: "rgba(236, 72, 153, 0.25)",
 };
 
 module.exports = { Colors };

@@ -12,7 +12,7 @@ const CategoriesSkeleton = () => {
                 borderRadius: 32,
                 borderWidth: 1,
                 borderColor: Colors.primary,
-                backgroundColor: "#f3f3f3",
+                backgroundColor: Colors.skeletonGrayBase,
                 justifyContent: "center",
                 alignItems: "center",
             }}
@@ -21,8 +21,8 @@ const CategoriesSkeleton = () => {
                 width="94%"
                 height="94%"
                 borderRadius={32}
-                baseColor="#f3f3f3"
-                highlightColor={Colors.primaryLight}
+                baseColor={Colors.skeletonGrayBase}
+                highlightColor={Colors.skeletonGrayHighlight}
             />
         </View>
     );

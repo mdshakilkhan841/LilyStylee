@@ -5,8 +5,8 @@ import { Colors } from "../../constants/Colors";
 
 const ProductCardSkeleton = ({ width, cartButton = true }) => {
     const skeletonWidth = width || Dimensions.get("window").width / 2;
-    const baseColor = Colors.primaryBg;
-    const highlightColor = Colors.primaryLight;
+    const baseColor = Colors.skeletonBase;
+    const highlightColor = Colors.skeletonHighlight;
 
     return (
         <View
