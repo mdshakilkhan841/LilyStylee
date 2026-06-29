@@ -15,12 +15,29 @@ import Octicons from "@expo/vector-icons/Octicons";
 import ProductImageSlider from "../../components/product/ProductImageSlider";
 import { SimpleLineIcons } from "@expo/vector-icons";
 import { Colors } from "../../constants/Colors";
+import useWishListStore from "../../store/useWishListStore";
 
 const STICKY_SEGMENT_HEIGHT = 80; // Adjust to your button segment's height
 
 const ProductDetails = () => {
     const { product } = useLocalSearchParams();
     const productObj = JSON.parse(product);
+
+    const addToWishList = useWishListStore((state) => state.addToWishList);
+    const removeFromWishList = useWishListStore(
+        (state) => state.removeFromWishList,
+    );
+    const inWishList = useWishListStore((state) =>
+        state.wishList.some((item) => item.id === productObj.id),
+    );
+
+    const handleWishlist = () => {
+        if (inWishList) {
+            removeFromWishList(productObj.id);
+        } else {
+            addToWishList(productObj);
+        }
+    };
 
     const originalPrice =
         productObj.price / (1 - productObj.discountPercentage / 100);
@@ -47,7 +64,7 @@ const ProductDetails = () => {
         [{ nativeEvent: { contentOffset: { y: scrollY } } }],
         {
             useNativeDriver: false,
-        }
+        },
     );
 
     return (
@@ -102,8 +119,29 @@ const ProductDetails = () => {
                     paddingBottom: STICKY_SEGMENT_HEIGHT + 24,
                 }}
             >
-                {/* Image Slider */}
-                <ProductImageSlider images={productObj.images} />
+                {/* Image Slider Container with Floating Wishlist Button */}
+                <View style={{ position: "relative" }}>
+                    <ProductImageSlider images={productObj.images} />
+                    <TouchableRipple
+                        borderless
+                        rippleColor="rgba(236, 72, 153, 0.15)"
+                        onPress={handleWishlist}
+                        style={{
+                            position: "absolute",
+                            top: 16,
+                            right: 16,
+                            padding: 10,
+                            zIndex: 10,
+                            borderRadius: 100,
+                        }}
+                    >
+                        <Octicons
+                            name={inWishList ? "heart-fill" : "heart"}
+                            size={22}
+                            color={Colors.primary}
+                        />
+                    </TouchableRipple>
+                </View>
 
                 {/* Title, Brand, Rating */}
                 <View
@@ -249,7 +287,12 @@ const ProductDetails = () => {
                             minWidth: 120,
                         }}
                     >
-                        <Text style={{ color: Colors.primary, fontWeight: "bold" }}>
+                        <Text
+                            style={{
+                                color: Colors.primary,
+                                fontWeight: "bold",
+                            }}
+                        >
                             Stock
                         </Text>
                         <Text style={{ color: "#222" }}>
@@ -302,48 +345,25 @@ const ProductDetails = () => {
 
                 {/* Add to Bag Button Segment */}
                 <View
-                    className="sticky bottom-0"
+                    onLayout={(e) => setButtonSegmentY(e.nativeEvent.layout.y)}
                     style={{
                         flexDirection: "row",
-                        flexWrap: "wrap",
-                        gap: 6,
+                        gap: 12,
                         alignItems: "center",
-                        justifyContent: "space-between",
                         paddingHorizontal: 16,
                         marginTop: 24,
                         marginBottom: 12,
                     }}
                 >
-                    <TouchableRipple
-                        borderless={true}
-                        rippleColor="rgba(236, 72, 153, 0.15)"
-                        style={{
-                            borderRadius: 100,
-                            padding: 12,
-                            height: 50,
-                            width: 50,
-                            justifyContent: "center",
-                            alignItems: "center",
-                        }}
-                        onPress={() => {}}
-                    >
-                        <Feather name="heart" size={26} color={Colors.primary} />
-                    </TouchableRipple>
                     <Button
                         mode="outlined"
                         textColor={Colors.primary}
-                        contentStyle={
-                            {
-                                // paddingVertical: 0,
-                            }
-                        }
                         labelStyle={{
-                            fontWeight: "medium",
-                            fontSize: 16,
-                            marginLeft: 12,
-                            marginRight: 12,
+                            fontWeight: "bold",
+                            fontSize: 15,
                         }}
                         style={{
+                            flex: 1,
                             borderRadius: 8,
                             borderColor: Colors.primary,
                         }}
@@ -351,7 +371,11 @@ const ProductDetails = () => {
                             // Add to bag logic here
                         }}
                     >
-                        <SimpleLineIcons name="bag" size={17} color={Colors.primary} />
+                        <SimpleLineIcons
+                            name="bag"
+                            size={17}
+                            color={Colors.primary}
+                        />
                         {"  "}
                         Buy Now
                     </Button>
@@ -359,14 +383,13 @@ const ProductDetails = () => {
                     <Button
                         mode="contained"
                         buttonColor={Colors.primary}
-                        contentStyle={{}}
+                        textColor="white"
                         labelStyle={{
                             fontWeight: "bold",
-                            fontSize: 14,
-                            marginLeft: 12,
-                            marginRight: 12,
+                            fontSize: 15,
                         }}
                         style={{
+                            flex: 1,
                             borderRadius: 8,
                             borderColor: Colors.primary,
                             borderWidth: 1,
@@ -380,11 +403,6 @@ const ProductDetails = () => {
                         ADD TO BAG
                     </Button>
                 </View>
-
-                {/* Placeholder for measuring position */}
-                <View
-                    onLayout={(e) => setButtonSegmentY(e.nativeEvent.layout.y)}
-                />
 
                 {/* Reviews */}
                 <View
@@ -478,7 +496,7 @@ const ProductDetails = () => {
                     paddingHorizontal: 16,
                     flexDirection: "row",
                     alignItems: "center",
-                    justifyContent: "space-between",
+                    gap: 12,
                     // borderTopWidth: 1,
                     // borderColor: "#f3f3f3",
                     zIndex: 10,
@@ -486,31 +504,15 @@ const ProductDetails = () => {
                     opacity, // <-- animated opacity
                 }}
             >
-                <TouchableRipple
-                    borderless={true}
-                    rippleColor="rgba(236, 72, 153, 0.15)"
-                    style={{
-                        borderRadius: 100,
-                        padding: 12,
-                        height: 50,
-                        width: 50,
-                        justifyContent: "center",
-                        alignItems: "center",
-                    }}
-                    onPress={() => {}}
-                >
-                    <Feather name="heart" size={26} color={Colors.primary} />
-                </TouchableRipple>
                 <Button
                     mode="outlined"
                     textColor={Colors.primary}
                     labelStyle={{
-                        fontWeight: "medium",
-                        fontSize: 16,
-                        marginLeft: 12,
-                        marginRight: 12,
+                        fontWeight: "bold",
+                        fontSize: 15,
                     }}
                     style={{
+                        flex: 1,
                         borderRadius: 8,
                         borderColor: Colors.primary,
                     }}
@@ -518,20 +520,24 @@ const ProductDetails = () => {
                         // Add to bag logic here
                     }}
                 >
-                    <SimpleLineIcons name="bag" size={17} color={Colors.primary} />
+                    <SimpleLineIcons
+                        name="bag"
+                        size={17}
+                        color={Colors.primary}
+                    />
                     {"  "}
                     Buy Now
                 </Button>
                 <Button
                     mode="contained"
                     buttonColor={Colors.primary}
+                    textColor="white"
                     labelStyle={{
                         fontWeight: "bold",
-                        fontSize: 14,
-                        marginLeft: 12,
-                        marginRight: 12,
+                        fontSize: 15,
                     }}
                     style={{
+                        flex: 1,
                         borderRadius: 8,
                         borderColor: Colors.primary,
                         borderWidth: 1,
