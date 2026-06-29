@@ -1,14 +1,13 @@
-import { View, Text, TouchableOpacity } from "react-native";
+import { View, Text } from "react-native";
 import { useState, useEffect } from "react";
 import Lily from "@/assets/images/lily.svg";
-import SimpleLineIcons from "@expo/vector-icons/SimpleLineIcons";
-import FontAwesome6 from "@expo/vector-icons/FontAwesome6";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import Feather from "@expo/vector-icons/Feather";
 import { Badge, TouchableRipple } from "react-native-paper";
 import { router } from "expo-router";
 import useCartStore from "../../store/useCartStore";
 import { Colors } from "../../constants/Colors";
+import MaterialDesignIcons from "@react-native-vector-icons/material-design-icons";
 
 const TopHeader = () => {
     const fullText = "Search for brands and products";
@@ -33,33 +32,7 @@ const TopHeader = () => {
                     <Lily width={130} height={30} />
                 </View>
                 <View className="flex flex-row items-center">
-                    <TouchableRipple
-                        borderless={true}
-                        rippleColor="rgba(236, 72, 153, 0.15)"
-                        style={{
-                            borderRadius: 100,
-                            padding: 12,
-                        }}
-                        onPress={() => {}}
-                    >
-                        <>
-                            <SimpleLineIcons
-                                name="bell"
-                                size={22}
-                                color="black"
-                            />
-                            {/* <Badge
-                                style={{
-                                    position: "absolute",
-                                    top: 5,
-                                    right: 5,
-                                    backgroundColor: "#db2777",
-                                }}
-                            >
-                                3
-                            </Badge> */}
-                        </>
-                    </TouchableRipple>
+                    {/* ----- Cart ----- */}
                     <TouchableRipple
                         borderless={true}
                         rippleColor="rgba(236, 72, 153, 0.15)"
@@ -72,10 +45,10 @@ const TopHeader = () => {
                         }}
                     >
                         <>
-                            <SimpleLineIcons
-                                name="bag"
-                                size={22}
+                            <MaterialDesignIcons
+                                name="shopping-outline"
                                 color="black"
+                                size={22}
                             />
                             {cart.length > 0 && (
                                 <Badge
@@ -93,6 +66,8 @@ const TopHeader = () => {
                             )}
                         </>
                     </TouchableRipple>
+
+                    {/* ----- User Profile ----- */}
                     <TouchableRipple
                         borderless={true}
                         rippleColor="rgba(236, 72, 153, 0.15)"
@@ -102,63 +77,114 @@ const TopHeader = () => {
                         }}
                         onPress={() => {}}
                     >
-                        {/* <Feather name="user" size={23} color="black" /> */}
-                        <SimpleLineIcons name="user" size={22} color="black" />
+                        <Feather name="user" size={22} color="black" />
+                        {/* <SimpleLineIcons name="user" size={22} color="black" /> */}
                         {/* <SimpleLineIcons
                             name="user-female"
                             size={22}
                             color="black"
                         /> */}
+                        {/* <MaterialDesignIcons
+                            name="account-circle-outline"
+                            color="black"
+                            size={22}
+                        /> */}
                     </TouchableRipple>
                 </View>
             </View>
 
+            {/* ------Delivery Location ---- */}
+            <TouchableRipple
+                borderless={true}
+                rippleColor="rgba(236, 72, 153, 0.15)"
+                onPress={() => {}}
+                style={{
+                    borderRadius: 4,
+                    paddingVertical: 4,
+                    alignSelf: "flex-start",
+                }}
+            >
+                <View className="flex flex-row items-center gap-1">
+                    <MaterialDesignIcons
+                        name="map-marker-radius-outline"
+                        color={Colors.primary}
+                        size={16}
+                    />
+                    <Text
+                        numberOfLines={1}
+                        className="text-xs text-gray-600"
+                        style={{ fontSize: 11, maxWidth: 220 }}
+                    >
+                        Delever to{" "}
+                        <Text className="font-semibold text-black">
+                            Current location name Current location name Current
+                            location name
+                        </Text>
+                    </Text>
+                    <MaterialDesignIcons
+                        name="chevron-down"
+                        color="black"
+                        size={16}
+                    />
+                </View>
+            </TouchableRipple>
+
             {/* Search bar */}
-            <View
-                className="flex flex-row items-center justify-between px-5 my-2 bg-white border border-primaryLight rounded-lg h-11"
+            <TouchableRipple
+                borderless={true}
+                rippleColor="rgba(236, 72, 153, 0.15)"
+                onPress={() => router.push("/searchProducts")}
                 style={{
                     shadowColor: Colors.primary,
                     shadowOffset: { width: 0, height: 4 },
                     shadowOpacity: 0.3,
                     shadowRadius: 100,
                     elevation: 400, // Android-specific shadow
+                    backgroundColor: "white",
+                    borderWidth: 1,
+                    borderColor: Colors.primaryLight,
+                    borderRadius: 8,
+                    overflow: "hidden",
+                    marginVertical: 8,
                 }}
             >
-                <TouchableOpacity
-                    activeOpacity={0.6}
-                    className="flex flex-row items-center w-4/6 h-full gap-2"
-                    onPress={() => router.push("/searchProducts")}
-                >
-                    <Ionicons name="search-sharp" size={20} color="#9ca3af" />
-                    <Text className="text-sm text-gray-400">
-                        {displayedText}
-                    </Text>
-                </TouchableOpacity>
-                <View className="flex flex-row items-center gap-1">
-                    <TouchableRipple
-                        borderless={true}
-                        rippleColor="rgba(236, 72, 153, 0.15)"
-                        style={{
-                            borderRadius: 100,
-                            padding: 8,
-                        }}
-                        onPress={() => {}}
-                    >
-                        <Feather name="camera" size={20} color="black" />
-                    </TouchableRipple>
-                    <TouchableRipple
-                        borderless={true}
-                        rippleColor="rgba(236, 72, 153, 0.15)"
-                        style={{
-                            borderRadius: 100,
-                            padding: 8,
-                        }}
-                        onPress={() => {}}
-                    >
-                        <Feather name="mic" size={20} color="black" />
-                    </TouchableRipple>
+                <View className="flex flex-row items-center justify-between px-5 h-11">
+                    <View className="flex flex-row items-center gap-2 h-full">
+                        <Ionicons
+                            name="search-sharp"
+                            size={20}
+                            color="#9ca3af"
+                        />
+                        <Text className="text-sm text-gray-400">
+                            {displayedText}
+                        </Text>
+                    </View>
+                    <View className="flex flex-row items-center gap-1">
+                        <TouchableRipple
+                            borderless={true}
+                            rippleColor="rgba(236, 72, 153, 0.15)"
+                            style={{
+                                borderRadius: 100,
+                                padding: 8,
+                            }}
+                            onPress={() => {}}
+                        >
+                            <Feather name="camera" size={20} color="black" />
+                        </TouchableRipple>
+                        <TouchableRipple
+                            borderless={true}
+                            rippleColor="rgba(236, 72, 153, 0.15)"
+                            style={{
+                                borderRadius: 100,
+                                padding: 8,
+                            }}
+                            onPress={() => {}}
+                        >
+                            <Feather name="mic" size={20} color="black" />
+                        </TouchableRipple>
+                    </View>
                 </View>
-            </View>
+            </TouchableRipple>
         </View>
     );
 };
