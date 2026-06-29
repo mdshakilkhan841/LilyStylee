@@ -76,18 +76,18 @@ const ProductDetails = () => {
             {/* App Bar */}
             <Appbar.Header style={{ backgroundColor: "white" }}>
                 <Appbar.BackAction
-                    rippleColor="rgba(236, 72, 153, 0.15)"
+                    rippleColor={Colors.ripple}
                     onPress={() => router.back()}
                 />
                 <Appbar.Content title="" />
                 <Appbar.Action
-                    rippleColor="rgba(236, 72, 153, 0.15)"
+                    rippleColor={Colors.ripple}
                     icon="heart-outline"
                     onPress={() => router.push("/wishlist")}
                 />
                 <TouchableRipple
                     borderless
-                    rippleColor="rgba(236, 72, 153, 0.15)"
+                    rippleColor={Colors.ripple}
                     style={{
                         borderRadius: 50,
                         padding: 14,
@@ -136,7 +136,7 @@ const ProductDetails = () => {
                     >
                         <TouchableRipple
                             borderless
-                            rippleColor="rgba(236, 72, 153, 0.15)"
+                            rippleColor={Colors.ripple}
                             onPress={handleWishlist}
                             style={{
                                 padding: 8,

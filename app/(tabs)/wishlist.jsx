@@ -19,7 +19,7 @@ export default function Wishlist() {
         <View className="flex-1 bg-white">
             <Appbar.Header style={{ backgroundColor: "white" }}>
                 <Appbar.BackAction
-                    rippleColor="rgba(236, 72, 153, 0.15)"
+                    rippleColor={Colors.ripple}
                     onPress={() => {
                         router.back();
                     }}
@@ -30,7 +30,7 @@ export default function Wishlist() {
                 />
                 <TouchableRipple
                     borderless={true}
-                    rippleColor="rgba(236, 72, 153, 0.15)"
+                    rippleColor={Colors.ripple}
                     style={{
                         borderRadius: 100,
                         padding: 14,

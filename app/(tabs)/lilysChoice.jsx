@@ -1,13 +1,14 @@
 import { View, ScrollView } from "react-native";
 import { Appbar } from "react-native-paper";
 import { router } from "expo-router";
+import { Colors } from "../../constants/Colors";
 
 export default function LilysChoice() {
     return (
         <View className="flex-1">
             <Appbar.Header style={{ backgroundColor: "white" }}>
                 <Appbar.BackAction
-                    rippleColor="rgba(236, 72, 153, 0.15)"
+                    rippleColor={Colors.ripple}
                     onPress={() => {
                         router.back();
                     }}

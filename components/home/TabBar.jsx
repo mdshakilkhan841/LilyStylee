@@ -107,7 +107,7 @@ const TabBar = ({ state, descriptors, navigation }) => {
                         }}
                     >
                         <TouchableRipple
-                            rippleColor="rgba(236, 72, 153, 0.15)"
+                            rippleColor={Colors.ripple}
                             style={{
                                 flex: 1,
                                 alignItems: "center",

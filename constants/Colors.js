@@ -15,6 +15,9 @@ const Colors = {
     skeletonHighlight: "#fce7f3",
     skeletonGrayBase: "#f3f3f3",
     skeletonGrayHighlight: "rgba(236, 72, 153, 0.25)",
+
+    // Ripple effect color
+    ripple: "rgba(236, 72, 153, 0.15)",
 };
 
 module.exports = { Colors };

@@ -35,7 +35,7 @@ const TopHeader = () => {
                     {/* ----- Cart ----- */}
                     <TouchableRipple
                         borderless={true}
-                        rippleColor="rgba(236, 72, 153, 0.15)"
+                        rippleColor={Colors.ripple}
                         style={{
                             borderRadius: 100,
                             padding: 12,
@@ -70,7 +70,7 @@ const TopHeader = () => {
                     {/* ----- User Profile ----- */}
                     <TouchableRipple
                         borderless={true}
-                        rippleColor="rgba(236, 72, 153, 0.15)"
+                        rippleColor={Colors.ripple}
                         style={{
                             borderRadius: 100,
                             padding: 12,
@@ -96,7 +96,7 @@ const TopHeader = () => {
             {/* ------Delivery Location ---- */}
             <TouchableRipple
                 borderless={true}
-                rippleColor="rgba(236, 72, 153, 0.15)"
+                rippleColor={Colors.ripple}
                 onPress={() => {}}
                 style={{
                     borderRadius: 4,
@@ -132,7 +132,7 @@ const TopHeader = () => {
             {/* Search bar */}
             <TouchableRipple
                 borderless={true}
-                rippleColor="rgba(236, 72, 153, 0.15)"
+                rippleColor={Colors.ripple}
                 onPress={() => router.push("/searchProducts")}
                 style={{
                     shadowColor: Colors.primary,
@@ -162,7 +162,7 @@ const TopHeader = () => {
                     <View className="flex flex-row items-center gap-1">
                         <TouchableRipple
                             borderless={true}
-                            rippleColor="rgba(236, 72, 153, 0.15)"
+                            rippleColor={Colors.ripple}
                             style={{
                                 borderRadius: 100,
                                 padding: 8,
@@ -173,7 +173,7 @@ const TopHeader = () => {
                         </TouchableRipple>
                         <TouchableRipple
                             borderless={true}
-                            rippleColor="rgba(236, 72, 153, 0.15)"
+                            rippleColor={Colors.ripple}
                             style={{
                                 borderRadius: 100,
                                 padding: 8,

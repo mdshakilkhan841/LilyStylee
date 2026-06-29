@@ -91,7 +91,7 @@ export default function CartIndex() {
         <View className="flex-1">
             <Appbar.Header style={{ backgroundColor: "white" }}>
                 <Appbar.BackAction
-                    rippleColor="rgba(236, 72, 153, 0.15)"
+                    rippleColor={Colors.ripple}
                     onPress={() => {
                         router.back();
                     }}
@@ -101,7 +101,7 @@ export default function CartIndex() {
                     titleStyle={{ fontSize: 16, fontWeight: "bold" }}
                 />
                 <Appbar.Action
-                    rippleColor="rgba(236, 72, 153, 0.15)"
+                    rippleColor={Colors.ripple}
                     icon="heart-outline"
                     onPress={() => {}}
                 />
