@@ -1,11 +1,10 @@
-import React from "react";
 import { View, Text, Dimensions } from "react-native";
-import Feather from "@expo/vector-icons/Feather";
 import FontAwesome6 from "@expo/vector-icons/FontAwesome6";
 import { LinearGradient } from "expo-linear-gradient";
 import LogoMain from "@/assets/images/logo-main.svg";
 import { TouchableRipple } from "react-native-paper";
 import { Colors } from "../../constants/Colors";
+import MaterialDesignIcons from "@react-native-vector-icons/material-design-icons";
 
 const TabBar = ({ state, descriptors, navigation }) => {
     const width = Dimensions.get("window").width;
@@ -14,13 +13,27 @@ const TabBar = ({ state, descriptors, navigation }) => {
         const color = isFocused ? Colors.primary : "black";
         switch (routeName) {
             case "index":
-                return <LogoMain width={35} height={35} />;
+                return <LogoMain width={32} height={32} />;
             case "lilysChoice":
-                return <FontAwesome6 name="chess-queen" size={20} color={color} />;
+                return (
+                    <FontAwesome6 name="chess-queen" size={20} color={color} />
+                );
             case "wishlist":
-                return <Feather name="heart" size={20} color={color} />;
+                return (
+                    <MaterialDesignIcons
+                        name="heart-outline"
+                        size={20}
+                        color={color}
+                    />
+                );
             case "cart":
-                return <Feather name="shopping-bag" size={20} color={color} />;
+                return (
+                    <MaterialDesignIcons
+                        name="shopping-outline"
+                        size={20}
+                        color={color}
+                    />
+                );
             default:
                 return null;
         }
@@ -102,13 +115,15 @@ const TabBar = ({ state, descriptors, navigation }) => {
                                 width: "100%",
                                 paddingTop: 5,
                                 borderTopWidth: 2.5,
-                                borderTopColor: isFocused ? Colors.primaryHover : "white",
+                                borderTopColor: isFocused
+                                    ? Colors.primaryHover
+                                    : "white",
                             }}
                             onPress={onPress}
                             onLongPress={onLongPress}
                         >
                             {route.name === "index" ? (
-                                <LogoMain width={35} height={35} />
+                                <LogoMain width={32} height={32} />
                             ) : (
                                 <>
                                     {getTabIcon(route.name, isFocused)}

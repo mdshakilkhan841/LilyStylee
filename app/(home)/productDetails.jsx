@@ -12,6 +12,7 @@ import { Appbar, Badge, TouchableRipple, Button } from "react-native-paper";
 import { router, useLocalSearchParams } from "expo-router";
 import Feather from "@expo/vector-icons/Feather";
 import Octicons from "@expo/vector-icons/Octicons";
+import { MaterialDesignIcons } from "@react-native-vector-icons/material-design-icons";
 import ProductImageSlider from "../../components/product/ProductImageSlider";
 import { SimpleLineIcons } from "@expo/vector-icons";
 import { Colors } from "../../constants/Colors";
@@ -138,13 +139,13 @@ const ProductDetails = () => {
                             rippleColor="rgba(236, 72, 153, 0.15)"
                             onPress={handleWishlist}
                             style={{
-                                padding: 10,
+                                padding: 8,
                             }}
                         >
-                            <Octicons
-                                name={inWishList ? "heart-fill" : "heart"}
-                                size={22}
+                            <MaterialDesignIcons
+                                name={inWishList ? "heart" : "heart-outline"}
                                 color={Colors.primary}
+                                size={24}
                             />
                         </TouchableRipple>
                     </View>
