@@ -148,49 +148,46 @@ export default function CategoryScreen() {
         [],
     );
 
-    const renderSectionHeader = useCallback(
-        ({ section: { title } }) => {
-            if (title === "Loading") {
-                return (
-                    <View
-                        style={{
-                            backgroundColor: Colors.bgPrimary,
-                            paddingVertical: 12,
-                        }}
-                    >
-                        <Skeleton
-                            width={120}
-                            height={16}
-                            borderRadius={4}
-                            baseColor={Colors.skeletonBase}
-                            highlightColor={Colors.skeletonHighlight}
-                        />
-                    </View>
-                );
-            }
+    const renderSectionHeader = useCallback(({ section: { title } }) => {
+        if (title === "Loading") {
             return (
                 <View
                     style={{
                         backgroundColor: Colors.bgPrimary,
-                        paddingVertical: 10,
+                        paddingVertical: 12,
                     }}
                 >
-                    <Text
-                        style={{
-                            fontSize: 14,
-                            fontWeight: "bold",
-                            color: Colors.textDark,
-                            letterSpacing: 0.5,
-                            textTransform: "uppercase",
-                        }}
-                    >
-                        {title} Products
-                    </Text>
+                    <Skeleton
+                        width={120}
+                        height={16}
+                        borderRadius={4}
+                        baseColor={Colors.skeletonBase}
+                        highlightColor={Colors.skeletonHighlight}
+                    />
                 </View>
             );
-        },
-        [],
-    );
+        }
+        return (
+            <View
+                style={{
+                    backgroundColor: Colors.bgPrimary,
+                    paddingVertical: 10,
+                }}
+            >
+                <Text
+                    style={{
+                        fontSize: 14,
+                        fontWeight: "bold",
+                        color: Colors.textDark,
+                        letterSpacing: 0.5,
+                        textTransform: "uppercase",
+                    }}
+                >
+                    {title} Products
+                </Text>
+            </View>
+        );
+    }, []);
 
     const onViewableItemsChanged = useCallback(({ viewableItems }) => {
         if (viewableItems.length > 0) {

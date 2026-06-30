@@ -13,7 +13,7 @@ const ProductRow = React.memo(
                     style={{
                         flexDirection: "row",
                         justifyContent: "space-between",
-                        marginBottom: 16,
+                        marginBottom: 8,
                     }}
                 >
                     <View style={{ width: itemWidth }}>
@@ -32,7 +32,7 @@ const ProductRow = React.memo(
                 style={{
                     flexDirection: "row",
                     justifyContent: "space-between",
-                    marginBottom: 16,
+                    marginBottom: 8,
                 }}
             >
                 {item.map((product) => (
