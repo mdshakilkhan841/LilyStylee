@@ -5,7 +5,8 @@ const fetchCategoryProductsApi = async ({ pageParam = 0, queryKey }) => {
     const [_key, category, limit] = queryKey;
     const baseUrl = process.env.EXPO_PUBLIC_API_URL || "https://dummyjson.com";
     const res = await axios.get(
-        `${baseUrl}/products/category/${category}?limit=${limit}&skip=${pageParam}`
+        `${baseUrl}/products/category/${category}?limit=${limit}&skip=${pageParam}`,
+        { timeout: 15000 },
     );
     return res.data;
 };
@@ -16,8 +17,13 @@ export const useCategoryProducts = (category = "smartphones", limit = 5) => {
         queryFn: fetchCategoryProductsApi,
         initialPageParam: 0,
         getNextPageParam: (lastPage, allPages) => {
-            const currentCount = allPages.reduce((sum, page) => sum + page.products.length, 0);
+            const currentCount = allPages.reduce(
+                (sum, page) => sum + page.products.length,
+                0,
+            );
             return currentCount < lastPage.total ? currentCount : undefined;
         },
+        retry: 3,
+        retryDelay: (attemptIndex) => Math.min(1000 * 2 ** attemptIndex, 4000),
     });
 };
