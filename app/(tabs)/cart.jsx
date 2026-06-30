@@ -1,8 +1,8 @@
-import { useEffect, useState, useMemo } from "react";
+import { useState, useMemo } from "react";
 import { View, Text, ScrollView, Pressable, Dimensions } from "react-native";
-import { Appbar, Button } from "react-native-paper";
-import { router } from "expo-router";
+import { Button } from "react-native-paper";
 import { Colors } from "../../constants/Colors";
+import PageHeader from "../../components/PageHeader";
 import {
     AntDesign,
     Ionicons,
@@ -89,23 +89,7 @@ export default function CartIndex() {
 
     return (
         <View className="flex-1">
-            <Appbar.Header style={{ backgroundColor: "white" }}>
-                <Appbar.BackAction
-                    rippleColor={Colors.ripple}
-                    onPress={() => {
-                        router.back();
-                    }}
-                />
-                <Appbar.Content
-                    title="SHOPPING BAG"
-                    titleStyle={{ fontSize: 16, fontWeight: "bold" }}
-                />
-                <Appbar.Action
-                    rippleColor={Colors.ripple}
-                    icon="heart-outline"
-                    onPress={() => {}}
-                />
-            </Appbar.Header>
+            <PageHeader title="SHOPPING BAG" showBack={false} showWishlist={true} />
 
             {cart.length > 0 ? (
                 <>

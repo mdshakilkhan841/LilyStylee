@@ -10,6 +10,13 @@ const Colors = {
     success: "#22c55e",
     error: "#ef4444",
 
+    // Semantic Layout Colors
+    bgPrimary: "#ffffff",
+    iconPrimary: "#000000",
+    borderLight: "#f3f4f6",
+    cardBg: "#f9fafb",
+    textDark: "#1f2937",
+
     // Skeleton specific colors
     skeletonBase: "#fdf2f8",
     skeletonHighlight: "#fce7f3",

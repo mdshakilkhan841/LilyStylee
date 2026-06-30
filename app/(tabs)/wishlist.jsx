@@ -1,62 +1,18 @@
 import { View, FlatList, Dimensions } from "react-native";
-import { Appbar, Badge, TouchableRipple } from "react-native-paper";
-import { router } from "expo-router";
-import Feather from "@expo/vector-icons/Feather";
-import useCartStore from "../../store/useCartStore";
 import useWishListStore from "../../store/useWishListStore";
 import WishListProductCard from "../../components/product/WishListProductCard";
 import AddToBagButton from "@/components/product/AddToBagButton";
-import { Colors } from "../../constants/Colors";
+import PageHeader from "../../components/PageHeader";
 
 const width = Dimensions.get("window").width;
 const itemNumber = width >= 768 ? 3 : 2;
 
 export default function Wishlist() {
-    const { cart } = useCartStore();
     const { wishList } = useWishListStore();
 
     return (
         <View className="flex-1 bg-white">
-            <Appbar.Header style={{ backgroundColor: "white" }}>
-                <Appbar.BackAction
-                    rippleColor={Colors.ripple}
-                    onPress={() => {
-                        router.back();
-                    }}
-                />
-                <Appbar.Content
-                    title="WISHLIST"
-                    titleStyle={{ fontSize: 16, fontWeight: "bold" }}
-                />
-                <TouchableRipple
-                    borderless={true}
-                    rippleColor={Colors.ripple}
-                    style={{
-                        borderRadius: 100,
-                        padding: 14,
-                        marginRight: 8,
-                    }}
-                    onPress={() => {
-                        router.push("/cart");
-                    }}
-                >
-                    <>
-                        <Feather name="shopping-bag" size={22} color="black" />
-                        {cart.length > 0 && (
-                            <Badge
-                                style={{
-                                    position: "absolute",
-                                    top: 5,
-                                    right: 5,
-                                    backgroundColor: Colors.primary,
-                                }}
-                            >
-                                {cart.length}
-                            </Badge>
-                        )}
-                    </>
-                </TouchableRipple>
-            </Appbar.Header>
+            <PageHeader title="WISHLIST" showCart showWishlist showProfile />
             {/* Body */}
             <FlatList
                 contentContainerStyle={{

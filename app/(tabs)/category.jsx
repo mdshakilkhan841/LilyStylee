@@ -1,9 +1,9 @@
 import { View, Text, FlatList, Image, Dimensions } from "react-native";
-import { Appbar, TouchableRipple } from "react-native-paper";
-import { router } from "expo-router";
+import { TouchableRipple } from "react-native-paper";
 import { useCategories } from "@/hooks/useCategories";
 import CategoriesSkeleton from "@/components/skeleton/CategoriesSkeleton";
 import { Colors } from "../../constants/Colors";
+import PageHeader from "../../components/PageHeader";
 
 const { width } = Dimensions.get("window");
 const numColumns = 3;
@@ -28,11 +28,11 @@ export default function CategoryScreen() {
                 width: itemWidth,
                 margin: 8,
                 alignItems: "center",
-                backgroundColor: "#f9fafb",
+                backgroundColor: Colors.cardBg,
                 borderRadius: 12,
                 padding: 12,
                 borderWidth: 1,
-                borderColor: "#f3f4f6",
+                borderColor: Colors.borderLight,
             }}
             onPress={() => {
                 // Future categories routing
@@ -47,7 +47,7 @@ export default function CategoryScreen() {
                         overflow: "hidden",
                         borderWidth: 2,
                         borderColor: Colors.primary,
-                        backgroundColor: "#fff",
+                        backgroundColor: Colors.bgPrimary,
                         justifyContent: "center",
                         alignItems: "center",
                     }}
@@ -64,7 +64,7 @@ export default function CategoryScreen() {
                     style={{
                         fontSize: 12,
                         fontWeight: "bold",
-                        color: "#1f2937",
+                        color: Colors.textDark,
                         textAlign: "center",
                     }}
                     numberOfLines={2}
@@ -77,16 +77,7 @@ export default function CategoryScreen() {
 
     return (
         <View className="flex-1 bg-white">
-            <Appbar.Header style={{ backgroundColor: "white" }}>
-                <Appbar.BackAction
-                    rippleColor={Colors.ripple}
-                    onPress={() => router.back()}
-                />
-                <Appbar.Content
-                    title="CATEGORIES"
-                    titleStyle={{ fontSize: 16, fontWeight: "bold" }}
-                />
-            </Appbar.Header>
+            <PageHeader title="CATEGORIES" showBack={false} />
 
             {isLoading || categories.length === 0 ? (
                 <View className="flex-1 flex-row flex-wrap p-4 gap-4 justify-center">
