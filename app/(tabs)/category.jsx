@@ -19,7 +19,7 @@ import { Skeleton } from "@/components/ui/Skeleton";
 
 import { useCategoryNavigation } from "@/hooks/useCategoryNavigation";
 import { useProductSections } from "@/hooks/useProductSections";
-import { useCategoryProducts } from "@/hooks/useCategoryProducts";
+import { useCategoryTabProducts } from "@/hooks/useCategoryProducts";
 
 // Constants
 const { width } = Dimensions.get("window");
@@ -79,7 +79,7 @@ export default function CategoryScreen() {
     }, [loadedCategories, categories]);
 
     // Fetch products for all loaded categories
-    const categoryQueries = useCategoryProducts(activeCategoriesList);
+    const categoryQueries = useCategoryTabProducts(activeCategoriesList);
 
     // Format sections and get loading state
     const { sections, isAnyProductsLoading } = useProductSections(
