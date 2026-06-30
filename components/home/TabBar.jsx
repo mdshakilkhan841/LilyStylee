@@ -14,6 +14,14 @@ const TabBar = ({ state, descriptors, navigation }) => {
         switch (routeName) {
             case "index":
                 return <LogoMain width={32} height={32} />;
+            case "category":
+                return (
+                    <MaterialCommunityIcons
+                        name="bag-personal-tag-outline"
+                        size={20}
+                        color={color}
+                    />
+                );
             case "lilysChoice":
                 return (
                     <FontAwesome6 name="chess-queen" size={20} color={color} />
@@ -43,6 +51,8 @@ const TabBar = ({ state, descriptors, navigation }) => {
         switch (routeName) {
             case "index":
                 return "Home";
+            case "category":
+                return "Category";
             case "lilysChoice":
                 return "Lily's Choice";
             case "wishlist":
