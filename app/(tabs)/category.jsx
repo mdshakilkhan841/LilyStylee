@@ -7,8 +7,6 @@ import React, {
 } from "react";
 import { View, Text, SectionList, FlatList, Dimensions } from "react-native";
 import { useCategories } from "@/hooks/useCategories";
-import { useQueries } from "@tanstack/react-query";
-import axios from "axios";
 
 import {
     CategorySidebarItem,
@@ -21,6 +19,7 @@ import { Skeleton } from "@/components/ui/Skeleton";
 
 import { useCategoryNavigation } from "@/hooks/useCategoryNavigation";
 import { useProductSections } from "@/hooks/useProductSections";
+import { useCategoryProducts } from "@/hooks/useCategoryProducts";
 
 // Constants
 const { width } = Dimensions.get("window");
@@ -80,20 +79,7 @@ export default function CategoryScreen() {
     }, [loadedCategories, categories]);
 
     // Fetch products for all loaded categories
-    const categoryQueries = useQueries({
-        queries: activeCategoriesList.map((slug) => ({
-            queryKey: ["categoryProductsList", slug],
-            queryFn: async () => {
-                const baseUrl =
-                    process.env.EXPO_PUBLIC_API_URL || "https://dummyjson.com";
-                const res = await axios.get(
-                    `${baseUrl}/products/category/${slug}?limit=20`,
-                );
-                return { slug, products: res.data.products };
-            },
-            staleTime: 5 * 60 * 1000,
-        })),
-    });
+    const categoryQueries = useCategoryProducts(activeCategoriesList);
 
     // Format sections and get loading state
     const { sections, isAnyProductsLoading } = useProductSections(
