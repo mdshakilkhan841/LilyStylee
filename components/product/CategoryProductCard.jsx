@@ -234,7 +234,7 @@ const CategoryProductCard = React.memo(({ product, width }) => {
                                 }}
                             >
                                 <MaterialCommunityIcons
-                                    name="cart-outline"
+                                    name="shopping"
                                     size={15}
                                     color="white"
                                 />
