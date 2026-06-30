@@ -2,6 +2,7 @@ import React from "react";
 import { View, Text } from "react-native";
 import { TouchableRipple } from "react-native-paper";
 import { Colors } from "@/constants/Colors";
+import { Skeleton } from "@/components/ui/Skeleton";
 
 const ITEM_HEIGHT = 56;
 
@@ -11,21 +12,20 @@ const CategorySidebarItem = React.memo(
             return (
                 <View
                     style={{
-                        paddingVertical: 18,
-                        paddingHorizontal: 10,
+                        paddingVertical: 21,
+                        paddingHorizontal: 15,
                         alignItems: "center",
                         justifyContent: "center",
                         borderBottomWidth: 1,
                         borderBottomColor: Colors.borderLight,
                     }}
                 >
-                    <View
-                        style={{
-                            height: 12,
-                            width: "80%",
-                            backgroundColor: Colors.borderLight,
-                            borderRadius: 4,
-                        }}
+                    <Skeleton
+                        width="75%"
+                        height={12}
+                        borderRadius={4}
+                        baseColor={Colors.skeletonBase}
+                        highlightColor={Colors.skeletonHighlight}
                     />
                 </View>
             );

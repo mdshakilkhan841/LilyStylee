@@ -162,7 +162,13 @@ export const useCategoryNavigation = (
 
         if (lastIndex !== -1 && lastIndex < categoriesList.length - 1) {
             const nextCategory = categoriesList[lastIndex + 1];
-            setLoadedCategories((prev) => [...prev, nextCategory.slug]);
+            setLoadedCategories((prev) => {
+                const baseList = prev.length > 0 ? prev : [categoriesList[0].slug];
+                if (baseList.includes(nextCategory.slug)) {
+                    return baseList;
+                }
+                return [...baseList, nextCategory.slug];
+            });
         }
     }, [setLoadedCategories]);
 

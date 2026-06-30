@@ -17,6 +17,7 @@ import {
 import ProductRow from "@/components/category/ProductRow";
 import PageHeader from "@/components/PageHeader";
 import { Colors } from "@/constants/Colors";
+import { Skeleton } from "@/components/ui/Skeleton";
 
 import { useCategoryNavigation } from "@/hooks/useCategoryNavigation";
 import { useProductSections } from "@/hooks/useProductSections";
@@ -45,20 +46,6 @@ export default function CategoryScreen() {
     const [selectedCategory, setSelectedCategory] = useState("");
     const [loadedCategories, setLoadedCategories] = useState([]);
     const [isTransitioning, setIsTransitioning] = useState(false);
-    const [isInitialized, setIsInitialized] = useState(false);
-
-    // Initialize with first category on mount
-    useEffect(() => {
-        if (
-            !isInitialized &&
-            categories.length > 0 &&
-            loadedCategories.length === 0
-        ) {
-            setLoadedCategories([categories[0].slug]);
-            setSelectedCategory(categories[0].slug);
-            setIsInitialized(true);
-        }
-    }, [categories, isInitialized, loadedCategories.length]);
 
     // Navigation hooks
     const {
@@ -145,12 +132,12 @@ export default function CategoryScreen() {
                 transitionDirectionRef.current = "next";
             }
         }
-    }, [sections, isAnyProductsLoading]);
+    }, [sections, isAnyProductsLoading, transitionDirectionRef]);
 
     // Prepare sidebar data
     const sidebarData = useMemo(() => {
         if (isCategoriesLoading) {
-            return Array.from({ length: 8 }).map((_, i) => ({
+            return Array.from({ length: 15 }).map((_, i) => ({
                 isSkeleton: true,
                 id: `skeleton-${i}`,
             }));
@@ -176,26 +163,46 @@ export default function CategoryScreen() {
     );
 
     const renderSectionHeader = useCallback(
-        ({ section: { title } }) => (
-            <View
-                style={{
-                    backgroundColor: Colors.bgPrimary,
-                    paddingVertical: 10,
-                }}
-            >
-                <Text
+        ({ section: { title } }) => {
+            if (title === "Loading") {
+                return (
+                    <View
+                        style={{
+                            backgroundColor: Colors.bgPrimary,
+                            paddingVertical: 12,
+                        }}
+                    >
+                        <Skeleton
+                            width={120}
+                            height={16}
+                            borderRadius={4}
+                            baseColor={Colors.skeletonBase}
+                            highlightColor={Colors.skeletonHighlight}
+                        />
+                    </View>
+                );
+            }
+            return (
+                <View
                     style={{
-                        fontSize: 14,
-                        fontWeight: "bold",
-                        color: Colors.textDark,
-                        letterSpacing: 0.5,
-                        textTransform: "uppercase",
+                        backgroundColor: Colors.bgPrimary,
+                        paddingVertical: 10,
                     }}
                 >
-                    {title} Products
-                </Text>
-            </View>
-        ),
+                    <Text
+                        style={{
+                            fontSize: 14,
+                            fontWeight: "bold",
+                            color: Colors.textDark,
+                            letterSpacing: 0.5,
+                            textTransform: "uppercase",
+                        }}
+                    >
+                        {title} Products
+                    </Text>
+                </View>
+            );
+        },
         [],
     );
 

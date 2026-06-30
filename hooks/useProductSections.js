@@ -27,6 +27,21 @@ export const useProductSections = (
     );
 
     const sections = useMemo(() => {
+        if (categories.length === 0) {
+            return [
+                {
+                    title: "Loading",
+                    slug: "loading",
+                    data: [
+                        { isSkeletonPlaceholder: true },
+                        { isSkeletonPlaceholder: true },
+                        { isSkeletonPlaceholder: true },
+                        { isSkeletonPlaceholder: true },
+                    ],
+                },
+            ];
+        }
+
         return activeCategoriesList.map((slug) => {
             const cat = categories.find((c) => c.slug === slug);
             const query = categoryQueries.find((q) => q.data?.slug === slug);
@@ -42,9 +57,10 @@ export const useProductSections = (
                 data: rows,
             };
         });
-    }, [activeCategoriesList, categories, serializedQueries]); // eslint-disable-line react-hooks/exhaustive-deps
+    }, [activeCategoriesList, categories, numColumns, serializedQueries]);
 
-    const isAnyProductsLoading = categoryQueries.some((q) => q.isLoading);
+    const isAnyProductsLoading =
+        categories.length === 0 || categoryQueries.some((q) => q.isLoading);
 
     return { sections, isAnyProductsLoading };
 };
