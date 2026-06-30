@@ -41,7 +41,7 @@ const TopHeader = () => {
                             padding: 12,
                         }}
                         onPress={() => {
-                            router.navigate("(cart)");
+                            router.push("/cart");
                         }}
                     >
                         <>
