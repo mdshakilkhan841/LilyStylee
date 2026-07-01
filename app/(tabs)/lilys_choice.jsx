@@ -311,7 +311,9 @@ export default function LilysChoice() {
                                       key={promo.id}
                                       promo={promo}
                                       onPress={() =>
-                                          showToast(`Purchasing ${promo.title}...`)
+                                          showToast(
+                                              `Purchasing ${promo.title}...`,
+                                          )
                                       }
                                   />
                               ))}
@@ -363,7 +365,9 @@ export default function LilysChoice() {
                                           key={product.id}
                                           product={product}
                                           isLiked={isLiked}
-                                          onWishlistToggle={handleWishlistToggle}
+                                          onWishlistToggle={
+                                              handleWishlistToggle
+                                          }
                                           onAddToCart={handleAddToCart}
                                       />
                                   );
@@ -448,7 +452,9 @@ export default function LilysChoice() {
                                           key={product.id}
                                           product={product}
                                           isLiked={isLiked}
-                                          onWishlistToggle={handleWishlistToggle}
+                                          onWishlistToggle={
+                                              handleWishlistToggle
+                                          }
                                       />
                                   );
                               })}
@@ -482,7 +488,9 @@ export default function LilysChoice() {
                                           key={product.id}
                                           product={product}
                                           isLiked={isLiked}
-                                          onWishlistToggle={handleWishlistToggle}
+                                          onWishlistToggle={
+                                              handleWishlistToggle
+                                          }
                                           onAddToCart={handleAddToCart}
                                       />
                                   );
