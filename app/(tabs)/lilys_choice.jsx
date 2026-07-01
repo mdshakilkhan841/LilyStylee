@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from "react";
+import React, { useState, useCallback, useEffect } from "react";
 import { View, Text, Image, ScrollView, StyleSheet } from "react-native";
 import PageHeader from "@/components/page_header";
 import { Colors } from "@/constants/colors";
@@ -13,6 +13,12 @@ import PromoCard from "@/components/product/card/promo_card";
 import FragranceCard from "@/components/product/card/fragrance_card";
 import CosmeticCard from "@/components/product/card/cosmetic_card";
 import DressCard from "@/components/product/card/dress_card";
+
+// Import skeletons
+import PromoCardSkeleton from "@/components/skeleton/promo_card_skeleton";
+import FragranceCardSkeleton from "@/components/skeleton/fragrance_card_skeleton";
+import CosmeticCardSkeleton from "@/components/skeleton/cosmetic_card_skeleton";
+import DressCardSkeleton from "@/components/skeleton/dress_card_skeleton";
 
 // Curated Influencer database
 const MOCK_PROFILE = {
@@ -183,6 +189,14 @@ export default function LilysChoice() {
     const { addToCart } = useCartStore();
     const { addToWishList, removeFromWishList, wishList } = useWishListStore();
     const [toastMessage, setToastMessage] = useState(null);
+    const [isLoading, setIsLoading] = useState(true);
+
+    useEffect(() => {
+        const timer = setTimeout(() => {
+            setIsLoading(false);
+        }, 1200);
+        return () => clearTimeout(timer);
+    }, []);
 
     const showToast = useCallback((message) => {
         setToastMessage(message);
@@ -288,15 +302,19 @@ export default function LilysChoice() {
                         showsHorizontalScrollIndicator={false}
                         contentContainerStyle={styles.horizontalListPadding}
                     >
-                        {MOCK_PROMOS.map((promo) => (
-                            <PromoCard
-                                key={promo.id}
-                                promo={promo}
-                                onPress={() =>
-                                    showToast(`Purchasing ${promo.title}...`)
-                                }
-                            />
-                        ))}
+                        {isLoading
+                            ? Array.from({ length: 2 }).map((_, idx) => (
+                                  <PromoCardSkeleton key={idx} />
+                              ))
+                            : MOCK_PROMOS.map((promo) => (
+                                  <PromoCard
+                                      key={promo.id}
+                                      promo={promo}
+                                      onPress={() =>
+                                          showToast(`Purchasing ${promo.title}...`)
+                                      }
+                                  />
+                              ))}
                     </ScrollView>
                 </View>
 
@@ -332,20 +350,24 @@ export default function LilysChoice() {
                         showsHorizontalScrollIndicator={false}
                         contentContainerStyle={styles.horizontalListPadding}
                     >
-                        {MOCK_FRAGRANCES.map((product) => {
-                            const isLiked = wishList.some(
-                                (i) => i.id === product.id,
-                            );
-                            return (
-                                <FragranceCard
-                                    key={product.id}
-                                    product={product}
-                                    isLiked={isLiked}
-                                    onWishlistToggle={handleWishlistToggle}
-                                    onAddToCart={handleAddToCart}
-                                />
-                            );
-                        })}
+                        {isLoading
+                            ? Array.from({ length: 3 }).map((_, idx) => (
+                                  <FragranceCardSkeleton key={idx} />
+                              ))
+                            : MOCK_FRAGRANCES.map((product) => {
+                                  const isLiked = wishList.some(
+                                      (i) => i.id === product.id,
+                                  );
+                                  return (
+                                      <FragranceCard
+                                          key={product.id}
+                                          product={product}
+                                          isLiked={isLiked}
+                                          onWishlistToggle={handleWishlistToggle}
+                                          onAddToCart={handleAddToCart}
+                                      />
+                                  );
+                              })}
                     </ScrollView>
                 </View>
 
@@ -413,19 +435,23 @@ export default function LilysChoice() {
                         showsHorizontalScrollIndicator={false}
                         contentContainerStyle={styles.horizontalListPadding}
                     >
-                        {MOCK_COSMETICS.map((product) => {
-                            const isLiked = wishList.some(
-                                (i) => i.id === product.id,
-                            );
-                            return (
-                                <CosmeticCard
-                                    key={product.id}
-                                    product={product}
-                                    isLiked={isLiked}
-                                    onWishlistToggle={handleWishlistToggle}
-                                />
-                            );
-                        })}
+                        {isLoading
+                            ? Array.from({ length: 4 }).map((_, idx) => (
+                                  <CosmeticCardSkeleton key={idx} />
+                              ))
+                            : MOCK_COSMETICS.map((product) => {
+                                  const isLiked = wishList.some(
+                                      (i) => i.id === product.id,
+                                  );
+                                  return (
+                                      <CosmeticCard
+                                          key={product.id}
+                                          product={product}
+                                          isLiked={isLiked}
+                                          onWishlistToggle={handleWishlistToggle}
+                                      />
+                                  );
+                              })}
                     </ScrollView>
                 </View>
 
@@ -443,20 +469,24 @@ export default function LilysChoice() {
                     </View>
 
                     <View style={styles.dressGrid}>
-                        {MOCK_DRESSES.map((product) => {
-                            const isLiked = wishList.some(
-                                (i) => i.id === product.id,
-                            );
-                            return (
-                                <DressCard
-                                    key={product.id}
-                                    product={product}
-                                    isLiked={isLiked}
-                                    onWishlistToggle={handleWishlistToggle}
-                                    onAddToCart={handleAddToCart}
-                                />
-                            );
-                        })}
+                        {isLoading
+                            ? Array.from({ length: 4 }).map((_, idx) => (
+                                  <DressCardSkeleton key={idx} />
+                              ))
+                            : MOCK_DRESSES.map((product) => {
+                                  const isLiked = wishList.some(
+                                      (i) => i.id === product.id,
+                                  );
+                                  return (
+                                      <DressCard
+                                          key={product.id}
+                                          product={product}
+                                          isLiked={isLiked}
+                                          onWishlistToggle={handleWishlistToggle}
+                                          onAddToCart={handleAddToCart}
+                                      />
+                                  );
+                              })}
                     </View>
                 </View>
             </ScrollView>
