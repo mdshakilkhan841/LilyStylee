@@ -1,5 +1,5 @@
 import { View, ScrollView } from "react-native";
-import PageHeader from "../../components/PageHeader";
+import PageHeader from "@/components/page_header";
 
 export default function LilysChoice() {
     return (

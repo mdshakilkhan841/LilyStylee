@@ -1,8 +1,8 @@
 import React from "react";
 import { View, Text } from "react-native";
 import { TouchableRipple } from "react-native-paper";
-import { Colors } from "@/constants/Colors";
-import { Skeleton } from "@/components/ui/Skeleton";
+import { Colors } from "@/constants/colors";
+import { Skeleton } from "@/components/ui/skeleton";
 
 const ITEM_HEIGHT = 56;
 

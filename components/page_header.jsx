@@ -4,8 +4,8 @@ import { Appbar, Badge, TouchableRipple } from "react-native-paper";
 import { router } from "expo-router";
 import Feather from "@expo/vector-icons/Feather";
 import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
-import { Colors } from "../constants/Colors";
-import useCartStore from "../store/useCartStore";
+import { Colors } from "@/constants/colors";
+import useCartStore from "@/store/use_cart_store";
 
 const PageHeader = ({
     title,

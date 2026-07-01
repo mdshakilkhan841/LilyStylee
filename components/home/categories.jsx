@@ -1,9 +1,9 @@
 import { View, Text, FlatList, Image } from "react-native";
 import React from "react";
 import Octicons from "@expo/vector-icons/Octicons";
-import { useCategories } from "@/hooks/useCategories";
-import CategoriesSkeleton from "../skeleton/CategoriesSkeleton";
-import { Colors } from "../../constants/Colors";
+import { useCategories } from "@/hooks/use_categories";
+import CategoriesSkeleton from "@/components/skeleton/categories_skeleton";
+import { Colors } from "@/constants/colors";
 import { TouchableRipple } from "react-native-paper";
 
 const Categories = () => {

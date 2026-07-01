@@ -1,15 +1,15 @@
 import { View, FlatList, Dimensions } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import TopHeader from "@/components/home/TopHeader";
-import Categories from "@/components/home/Categories";
-import AdvertisementSlider from "@/components/home/AdvertisementSlider";
-import DiscountCard from "@/components/home/DiscountCard";
-import OfferProducts from "@/components/product/OfferProducts";
-import SpecialOfferSection from "@/components/home/SpecialOfferSection";
-import ProductCard from "@/components/product/ProductCard";
-import ProductCardSkeleton from "@/components/skeleton/ProductCardSkeleton";
+import TopHeader from "@/components/home/top_header";
+import Categories from "@/components/home/categories";
+import AdvertisementSlider from "@/components/home/advertisement_slider";
+import DiscountCard from "@/components/home/discount_card";
+import OfferProducts from "@/components/product/offer_products";
+import SpecialOfferSection from "@/components/home/special_offer_section";
+import ProductCard from "@/components/product/product_card";
+import ProductCardSkeleton from "@/components/skeleton/product_card_skeleton";
 import React, { useCallback, useMemo } from "react";
-import { useProducts } from "@/hooks/useProducts";
+import { useProducts } from "@/hooks/use_products";
 
 const width = Dimensions.get("window").width;
 const itemNumber = width >= 768 ? 3 : 2;

@@ -1,8 +1,8 @@
 import { View, FlatList, Dimensions } from "react-native";
 import React, { useCallback } from "react";
-import ProductCard from "@/components/product/ProductCard";
-import { useCategoryProducts } from "@/hooks/useCategoryProducts";
-import ProductCardSkeleton from "../skeleton/ProductCardSkeleton";
+import ProductCard from "@/components/product/product_card";
+import { useCategoryProducts } from "@/hooks/use_category_products";
+import ProductCardSkeleton from "@/components/skeleton/product_card_skeleton";
 
 const width = Dimensions.get("window").width;
 const itemNumber = width >= 768;

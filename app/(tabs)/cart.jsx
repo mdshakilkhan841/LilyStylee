@@ -1,17 +1,17 @@
 import { useState, useMemo } from "react";
 import { View, Text, ScrollView, Pressable, Dimensions } from "react-native";
 import { Button } from "react-native-paper";
-import { Colors } from "../../constants/Colors";
-import PageHeader from "../../components/PageHeader";
+import { Colors } from "@/constants/colors";
+import PageHeader from "@/components/page_header";
 import {
     AntDesign,
     Ionicons,
     MaterialCommunityIcons,
 } from "@expo/vector-icons";
 import Checkbox from "expo-checkbox";
-import CartItemCard from "@/components/cart/CartItemCard";
-import OfferTiming from "@/components/cart/OfferTiming";
-import useCartStore from "../../store/useCartStore";
+import CartItemCard from "@/components/cart/cart_item_card";
+import OfferTiming from "@/components/cart/offer_timing";
+import useCartStore from "@/store/use_cart_store";
 import ShoppingBag from "@/assets/animations/shopping-bag.svg";
 
 const { width } = Dimensions.get("window");

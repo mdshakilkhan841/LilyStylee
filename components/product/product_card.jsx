@@ -1,11 +1,11 @@
 import { View, Text, Image } from "react-native";
 import React from "react";
 import Octicons from "@expo/vector-icons/Octicons";
-import ClippedView from "./ClippedView";
+import ClippedView from "@/components/product/clipped_view";
 import { router } from "expo-router";
-import useWishListStore from "../../store/useWishListStore";
-import AddToBagButton from "./AddToBagButton";
-import { Colors } from "../../constants/Colors";
+import useWishListStore from "@/store/use_wish_list_store";
+import AddToBagButton from "@/components/product/add_to_bag_button";
+import { Colors } from "@/constants/colors";
 import { TouchableRipple } from "react-native-paper";
 
 const ProductCard = React.memo(({ product, width }) => {
@@ -29,7 +29,7 @@ const ProductCard = React.memo(({ product, width }) => {
             rippleColor={Colors.ripple}
             onPress={() => {
                 router.push({
-                    pathname: "/productDetails",
+                    pathname: "/product_details",
                     params: { product: JSON.stringify(product) },
                 });
             }}

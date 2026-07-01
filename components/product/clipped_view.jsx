@@ -8,7 +8,7 @@ import Svg, {
     LinearGradient,
     Stop,
 } from "react-native-svg";
-import { Colors } from "../../constants/Colors";
+import { Colors } from "@/constants/colors";
 
 const ClippedView = ({ text, width = 50, height = 18 }) => {
     // Calculate dynamic points for the clip path

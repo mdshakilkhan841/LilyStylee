@@ -6,8 +6,8 @@ export default function RootLayout() {
         <Stack screenOptions={{ headerShown: false }}>
             <Stack.Screen name="user" />
             <Stack.Screen name="notifications" />
-            <Stack.Screen name="productDetails" />
-            <Stack.Screen name="searchProducts" />
+            <Stack.Screen name="product_details" />
+            <Stack.Screen name="search_products" />
         </Stack>
     );
 }

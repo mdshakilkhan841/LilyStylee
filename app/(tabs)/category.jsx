@@ -6,20 +6,20 @@ import React, {
     useCallback,
 } from "react";
 import { View, Text, SectionList, FlatList, Dimensions } from "react-native";
-import { useCategories } from "@/hooks/useCategories";
+import { useCategories } from "@/hooks/use_categories";
 
 import {
     CategorySidebarItem,
     ITEM_HEIGHT,
-} from "@/components/category/CategorySidebarItem";
-import ProductRow from "@/components/category/ProductRow";
-import PageHeader from "@/components/PageHeader";
-import { Colors } from "@/constants/Colors";
-import { Skeleton } from "@/components/ui/Skeleton";
+} from "@/components/category/category_sidebar_item";
+import ProductRow from "@/components/category/product_row";
+import PageHeader from "@/components/page_header";
+import { Colors } from "@/constants/colors";
+import { Skeleton } from "@/components/ui/skeleton";
 
-import { useCategoryNavigation } from "@/hooks/useCategoryNavigation";
-import { useProductSections } from "@/hooks/useProductSections";
-import { useCategoryTabProducts } from "@/hooks/useCategoryProducts";
+import { useCategoryNavigation } from "@/hooks/use_category_navigation";
+import { useProductSections } from "@/hooks/use_product_sections";
+import { useCategoryTabProducts } from "@/hooks/use_category_products";
 
 // Constants
 const { width } = Dimensions.get("window");

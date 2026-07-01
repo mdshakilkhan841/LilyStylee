@@ -1,11 +1,11 @@
 import React, { useRef } from "react";
-import { View, Image, Dimensions, Text } from "react-native";
+import { View, Image, Dimensions } from "react-native";
 import Animated, {
     useAnimatedStyle,
     useSharedValue,
 } from "react-native-reanimated";
+import { Colors } from "@/constants/colors";
 import Carousel from "react-native-reanimated-carousel";
-import { Colors } from "../../constants/Colors";
 
 const PaginationDot = React.memo(({ index, progress, total }) => {
     const animatedStyle = useAnimatedStyle(() => {
@@ -59,33 +59,11 @@ const CustomPagination = ({ progress, data }) => {
     );
 };
 
-const AdvertisementSlider = () => {
+const ProductImageSlider = ({ images = [] }) => {
     const width = Dimensions.get("window").width;
+    const height = Dimensions.get("window").height;
     const ref = useRef(null);
     const progress = useSharedValue(0);
-
-    const banners = [
-        {
-            label: "EXTRA 10% OFF",
-            image: require("@/assets/images/beauty.jpg"),
-        },
-        {
-            label: "Timeless Style, Every Day.",
-            image: require("@/assets/images/fashion.jpg"),
-        },
-        {
-            label: "UP TO 50% OFF",
-            image: require("@/assets/images/kids.jpg"),
-        },
-        {
-            label: "EXTRA 10% OFF",
-            image: require("@/assets/images/mens.jpg"),
-        },
-        {
-            label: "NEW Collections\nLily's Choice",
-            image: require("@/assets/images/womans.jpg"),
-        },
-    ];
 
     return (
         <View style={{ flex: 1, justifyContent: "center" }}>
@@ -94,33 +72,30 @@ const AdvertisementSlider = () => {
                 loop
                 defaultIndex={0}
                 width={width}
-                height={width >= 768 ? 240 * 1.2 : 240 * 0.7}
+                height={width >= 768 ? height * 0.35 : height * 0.5}
                 autoPlay={true}
                 autoPlayInterval={3000}
-                data={banners}
+                data={images}
                 scrollAnimationDuration={2000}
                 onProgressChange={progress}
                 renderItem={({ item }) => (
                     <View style={{ flex: 1 }}>
                         <Image
-                            source={item.image}
+                            source={{ uri: item }}
                             style={{
                                 width: "100%",
                                 height: "100%",
-                                resizeMode: "cover",
+                                resizeMode: "contain",
                             }}
                         />
-                        <View className="absolute bottom-[20%] left-10 bg-slate-500/50 py-1 px-4 rounded">
-                            <Text className="z-10 text-2xl font-bold text-white ">
-                                {item.label}
-                            </Text>
-                        </View>
                     </View>
                 )}
             />
-            <CustomPagination progress={progress} data={banners} />
+            {images.length > 1 && (
+                <CustomPagination progress={progress} data={images} />
+            )}
         </View>
     );
 };
 
-export default AdvertisementSlider;
+export default ProductImageSlider;

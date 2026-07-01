@@ -4,11 +4,11 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { Appbar, Badge, TouchableRipple, Button } from "react-native-paper";
 import { router, useLocalSearchParams } from "expo-router";
 import Octicons from "@expo/vector-icons/Octicons";
-import ProductImageSlider from "../../components/product/ProductImageSlider";
+import ProductImageSlider from "@/components/product/product_image_slider";
 import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
-import { Colors } from "../../constants/Colors";
-import useWishListStore from "../../store/useWishListStore";
-import useCartStore from "../../store/useCartStore";
+import { Colors } from "@/constants/colors";
+import useWishListStore from "@/store/use_wish_list_store";
+import useCartStore from "@/store/use_cart_store";
 
 const STICKY_SEGMENT_HEIGHT = 80; // Adjust to your button segment's height
 

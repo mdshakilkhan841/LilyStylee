@@ -4,7 +4,7 @@ import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
 import { LinearGradient } from "expo-linear-gradient";
 import LogoMain from "@/assets/images/logo-main.svg";
 import { TouchableRipple } from "react-native-paper";
-import { Colors } from "../../constants/Colors";
+import { Colors } from "@/constants/colors";
 
 const TabBar = ({ state, descriptors, navigation }) => {
     const width = Dimensions.get("window").width;
@@ -22,7 +22,7 @@ const TabBar = ({ state, descriptors, navigation }) => {
                         color={color}
                     />
                 );
-            case "lilysChoice":
+            case "lilys_choice":
                 return (
                     <FontAwesome6 name="chess-queen" size={20} color={color} />
                 );
@@ -53,7 +53,7 @@ const TabBar = ({ state, descriptors, navigation }) => {
                 return "Home";
             case "category":
                 return "Category";
-            case "lilysChoice":
+            case "lilys_choice":
                 return "Lily's Choice";
             case "wishlist":
                 return "Wishlist";

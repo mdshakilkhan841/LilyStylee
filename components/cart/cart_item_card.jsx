@@ -2,9 +2,9 @@ import { View, Text, Pressable } from "react-native";
 import React, { useState } from "react";
 import { Image } from "react-native";
 import { Feather, FontAwesome } from "@expo/vector-icons";
-import ClippedView from "@/components/product/ClippedView";
+import ClippedView from "@/components/product/clipped_view";
 import Checkbox from "expo-checkbox";
-import { Colors } from "../../constants/Colors";
+import { Colors } from "@/constants/colors";
 
 const CartItemCard = ({ product, isChecked, onCheck, onRemove }) => {
     const originalPrice =

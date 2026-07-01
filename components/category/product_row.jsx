@@ -1,7 +1,7 @@
 import React from "react";
 import { View } from "react-native";
-import CategoryProductCard from "@/components/product/CategoryProductCard";
-import CategoryProductCardSkeleton from "@/components/skeleton/CategoryProductCardSkeleton";
+import CategoryProductCard from "@/components/product/category_product_card";
+import CategoryProductCardSkeleton from "@/components/skeleton/category_product_card_skeleton";
 
 const NUM_COLUMNS = 2;
 

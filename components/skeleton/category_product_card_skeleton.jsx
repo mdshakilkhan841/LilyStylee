@@ -1,7 +1,7 @@
 import { View } from "react-native";
 import React from "react";
-import { Skeleton } from "@/components/ui/Skeleton";
-import { Colors } from "../../constants/Colors";
+import { Skeleton } from "@/components/ui/skeleton";
+import { Colors } from "@/constants/colors";
 
 const CategoryProductCardSkeleton = React.memo(({ width }) => {
     const baseColor = Colors.skeletonBase;

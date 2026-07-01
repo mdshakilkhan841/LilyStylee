@@ -3,9 +3,9 @@ import { View, Text, Image } from "react-native";
 import Octicons from "@expo/vector-icons/Octicons";
 import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
 import { router } from "expo-router";
-import useWishListStore from "../../store/useWishListStore";
-import useCartStore from "../../store/useCartStore";
-import { Colors } from "../../constants/Colors";
+import useWishListStore from "@/store/use_wish_list_store";
+import useCartStore from "@/store/use_cart_store";
+import { Colors } from "@/constants/colors";
 import { TouchableRipple } from "react-native-paper";
 
 const CategoryProductCard = React.memo(({ product, width }) => {
@@ -39,7 +39,7 @@ const CategoryProductCard = React.memo(({ product, width }) => {
             rippleColor={Colors.ripple}
             onPress={() => {
                 router.push({
-                    pathname: "/productDetails",
+                    pathname: "/product_details",
                     params: { product: JSON.stringify(product) },
                 });
             }}

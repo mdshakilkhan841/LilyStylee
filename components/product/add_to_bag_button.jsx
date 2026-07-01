@@ -1,7 +1,7 @@
 import { Button } from "react-native-paper";
-import useCartStore from "../../store/useCartStore";
+import useCartStore from "@/store/use_cart_store";
 import React from "react";
-import { Colors } from "../../constants/Colors";
+import { Colors } from "@/constants/colors";
 
 const AddToBagButton = React.memo(({ product }) => {
     const addToCart = useCartStore((state) => state.addToCart);

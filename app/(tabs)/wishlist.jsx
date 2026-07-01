@@ -1,8 +1,8 @@
 import { View, FlatList, Dimensions } from "react-native";
-import useWishListStore from "../../store/useWishListStore";
-import WishListProductCard from "../../components/product/WishListProductCard";
-import AddToBagButton from "@/components/product/AddToBagButton";
-import PageHeader from "../../components/PageHeader";
+import useWishListStore from "@/store/use_wish_list_store";
+import WishListProductCard from "@/components/product/wish_list_product_card";
+import AddToBagButton from "@/components/product/add_to_bag_button";
+import PageHeader from "@/components/page_header";
 
 const width = Dimensions.get("window").width;
 const itemNumber = width >= 768 ? 3 : 2;

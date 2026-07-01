@@ -1,7 +1,7 @@
 import { View, Dimensions } from "react-native";
 import React from "react";
-import { Skeleton } from "@/components/ui/Skeleton";
-import { Colors } from "../../constants/Colors";
+import { Skeleton } from "@/components/ui/skeleton";
+import { Colors } from "@/constants/colors";
 
 const ProductCardSkeleton = ({ width, cartButton = true }) => {
     const skeletonWidth = width || Dimensions.get("window").width / 2;

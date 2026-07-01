@@ -6,8 +6,8 @@ import Feather from "@expo/vector-icons/Feather";
 import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
 import { Badge, TouchableRipple } from "react-native-paper";
 import { router } from "expo-router";
-import useCartStore from "../../store/useCartStore";
-import { Colors } from "../../constants/Colors";
+import useCartStore from "@/store/use_cart_store";
+import { Colors } from "@/constants/colors";
 
 const TopHeader = () => {
     const fullText = "Search for brands and products";
@@ -133,7 +133,7 @@ const TopHeader = () => {
             <TouchableRipple
                 borderless={true}
                 rippleColor={Colors.ripple}
-                onPress={() => router.push("/searchProducts")}
+                onPress={() => router.push("/search_products")}
                 style={{
                     shadowColor: Colors.primary,
                     shadowOffset: { width: 0, height: 4 },
