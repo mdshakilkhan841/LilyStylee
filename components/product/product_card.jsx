@@ -10,8 +10,12 @@ import { TouchableRipple } from "react-native-paper";
 
 const ProductCard = React.memo(({ product, width }) => {
     const addToWishList = useWishListStore((state) => state.addToWishList);
-    const removeFromWishList = useWishListStore((state) => state.removeFromWishList);
-    const inWishList = useWishListStore((state) => state.wishList.some((item) => item.id === product.id));
+    const removeFromWishList = useWishListStore(
+        (state) => state.removeFromWishList,
+    );
+    const inWishList = useWishListStore((state) =>
+        state.wishList.some((item) => item.id === product.id),
+    );
 
     const handleWishlist = () => {
         if (inWishList) {
@@ -26,6 +30,7 @@ const ProductCard = React.memo(({ product, width }) => {
 
     return (
         <TouchableRipple
+            borderless
             rippleColor={Colors.ripple}
             onPress={() => {
                 router.push({
@@ -33,7 +38,12 @@ const ProductCard = React.memo(({ product, width }) => {
                     params: { product: JSON.stringify(product) },
                 });
             }}
-            style={{ width: width, borderRadius: 8, overflow: "hidden", padding: 4 }}
+            style={{
+                width: width,
+                borderRadius: 8,
+                overflow: "hidden",
+                padding: 4,
+            }}
         >
             <View>
                 <View className="w-full h-52">
@@ -57,7 +67,10 @@ const ProductCard = React.memo(({ product, width }) => {
                 </View>
                 {/* Title/Brand */}
                 <View className="flex-row flex-wrap items-center justify-between w-full gap-1">
-                    <Text numberOfLines={1} className="text-sm font-bold w-[80%]">
+                    <Text
+                        numberOfLines={1}
+                        className="text-sm font-bold w-[80%]"
+                    >
                         {product?.title}
                     </Text>
                     <TouchableRipple
@@ -81,7 +94,10 @@ const ProductCard = React.memo(({ product, width }) => {
                 </Text>
                 {/* Price */}
                 <View className="flex flex-row flex-wrap items-center w-full gap-1 py-0.5">
-                    <Text numberOfLines={1} className="text-[11px] line-through">
+                    <Text
+                        numberOfLines={1}
+                        className="text-[11px] line-through"
+                    >
                         ${originalPrice?.toFixed(2)}
                     </Text>
                     <Text numberOfLines={1} className="text-sm font-bold">
