@@ -2,6 +2,7 @@ import React from "react";
 import { View, Text, Image, StyleSheet } from "react-native";
 import { TouchableRipple } from "react-native-paper";
 import ClippedView from "@/components/product/clipped_view";
+import { Colors } from "@/constants/colors";
 
 const PromoCard = React.memo(({ promo, onPress }) => {
     return (
@@ -38,10 +39,10 @@ const styles = StyleSheet.create({
     promoCard: {
         width: 280,
         height: 124,
-        backgroundColor: "#ffffff",
+        backgroundColor: Colors.bgPrimary,
         borderRadius: 12,
         borderWidth: 1,
-        borderColor: "#f3f4f6",
+        borderColor: Colors.borderLight,
         overflow: "hidden",
     },
     promoRowLayout: {
@@ -65,11 +66,11 @@ const styles = StyleSheet.create({
     promoTitle: {
         fontSize: 13,
         fontWeight: "bold",
-        color: "#111827",
+        color: Colors.textDark,
     },
     promoItems: {
         fontSize: 10,
-        color: "#6b7280",
+        color: Colors.textMuted,
         marginTop: 2,
         lineHeight: 13,
     },
@@ -81,12 +82,12 @@ const styles = StyleSheet.create({
     promoPrice: {
         fontSize: 13,
         fontWeight: "bold",
-        color: "#db2777",
+        color: Colors.primary,
     },
     promoOriginalPrice: {
         fontSize: 10,
         textDecorationLine: "line-through",
-        color: "#9ca3af",
+        color: Colors.borderDark,
         marginLeft: 6,
     },
 });

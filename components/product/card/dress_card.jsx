@@ -104,17 +104,17 @@ const styles = StyleSheet.create({
     },
     dressCard: {
         width: "100%",
-        backgroundColor: "#ffffff",
+        backgroundColor: Colors.bgPrimary,
         borderRadius: 12,
         borderWidth: 1,
-        borderColor: "#f3f4f6",
+        borderColor: Colors.borderLight,
         overflow: "hidden",
     },
     dressImgWrapper: {
         position: "relative",
         width: "100%",
         height: 200,
-        backgroundColor: "#f3f4f6",
+        backgroundColor: Colors.borderLight,
     },
     imageFill: {
         width: "100%",
@@ -156,7 +156,7 @@ const styles = StyleSheet.create({
     ratingText: {
         fontSize: 9,
         fontWeight: "bold",
-        color: "#111827",
+        color: Colors.textDark,
     },
     dressCardDetails: {
         padding: 10,
@@ -164,19 +164,19 @@ const styles = StyleSheet.create({
     cardBrand: {
         fontSize: 9,
         fontWeight: "bold",
-        color: "#db2777",
+        color: Colors.primary,
         textTransform: "uppercase",
         letterSpacing: 0.5,
     },
     cardTitle: {
         fontSize: 13,
         fontWeight: "bold",
-        color: "#1f2937",
+        color: Colors.textDark,
         marginTop: 1,
     },
     dressDesc: {
         fontSize: 10,
-        color: "#6b7280",
+        color: Colors.textMuted,
         marginTop: 2,
         lineHeight: 13,
     },
@@ -194,11 +194,11 @@ const styles = StyleSheet.create({
     cardPrice: {
         fontSize: 13,
         fontWeight: "bold",
-        color: "#111827",
+        color: Colors.textDark,
     },
     cardOriginalPrice: {
         fontSize: 10,
-        color: "#9ca3af",
+        color: Colors.borderDark,
         textDecorationLine: "line-through",
     },
     cartButton: {
@@ -206,8 +206,8 @@ const styles = StyleSheet.create({
         paddingVertical: 4,
         borderRadius: 4,
         borderWidth: 1,
-        borderColor: "#db2777",
-        backgroundColor: "#ffffff",
+        borderColor: Colors.primary,
+        backgroundColor: Colors.bgPrimary,
         alignItems: "center",
         justifyContent: "center",
     },
@@ -220,7 +220,7 @@ const styles = StyleSheet.create({
     cartButtonText: {
         fontSize: 10,
         fontWeight: "bold",
-        color: "#db2777",
+        color: Colors.primary,
     },
 });
 

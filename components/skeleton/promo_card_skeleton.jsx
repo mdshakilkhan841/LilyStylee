@@ -73,10 +73,10 @@ const styles = StyleSheet.create({
     promoCard: {
         width: 280,
         height: 124,
-        backgroundColor: "#fff",
+        backgroundColor: Colors.bgPrimary,
         borderRadius: 12,
         borderWidth: 1,
-        borderColor: "#f3f4f6",
+        borderColor: Colors.borderLight,
         overflow: "hidden",
     },
     promoRowLayout: {

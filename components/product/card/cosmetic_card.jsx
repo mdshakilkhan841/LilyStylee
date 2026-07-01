@@ -54,9 +54,9 @@ const styles = StyleSheet.create({
         width: 86,
         height: 86,
         borderRadius: 43,
-        backgroundColor: "#fff1f2",
+        backgroundColor: Colors.primaryBg,
         borderWidth: 1,
-        borderColor: "#fbcfe8",
+        borderColor: Colors.primaryLight,
         alignItems: "center",
         justifyContent: "center",
         overflow: "hidden",
@@ -68,7 +68,7 @@ const styles = StyleSheet.create({
     cosmeticTitle: {
         fontSize: 11,
         fontWeight: "bold",
-        color: "#111827",
+        color: Colors.textDark,
         marginTop: 8,
         textAlign: "center",
         width: "100%",
@@ -76,7 +76,7 @@ const styles = StyleSheet.create({
     },
     cosmeticBrand: {
         fontSize: 9,
-        color: "#6b7280",
+        color: Colors.textMuted,
         marginTop: 1,
     },
     cosmeticBuyRow: {
@@ -93,11 +93,11 @@ const styles = StyleSheet.create({
     cosmeticPrice: {
         fontSize: 11,
         fontWeight: "bold",
-        color: "#111827",
+        color: Colors.textDark,
     },
     cosmeticOriginalPrice: {
         fontSize: 9,
-        color: "#9ca3af",
+        color: Colors.borderDark,
         textDecorationLine: "line-through",
     },
     cosmeticHeartBtn: {
@@ -105,7 +105,7 @@ const styles = StyleSheet.create({
         height: 26,
         borderRadius: 4,
         borderWidth: 1,
-        borderColor: "#db2777",
+        borderColor: Colors.primary,
         alignItems: "center",
         justifyContent: "center",
     },
