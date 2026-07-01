@@ -36,7 +36,6 @@ const CategoryProductCard = React.memo(({ product, width }) => {
     return (
         <TouchableRipple
             borderless={true}
-            rippleColor={Colors.ripple}
             onPress={() => {
                 router.push({
                     pathname: "/product_details",
