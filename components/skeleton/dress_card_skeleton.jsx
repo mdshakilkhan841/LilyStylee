@@ -20,7 +20,7 @@ const DressCardSkeleton = () => {
                     baseColor={baseColor}
                     highlightColor={highlightColor}
                 />
-                
+
                 <View style={styles.dressCardDetails}>
                     {/* Brand Placeholder */}
                     <Skeleton
@@ -97,10 +97,10 @@ const styles = StyleSheet.create({
     },
     dressCard: {
         width: "100%",
-        backgroundColor: "#f9fafb",
+        backgroundColor: "#fff",
         borderRadius: 12,
         borderWidth: 1,
-        borderColor: "#e5e7eb",
+        borderColor: "#f3f4f6",
         overflow: "hidden",
     },
     dressCardDetails: {

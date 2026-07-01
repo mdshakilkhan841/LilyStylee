@@ -17,7 +17,7 @@ const FragranceCardSkeleton = () => {
                     baseColor={baseColor}
                     highlightColor={highlightColor}
                 />
-                
+
                 <View style={styles.cardDetails}>
                     {/* Brand Placeholder */}
                     <Skeleton
@@ -76,10 +76,10 @@ const styles = StyleSheet.create({
     },
     fragranceCard: {
         width: "100%",
-        backgroundColor: "#f9fafb",
+        backgroundColor: "#fff",
         borderRadius: 12,
         borderWidth: 1,
-        borderColor: "#e5e7eb",
+        borderColor: "#f3f4f6",
         overflow: "hidden",
     },
     cardDetails: {
