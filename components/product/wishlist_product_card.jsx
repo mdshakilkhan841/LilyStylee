@@ -4,7 +4,7 @@ import Octicons from "@expo/vector-icons/Octicons";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import ClippedView from "@/components/product/clipped_view";
 import { router } from "expo-router";
-import useWishListStore from "@/store/use_wish_list_store";
+import useWishListStore from "@/store/use_wishlist_store";
 import useCartStore from "@/store/use_cart_store";
 import { Button, TouchableRipple } from "react-native-paper";
 import { LinearGradient } from "expo-linear-gradient";

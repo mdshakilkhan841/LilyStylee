@@ -3,7 +3,7 @@ import { View, Text, Image } from "react-native";
 import Octicons from "@expo/vector-icons/Octicons";
 import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
 import { router } from "expo-router";
-import useWishListStore from "@/store/use_wish_list_store";
+import useWishListStore from "@/store/use_wishlist_store";
 import useCartStore from "@/store/use_cart_store";
 import { Colors } from "@/constants/colors";
 import { TouchableRipple } from "react-native-paper";

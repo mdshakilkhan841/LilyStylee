@@ -1,6 +1,6 @@
 import { View, FlatList, Dimensions } from "react-native";
-import useWishListStore from "@/store/use_wish_list_store";
-import WishListProductCard from "@/components/product/wish_list_product_card";
+import useWishListStore from "@/store/use_wishlist_store";
+import WishListProductCard from "@/components/product/wishlist_product_card";
 import AddToBagButton from "@/components/product/add_to_bag_button";
 import PageHeader from "@/components/page_header";
 

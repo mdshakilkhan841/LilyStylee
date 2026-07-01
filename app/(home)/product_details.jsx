@@ -7,7 +7,7 @@ import Octicons from "@expo/vector-icons/Octicons";
 import ProductImageSlider from "@/components/product/product_image_slider";
 import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
 import { Colors } from "@/constants/colors";
-import useWishListStore from "@/store/use_wish_list_store";
+import useWishListStore from "@/store/use_wishlist_store";
 import useCartStore from "@/store/use_cart_store";
 
 const STICKY_SEGMENT_HEIGHT = 80; // Adjust to your button segment's height
