@@ -87,10 +87,10 @@ const styles = StyleSheet.create({
     },
     fragranceCard: {
         width: "100%",
-        backgroundColor: "#f9fafb",
+        backgroundColor: "#ffffff",
         borderRadius: 12,
         borderWidth: 1,
-        borderColor: "#e5e7eb",
+        borderColor: "#f3f4f6",
         overflow: "hidden",
     },
     fragranceImgWrapper: {

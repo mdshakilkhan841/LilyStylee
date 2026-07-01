@@ -38,7 +38,7 @@ const styles = StyleSheet.create({
     promoCard: {
         width: 280,
         height: 124,
-        backgroundColor: "#f9fafb",
+        backgroundColor: "#ffffff",
         borderRadius: 12,
         borderWidth: 1,
         borderColor: "#f3f4f6",
