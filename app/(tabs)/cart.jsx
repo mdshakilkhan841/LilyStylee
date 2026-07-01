@@ -89,7 +89,12 @@ export default function CartIndex() {
 
     return (
         <View className="flex-1">
-            <PageHeader title="SHOPPING BAG" showBack={false} showWishlist={true} />
+            <PageHeader
+                title="SHOPPING BAG"
+                showBack={false}
+                showWishlist={true}
+                showProfile
+            />
 
             {cart.length > 0 ? (
                 <>

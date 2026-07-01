@@ -213,7 +213,7 @@ export default function CategoryScreen() {
 
     return (
         <View style={{ flex: 1, backgroundColor: Colors.bgPrimary }}>
-            <PageHeader title="CATEGORIES" showBack={false} />
+            <PageHeader title="CATEGORIES" showBack={false} showProfile />
 
             <View style={{ flex: 1, flexDirection: "row" }}>
                 {/* Left Sidebar */}
