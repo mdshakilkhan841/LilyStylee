@@ -12,7 +12,7 @@ export default function Wishlist() {
 
     return (
         <View className="flex-1 bg-white">
-            <PageHeader title="WISHLIST" showCart showWishlist showProfile />
+            <PageHeader title="WISHLIST" showCart showProfile />
             {/* Body */}
             <FlatList
                 contentContainerStyle={{
