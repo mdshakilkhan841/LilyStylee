@@ -52,8 +52,6 @@ export default function Index() {
 
     const keyExtractor = useCallback((item) => item.id.toString(), []);
 
-    const renderHeader = useCallback(() => <HomeHeader />, []);
-
     return (
         <SafeAreaView
             edges={[]}
@@ -78,7 +76,7 @@ export default function Index() {
                 maxToRenderPerBatch={6}
                 updateCellsBatchingPeriod={50}
                 removeClippedSubviews={true}
-                ListHeaderComponent={renderHeader}
+                ListHeaderComponent={<HomeHeader />}
                 ListEmptyComponent={
                     isLoading ? (
                         <View style={styles.skeletonStyle}>

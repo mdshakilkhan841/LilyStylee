@@ -1,6 +1,10 @@
 import { Text, View } from "react-native";
 import React, { useState, useEffect } from "react";
 import FontAwesome6 from "@expo/vector-icons/FontAwesome6";
+import { Colors } from "@/constants/colors";
+import * as Clipboard from "expo-clipboard";
+import toast from "@/utils/toast";
+import { TouchableRipple } from "react-native-paper";
 
 const DiscountCard = () => {
     const [timeLeft, setTimeLeft] = useState(3600 * 2); // 1 hour in seconds
@@ -25,6 +29,11 @@ const DiscountCard = () => {
                     ? `0${remainingSeconds}`
                     : remainingSeconds,
         };
+    };
+
+    const copyToClipboard = async () => {
+        await Clipboard.setStringAsync("LILYSTYLEE");
+        toast.success("Code LILYSTYLEE copied!");
     };
 
     const { hours, minutes, seconds } = formatTime(timeLeft);
@@ -66,23 +75,106 @@ const DiscountCard = () => {
                 </Text>
             </View>
 
-            <View className="flex-row items-center justify-center flex-1 mx-4 border border-pink-600 border-dashed divide-x-2 divide-pink-600 divide-dashed">
-                <View className="items-center justify-center flex-1 w-1/2 p-1 border-r border-pink-600 border-dashed">
-                    <Text className="text-xl font-bold text-blue-800">
-                        EXTRA 10% OFF
-                    </Text>
-                    <Text className="text-sm">
-                        Use Code :{" "}
-                        <Text className="font-semibold">LILYSTYLEE</Text>
-                    </Text>
-                </View>
-                <View className="items-center justify-center flex-1 w-1/2 p-1">
-                    <Text className="text-sm font-bold text-center text-blue-800 ">
-                        GET FREE SHOPPING ON ALL ORDERS{" "}
+            <View
+                style={{
+                    flexDirection: "row",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    marginHorizontal: 16,
+                    borderWidth: 1.2,
+                    borderColor: Colors.primary,
+                    borderStyle: "dashed",
+                    borderRadius: 50,
+                    backgroundColor: Colors.bgPrimary,
+                }}
+            >
+                <TouchableRipple
+                    borderless
+                    onPress={copyToClipboard}
+                    rippleColor={Colors.ripple}
+                    style={{
+                        alignItems: "center",
+                        justifyContent: "center",
+                        width: "50%",
+                        paddingHorizontal: 6,
+                        paddingVertical: 10,
+                        borderTopLeftRadius: 50,
+                        borderBottomLeftRadius: 50,
+                    }}
+                >
+                    <View
+                        style={{
+                            alignItems: "center",
+                            justifyContent: "center",
+                        }}
+                    >
+                        <Text
+                            style={{
+                                fontSize: 15,
+                                fontWeight: "bold",
+                                color: Colors.info,
+                            }}
+                        >
+                            EXTRA 10% OFF
+                        </Text>
+                        <Text
+                            style={{
+                                fontSize: 11,
+                                color: Colors.textMuted,
+                                marginTop: 2,
+                            }}
+                        >
+                            Use Code :{" "}
+                            <Text
+                                style={{
+                                    fontWeight: "700",
+                                    color: Colors.textDark,
+                                }}
+                            >
+                                LILYSTYLEE
+                            </Text>
+                        </Text>
+                    </View>
+                </TouchableRipple>
+
+                {/* Full-Height Centered Vertical Divider */}
+                <View
+                    style={{
+                        position: "absolute",
+                        top: 0,
+                        bottom: 0,
+                        left: "50%",
+                        width: 1.2,
+                        backgroundColor: "transparent",
+                        borderLeftWidth: 1.2,
+                        borderLeftColor: Colors.primary,
+                        borderStyle: "dashed",
+                    }}
+                />
+
+                <View
+                    style={{
+                        alignItems: "center",
+                        justifyContent: "center",
+                        width: "50%",
+                        paddingHorizontal: 8,
+                        paddingVertical: 10,
+                    }}
+                >
+                    <Text
+                        style={{
+                            fontSize: 11,
+                            fontWeight: "bold",
+                            textAlign: "center",
+                            color: Colors.info,
+                            lineHeight: 14,
+                        }}
+                    >
+                        GET FREE SHIPPING ON ALL ORDERS{" "}
                         <FontAwesome6
                             name="bag-shopping"
-                            size={18}
-                            color="#1e40af"
+                            size={12}
+                            color={Colors.info}
                         />
                     </Text>
                 </View>

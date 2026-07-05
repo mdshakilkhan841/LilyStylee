@@ -1,6 +1,6 @@
 import { View, FlatList, Dimensions } from "react-native";
 import React, { useCallback } from "react";
-import ProductCard from "@/components/product/card/product/product_card";
+import OfferProductCard from "@/components/product/card/product/offer_product_card";
 import { useCategoryProducts } from "@/hooks/use_category_products";
 import ProductCardSkeleton from "@/components/skeleton/product_card_skeleton";
 
@@ -21,15 +21,36 @@ const OfferProducts = () => {
 
     const renderItem = useCallback(
         ({ item }) => (
-            <ProductCard product={item} width={itemNumber ? 200 : 150} />
+            <OfferProductCard product={item} width={itemNumber ? 200 : 150} />
         ),
         [],
     );
 
     const keyExtractor = useCallback((item) => item.id.toString(), []);
 
+    if (isLoading && products.length === 0) {
+        return (
+            <View
+                style={{
+                    flexDirection: "row",
+                    gap: 10,
+                    paddingHorizontal: 16,
+                    paddingVertical: 4,
+                }}
+            >
+                {Array.from({ length: 5 }, (_, index) => (
+                    <ProductCardSkeleton
+                        key={index}
+                        width={itemNumber ? 200 : 150}
+                        cartButton={false}
+                    />
+                ))}
+            </View>
+        );
+    }
+
     return (
-        <View>
+        <View style={{ paddingVertical: 4 }}>
             <FlatList
                 data={products}
                 renderItem={renderItem}
@@ -41,30 +62,11 @@ const OfferProducts = () => {
                 maxToRenderPerBatch={5}
                 removeClippedSubviews={true}
                 contentContainerStyle={{
-                    gap: itemNumber ? 20 : 12,
-                    paddingHorizontal: 12,
-                    paddingVertical: 4,
+                    gap: 10,
+                    paddingHorizontal: 16,
                 }}
                 onEndReached={handleLoadMore}
                 onEndReachedThreshold={0.5}
-                ListEmptyComponent={
-                    isLoading ? (
-                        <View
-                            style={{
-                                flexDirection: "row",
-                                gap: itemNumber ? 20 : 12,
-                            }}
-                        >
-                            {Array.from({ length: 5 }, (_, index) => (
-                                <ProductCardSkeleton
-                                    key={index}
-                                    width={itemNumber ? 200 : 150}
-                                    cartButton={false}
-                                />
-                            ))}
-                        </View>
-                    ) : null
-                }
                 ListFooterComponent={
                     isFetchingNextPage && products.length > 0 ? (
                         <View style={{ flexDirection: "row", gap: 12 }}>

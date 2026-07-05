@@ -9,6 +9,8 @@ const Colors = {
     borderDark: "#d1d5db",
     success: "#22c55e",
     error: "#ef4444",
+    warning: "#f97316", // Orange color for warnings/alerts
+    info: "#1e40af", // Blue color for info/extra text
 
     // Semantic Layout Colors
     bgPrimary: "#ffffff",
