@@ -9,24 +9,21 @@ import useCartStore from "@/store/use_cart_store";
 import { Button, TouchableRipple } from "react-native-paper";
 import { LinearGradient } from "expo-linear-gradient";
 import { Colors } from "@/constants/colors";
+import toast from "@/utils/toast";
 
 const WishListProductCard = React.memo(({ product, width }) => {
     const { addToCart } = useCartStore();
-    const { addToWishList, removeFromWishList, isInWishList } =
-        useWishListStore();
-    const inWishList = isInWishList(product.id);
+    const { removeFromWishList } = useWishListStore();
 
     const handleWishlist = () => {
-        if (inWishList) {
-            removeFromWishList(product.id);
-        } else {
-            addToWishList(product);
-        }
+        removeFromWishList(product.id);
+        toast.success("Removed from Wishlist");
     };
 
     const handleAddToCart = () => {
         addToCart(product);
         removeFromWishList(product.id);
+        toast.success("Moved to Bag");
     };
 
     const originalPrice =
@@ -207,17 +204,6 @@ const WishListProductCard = React.memo(({ product, width }) => {
                             />
                         )}
                     </View>
-                    {/* Delivery time */}
-                    <Text
-                        numberOfLines={1}
-                        style={{
-                            fontSize: 12,
-                            color: "#334155",
-                            marginBottom: 4,
-                        }}
-                    >
-                        {product?.shippingInformation}
-                    </Text>
                 </View>
                 <LinearGradient
                     colors={["rgba(234,88,12,0.6)", Colors.primary]}

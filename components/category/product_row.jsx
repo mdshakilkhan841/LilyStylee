@@ -1,6 +1,6 @@
 import React from "react";
 import { View } from "react-native";
-import CategoryProductCard from "@/components/product/category_product_card";
+import CategoryProductCard from "@/components/product/card/category/category_product_card";
 import CategoryProductCardSkeleton from "@/components/skeleton/category_product_card_skeleton";
 
 const NUM_COLUMNS = 2;

@@ -6,7 +6,7 @@ import AdvertisementSlider from "@/components/home/advertisement_slider";
 import DiscountCard from "@/components/home/discount_card";
 import OfferProducts from "@/components/product/offer_products";
 import SpecialOfferSection from "@/components/home/special_offer_section";
-import ProductCard from "@/components/product/product_card";
+import ProductCard from "@/components/product/card/product/product_card";
 import ProductCardSkeleton from "@/components/skeleton/product_card_skeleton";
 import React, { useCallback, useMemo } from "react";
 import { Colors } from "@/constants/colors";

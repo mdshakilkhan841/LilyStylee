@@ -2,7 +2,7 @@ import { FlatList, Dimensions } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Colors } from "@/constants/colors";
 import useWishListStore from "@/store/use_wishlist_store";
-import WishListProductCard from "@/components/product/wishlist_product_card";
+import WishListProductCard from "@/components/product/card/wishlist/wishlist_product_card";
 import AddToBagButton from "@/components/product/add_to_bag_button";
 import PageHeader from "@/components/page_header";
 

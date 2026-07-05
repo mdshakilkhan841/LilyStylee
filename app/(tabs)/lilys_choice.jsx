@@ -10,10 +10,10 @@ import useWishListStore from "@/store/use_wishlist_store";
 import useCartStore from "@/store/use_cart_store";
 
 // Import custom cards from the card folder
-import PromoCard from "@/components/product/card/promo_card";
-import FragranceCard from "@/components/product/card/fragrance_card";
-import CosmeticCard from "@/components/product/card/cosmetic_card";
-import DressCard from "@/components/product/card/dress_card";
+import PromoCard from "@/components/product/card/promo/promo_card";
+import FragranceCard from "@/components/product/card/fragrance/fragrance_card";
+import CosmeticCard from "@/components/product/card/cosmetic/cosmetic_card";
+import DressCard from "@/components/product/card/dress/dress_card";
 
 // Import skeletons
 import PromoCardSkeleton from "@/components/skeleton/promo_card_skeleton";

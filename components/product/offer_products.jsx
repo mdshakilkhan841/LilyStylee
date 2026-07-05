@@ -1,6 +1,6 @@
 import { View, FlatList, Dimensions } from "react-native";
 import React, { useCallback } from "react";
-import ProductCard from "@/components/product/product_card";
+import ProductCard from "@/components/product/card/product/product_card";
 import { useCategoryProducts } from "@/hooks/use_category_products";
 import ProductCardSkeleton from "@/components/skeleton/product_card_skeleton";
 
