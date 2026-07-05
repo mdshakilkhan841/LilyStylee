@@ -3,6 +3,7 @@ import React from "react";
 import Octicons from "@expo/vector-icons/Octicons";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
+import Fontisto from "@expo/vector-icons/Fontisto";
 import ClippedView from "@/components/product/clipped_view";
 import { router } from "expo-router";
 import useWishListStore from "@/store/use_wishlist_store";
@@ -419,9 +420,9 @@ export const WishListProductCard2 = React.memo(({ product, width }) => {
                     buttonColor={Colors.primary}
                     textColor="#fff"
                     icon={({ size, color }) => (
-                        <MaterialCommunityIcons
-                            name="shopping-outline"
-                            size={18}
+                        <Fontisto
+                            name="shopping-bag-1"
+                            size={20}
                             color={color}
                         />
                     )}
@@ -646,9 +647,9 @@ export const WishListProductCard3 = React.memo(({ product, width }) => {
                             gap: 6,
                         }}
                     >
-                        <MaterialCommunityIcons
-                            name="shopping-outline"
-                            size={14}
+                        <Fontisto
+                            name="shopping-bag-1"
+                            size={20}
                             color={Colors.primary}
                         />
                         <Text
