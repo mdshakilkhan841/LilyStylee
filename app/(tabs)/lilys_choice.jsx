@@ -19,6 +19,7 @@ import PromoCardSkeleton from "@/components/skeleton/promo_card_skeleton";
 import FragranceCardSkeleton from "@/components/skeleton/fragrance_card_skeleton";
 import CosmeticCardSkeleton from "@/components/skeleton/cosmetic_card_skeleton";
 import DressCardSkeleton from "@/components/skeleton/dress_card_skeleton";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 // Curated Influencer database
 const MOCK_PROFILE = {
@@ -228,7 +229,12 @@ export default function LilysChoice() {
     );
 
     return (
-        <View style={styles.container}>
+        // <View style={styles.container}>
+        <SafeAreaView
+            edges={[]}
+            className="flex-1"
+            style={{ backgroundColor: Colors.bgPrimary }}
+        >
             <PageHeader
                 title="LILY'S CHOICE"
                 showBack={false}
@@ -510,7 +516,8 @@ export default function LilysChoice() {
                     />
                 </View>
             )}
-        </View>
+            {/* </View> */}
+        </SafeAreaView>
     );
 }
 
@@ -713,7 +720,7 @@ const styles = StyleSheet.create({
         bottom: 24,
         left: 16,
         right: 16,
-        backgroundColor: "rgba(255, 255, 255, 0.88)",
+        backgroundColor: "rgba(0, 0, 0, 0.9)",
         borderRadius: 12,
         paddingVertical: 10,
         paddingHorizontal: 16,
@@ -721,15 +728,15 @@ const styles = StyleSheet.create({
         alignItems: "center",
         justifyContent: "space-between",
         borderWidth: 1,
-        borderColor: "rgba(219, 39, 119, 0.15)",
-        shadowColor: "#db2777",
+        borderColor: "rgba(255, 255, 255, 0.15)",
+        shadowColor: "#000000",
         shadowOffset: { width: 0, height: 4 },
-        shadowOpacity: 0.15,
+        shadowOpacity: 0.2,
         shadowRadius: 6,
         elevation: 6,
     },
     toastText: {
-        color: "#db2777",
+        color: "#ffffff",
         fontSize: 13,
         fontWeight: "bold",
         letterSpacing: -0.2,

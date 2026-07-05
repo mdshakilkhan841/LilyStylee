@@ -24,8 +24,6 @@ const PageHeader = ({
                 borderBottomWidth: 1,
                 borderBottomColor: Colors.borderLight,
                 height: 56,
-                paddingLeft: showBack ? 6 : 12,
-                paddingRight: 12,
             }}
         >
             {showBack && (
@@ -118,7 +116,11 @@ const PageHeader = ({
                         }}
                         onPress={() => {}}
                     >
-                        <Feather name="user" size={22} color={Colors.iconPrimary} />
+                        <Feather
+                            name="user"
+                            size={22}
+                            color={Colors.iconPrimary}
+                        />
                     </TouchableRipple>
                 )}
             </View>

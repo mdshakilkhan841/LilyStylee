@@ -1,4 +1,6 @@
-import { View, FlatList, Dimensions } from "react-native";
+import { FlatList, Dimensions } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
+import { Colors } from "@/constants/colors";
 import useWishListStore from "@/store/use_wishlist_store";
 import WishListProductCard from "@/components/product/wishlist_product_card";
 import AddToBagButton from "@/components/product/add_to_bag_button";
@@ -11,7 +13,11 @@ export default function Wishlist() {
     const { wishList } = useWishListStore();
 
     return (
-        <View className="flex-1 bg-white">
+        <SafeAreaView
+            edges={[]}
+            className="flex-1"
+            style={{ backgroundColor: Colors.bgPrimary }}
+        >
             <PageHeader title="WISHLIST" showCart showProfile />
             {/* Body */}
             <FlatList
@@ -47,7 +53,7 @@ export default function Wishlist() {
                 //     ) : null
                 // }
             />
-        </View>
+        </SafeAreaView>
     );
 }
 

@@ -6,6 +6,7 @@ import React, {
     useCallback,
 } from "react";
 import { View, Text, SectionList, FlatList, Dimensions } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
 import { useCategories } from "@/hooks/use_categories";
 
 import {
@@ -212,7 +213,11 @@ export default function CategoryScreen() {
     );
 
     return (
-        <View style={{ flex: 1, backgroundColor: Colors.bgPrimary }}>
+        <SafeAreaView
+            edges={[]}
+            className="flex-1"
+            style={{ backgroundColor: Colors.bgPrimary }}
+        >
             <PageHeader
                 title="CATEGORIES"
                 showBack={false}
@@ -276,6 +281,6 @@ export default function CategoryScreen() {
                     />
                 </View>
             </View>
-        </View>
+        </SafeAreaView>
     );
 }

@@ -9,6 +9,7 @@ import SpecialOfferSection from "@/components/home/special_offer_section";
 import ProductCard from "@/components/product/product_card";
 import ProductCardSkeleton from "@/components/skeleton/product_card_skeleton";
 import React, { useCallback, useMemo } from "react";
+import { Colors } from "@/constants/colors";
 import { useProducts } from "@/hooks/use_products";
 
 const width = Dimensions.get("window").width;
@@ -44,10 +45,7 @@ export default function Index() {
 
     const renderItem = useCallback(
         ({ item }) => (
-            <ProductCard
-                product={item}
-                width={width / itemNumber - 18}
-            />
+            <ProductCard product={item} width={width / itemNumber - 18} />
         ),
         [],
     );
@@ -57,7 +55,11 @@ export default function Index() {
     const renderHeader = useCallback(() => <HomeHeader />, []);
 
     return (
-        <SafeAreaView edges={["top"]} className="flex-1 bg-white">
+        <SafeAreaView
+            edges={[]}
+            className="flex-1"
+            style={{ backgroundColor: Colors.bgPrimary }}
+        >
             {/* Sticky Top Header */}
             <TopHeader />
 

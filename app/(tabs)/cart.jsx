@@ -1,4 +1,5 @@
 import { useState, useMemo } from "react";
+import { SafeAreaView } from "react-native-safe-area-context";
 import { View, Text, ScrollView, Pressable, Dimensions } from "react-native";
 import { Button } from "react-native-paper";
 import { Colors } from "@/constants/colors";
@@ -88,7 +89,11 @@ export default function CartIndex() {
     const selectedCount = checkedItemsId.length;
 
     return (
-        <View className="flex-1">
+        <SafeAreaView
+            edges={[]}
+            className="flex-1"
+            style={{ backgroundColor: Colors.bgPrimary }}
+        >
             <PageHeader
                 title="SHOPPING BAG"
                 showBack={false}
@@ -287,6 +292,6 @@ export default function CartIndex() {
                     </Text>
                 </View>
             )}
-        </View>
+        </SafeAreaView>
     );
 }
