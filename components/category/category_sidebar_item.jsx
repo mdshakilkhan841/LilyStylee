@@ -35,9 +35,7 @@ const CategorySidebarItem = React.memo(
             <TouchableRipple
                 rippleColor={Colors.ripple}
                 style={{
-                    backgroundColor: isActive
-                        ? Colors.bgPrimary
-                        : "transparent",
+                    backgroundColor: isActive ? Colors.ripple : "transparent",
                     borderLeftWidth: 3.5,
                     borderLeftColor: isActive ? Colors.primary : "transparent",
                     paddingVertical: 18,

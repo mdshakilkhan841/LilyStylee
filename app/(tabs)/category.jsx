@@ -249,7 +249,7 @@ export default function CategoryScreen() {
 
                 {/* Right Products Pane */}
                 <View
-                    style={{ flex: 1, paddingHorizontal: 12 }}
+                    style={{ flex: 1, paddingHorizontal: 12, paddingBottom: 4 }}
                     onTouchStart={handleTouchStart}
                     onTouchMove={handleTouchMove}
                 >
