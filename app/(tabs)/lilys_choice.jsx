@@ -5,6 +5,7 @@ import { Colors } from "@/constants/colors";
 import { TouchableRipple } from "react-native-paper";
 import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
 import FontAwesome6 from "@expo/vector-icons/FontAwesome6";
+import toast from "@/utils/toast";
 import useWishListStore from "@/store/use_wishlist_store";
 import useCartStore from "@/store/use_cart_store";
 
@@ -189,7 +190,6 @@ const MOCK_DRESSES = [
 export default function LilysChoice() {
     const { addToCart } = useCartStore();
     const { addToWishList, removeFromWishList, wishList } = useWishListStore();
-    const [toastMessage, setToastMessage] = useState(null);
     const [isLoading, setIsLoading] = useState(true);
 
     useEffect(() => {
@@ -199,33 +199,27 @@ export default function LilysChoice() {
         return () => clearTimeout(timer);
     }, []);
 
-    const showToast = useCallback((message) => {
-        setToastMessage(message);
-        setTimeout(() => {
-            setToastMessage(null);
-        }, 2200);
-    }, []);
-
     const handleWishlistToggle = useCallback(
         (product) => {
             const inWishlist = wishList.some((item) => item.id === product.id);
             if (inWishlist) {
                 removeFromWishList(product.id);
-                showToast("Removed from Wishlist");
+                toast.success("Removed from Wishlist");
             } else {
                 addToWishList(product);
-                showToast("Added to Wishlist");
+                // toast.success("Added to Wishlist");
+                toast.success("Added to Wishlist");
             }
         },
-        [wishList, addToWishList, removeFromWishList, showToast],
+        [wishList, addToWishList, removeFromWishList],
     );
 
     const handleAddToCart = useCallback(
         (product) => {
             addToCart(product);
-            showToast("Added to Bag");
+            toast.success("Added to Bag");
         },
-        [addToCart, showToast],
+        [addToCart],
     );
 
     return (
@@ -317,7 +311,7 @@ export default function LilysChoice() {
                                       key={promo.id}
                                       promo={promo}
                                       onPress={() =>
-                                          showToast(
+                                          toast.success(
                                               `Purchasing ${promo.title}...`,
                                           )
                                       }
@@ -386,7 +380,7 @@ export default function LilysChoice() {
                     <TouchableRipple
                         borderless
                         onPress={() =>
-                            showToast("Lookbook video is loading...")
+                            toast.info("Lookbook video is loading...")
                         }
                         style={styles.adCard}
                     >
@@ -505,17 +499,6 @@ export default function LilysChoice() {
                 </View>
             </ScrollView>
 
-            {/* Glassmorphic Interactive Toast Message */}
-            {toastMessage && (
-                <View style={styles.toastContainer}>
-                    <Text style={styles.toastText}>{toastMessage}</Text>
-                    <MaterialCommunityIcons
-                        name="check-circle"
-                        size={16}
-                        color={Colors.success}
-                    />
-                </View>
-            )}
             {/* </View> */}
         </SafeAreaView>
     );
@@ -714,31 +697,5 @@ const styles = StyleSheet.create({
         flexWrap: "wrap",
         justifyContent: "space-between",
         paddingHorizontal: 16,
-    },
-    toastContainer: {
-        position: "absolute",
-        bottom: 24,
-        left: 16,
-        right: 16,
-        backgroundColor: "rgba(0, 0, 0, 0.9)",
-        borderRadius: 12,
-        paddingVertical: 10,
-        paddingHorizontal: 16,
-        flexDirection: "row",
-        alignItems: "center",
-        justifyContent: "space-between",
-        borderWidth: 1,
-        borderColor: "rgba(255, 255, 255, 0.15)",
-        shadowColor: "#000000",
-        shadowOffset: { width: 0, height: 4 },
-        shadowOpacity: 0.2,
-        shadowRadius: 6,
-        elevation: 6,
-    },
-    toastText: {
-        color: "#ffffff",
-        fontSize: 13,
-        fontWeight: "bold",
-        letterSpacing: -0.2,
     },
 });
