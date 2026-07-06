@@ -7,6 +7,7 @@ import useWishListStore from "@/store/use_wishlist_store";
 import AddToBagButton from "@/components/product/add_to_bag_button";
 import { Colors } from "@/constants/colors";
 import { TouchableRipple } from "react-native-paper";
+import toast from "@/utils/toast";
 
 const ProductCard = React.memo(({ product, width }) => {
     const addToWishList = useWishListStore((state) => state.addToWishList);
@@ -20,8 +21,10 @@ const ProductCard = React.memo(({ product, width }) => {
     const handleWishlist = () => {
         if (inWishList) {
             removeFromWishList(product.id);
+            toast.success("Removed from Wishlist");
         } else {
             addToWishList(product);
+            toast.success("Added to Wishlist");
         }
     };
 
