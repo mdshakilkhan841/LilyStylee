@@ -38,7 +38,7 @@ const showToast = (message, options = {}, type = "success") => {
     // Global default configurations automatically applied to all toasts
     const DEFAULT_OPTIONS = {
         duration: Toast.durations.SHORT,
-        position: Toast.positions.BOTTOM,
+        position: Toast.positions.BOTTOM - 40,
         shadow: true,
         animation: true,
         hideOnPress: true,
