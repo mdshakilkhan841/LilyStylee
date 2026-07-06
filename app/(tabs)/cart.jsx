@@ -8,7 +8,7 @@ import {
     Dimensions,
     Image,
 } from "react-native";
-import { Button } from "react-native-paper";
+import { Button, TouchableRipple } from "react-native-paper";
 import { Colors } from "@/constants/colors";
 import PageHeader from "@/components/page_header";
 import {
@@ -140,62 +140,105 @@ export default function CartIndex() {
                         {/* Selected Items */}
                         <View>
                             <View className="flex-row flex-wrap items-center justify-between px-4 py-3 bg-primaryBg">
-                                <View className="flex-row items-center gap-4">
-                                    <Checkbox
+                                <View className="flex-row items-center gap-2">
+                                    <TouchableRipple
+                                        borderless={true}
+                                        rippleColor={Colors.ripple}
                                         style={{
-                                            height: 18,
-                                            width: 18,
-                                            backgroundColor:
-                                                "rgba(255, 255, 255, 0.5)",
+                                            borderRadius: 100,
+                                            padding: 10,
                                         }}
-                                        color={
-                                            checkedAll
-                                                ? Colors.primary
-                                                : "#4b5563"
-                                        }
-                                        value={checkedAll}
-                                        onValueChange={handleSelectAll}
-                                    />
+                                        onPress={handleSelectAll}
+                                    >
+                                        <View pointerEvents="none">
+                                            <Checkbox
+                                                style={{
+                                                    height: 18,
+                                                    width: 18,
+                                                    backgroundColor:
+                                                        "rgba(255, 255, 255, 0.5)",
+                                                }}
+                                                color={
+                                                    checkedAll
+                                                        ? Colors.primary
+                                                        : "#4b5563"
+                                                }
+                                                value={checkedAll}
+                                            />
+                                        </View>
+                                    </TouchableRipple>
                                     <Text className="text-sm font-bold text-center text-gray-600 uppercase">
                                         {selectedCount}/{cart.length} Items
                                         Selected
                                     </Text>
                                 </View>
-                                <View className="flex-row items-center gap-5">
-                                    <Ionicons
-                                        name="share-social-outline"
-                                        size={20}
-                                        color="black"
-                                    />
-                                    <Pressable onPress={handleRemoveAllItems}>
+                                <View className="flex-row items-center">
+                                    <TouchableRipple
+                                        borderless={true}
+                                        rippleColor={Colors.ripple}
+                                        style={{
+                                            borderRadius: 100,
+                                            padding: 8,
+                                        }}
+                                        onPress={() => {}}
+                                    >
+                                        <Ionicons
+                                            name="share-social-outline"
+                                            size={20}
+                                            color="black"
+                                        />
+                                    </TouchableRipple>
+                                    <TouchableRipple
+                                        borderless={true}
+                                        rippleColor={Colors.ripple}
+                                        style={{
+                                            borderRadius: 100,
+                                            padding: 8,
+                                        }}
+                                        onPress={handleRemoveAllItems}
+                                    >
                                         <AntDesign
                                             name="delete"
                                             size={20}
                                             color="black"
                                         />
-                                    </Pressable>
-                                    <MaterialCommunityIcons
-                                        name="tag-heart-outline"
-                                        size={20}
-                                        color="black"
-                                    />
+                                    </TouchableRipple>
+                                    <TouchableRipple
+                                        borderless={true}
+                                        rippleColor={Colors.ripple}
+                                        style={{
+                                            borderRadius: 100,
+                                            padding: 8,
+                                        }}
+                                        onPress={() => {}}
+                                    >
+                                        <MaterialCommunityIcons
+                                            name="tag-heart-outline"
+                                            size={20}
+                                            color="black"
+                                        />
+                                    </TouchableRipple>
                                 </View>
                             </View>
-                            {cart.map((product) => (
-                                <CartItemCard
-                                    key={product.id}
-                                    product={product}
-                                    isChecked={checkedItemsId.includes(
-                                        product.id,
-                                    )}
-                                    onCheck={() => handleSelectItem(product.id)}
-                                    onRemove={handleRemoveSingleItem}
-                                />
-                            ))}
+                            <View className="p-4 gap-3">
+                                {cart.map((product) => (
+                                    <CartItemCard
+                                        key={product.id}
+                                        product={product}
+                                        isChecked={checkedItemsId.includes(
+                                            product.id,
+                                        )}
+                                        onCheck={() =>
+                                            handleSelectItem(product.id)
+                                        }
+                                        onRemove={handleRemoveSingleItem}
+                                    />
+                                ))}
+                            </View>
                         </View>
 
                         {/* Price Details */}
-                        <View className="p-4 bg-white">
+                        <View className="p-4 bg-white pb-20">
                             <Text className="text-sm font-bold text-black">
                                 PRICE DETAILS ({selectedCount}{" "}
                                 {selectedCount > 1 ? "Items" : "Item"})
@@ -248,15 +291,15 @@ export default function CartIndex() {
                             <Image
                                 source={serviceBanner}
                                 style={{
-                                    width: width - 32,
-                                    height: (width - 32) * (512 / 3156),
+                                    width: width - 120,
+                                    height: (width - 120) * (512 / 3156),
                                     alignSelf: "center",
                                     borderRadius: 8,
                                     resizeMode: "contain",
                                 }}
                             />
 
-                            <Text className="px-4 py-3 text-center text-gray-500">
+                            <Text className="px-4 py-3 text-center text-gray-500 text-sm">
                                 By Placing the order, you agree to LilyStylee{" "}
                                 <Text
                                     className="font-bold text-primary underline"
@@ -292,7 +335,7 @@ export default function CartIndex() {
                                 borderRadius: 5,
                                 marginHorizontal: 16,
                                 marginTop: 12,
-                                marginBottom: 18,
+                                marginBottom: 12,
                             }}
                             labelStyle={{ padding: 4 }}
                             onPress={() => {}}

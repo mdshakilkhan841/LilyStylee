@@ -4,13 +4,14 @@ import { Feather, FontAwesome } from "@expo/vector-icons";
 import ClippedView from "@/components/product/clipped_view";
 import { Checkbox } from "expo-checkbox";
 import { Colors } from "@/constants/colors";
+import { TouchableRipple } from "react-native-paper";
 
 const CartItemCard = ({ product, isChecked, onCheck, onRemove }) => {
     const originalPrice =
         product?.price / (1 - product?.discountPercentage / 100);
 
     return (
-        <View className="flex-row bg-white">
+        <View className="flex-row bg-white rounded-lg overflow-hidden">
             <Image
                 className="w-[30%] h-full"
                 style={{ objectFit: "cover" }}
@@ -72,19 +73,30 @@ const CartItemCard = ({ product, isChecked, onCheck, onRemove }) => {
                 {/* return policy */}
                 <Text className="font-bold">{product.returnPolicy}</Text>
             </View>
-            <Checkbox
+            <TouchableRipple
+                borderless={true}
+                onPress={onCheck}
+                rippleColor={Colors.ripple}
                 style={{
                     position: "absolute",
-                    top: 16,
-                    left: 16,
-                    height: 18,
-                    width: 18,
-                    backgroundColor: "rgba(255, 255, 255, 0.5)",
+                    top: 6,
+                    left: 6,
+                    padding: 10,
+                    borderRadius: 20,
                 }}
-                color={isChecked ? Colors.primary : "#4b5563"}
-                value={isChecked}
-                onValueChange={onCheck}
-            />
+            >
+                <View pointerEvents="none">
+                    <Checkbox
+                        style={{
+                            height: 18,
+                            width: 18,
+                            backgroundColor: "rgba(255, 255, 255, 0.5)",
+                        }}
+                        color={isChecked ? Colors.primary : "#4b5563"}
+                        value={isChecked}
+                    />
+                </View>
+            </TouchableRipple>
             {/* need to pass item id as an array */}
             <Pressable onPress={() => onRemove(product.id)}>
                 <Feather
