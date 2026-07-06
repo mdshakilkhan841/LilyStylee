@@ -1,9 +1,8 @@
-import { View, Text, Pressable } from "react-native";
-import React, { useState } from "react";
-import { Image } from "react-native";
+import { View, Text, Pressable, Image } from "react-native";
+import React from "react";
 import { Feather, FontAwesome } from "@expo/vector-icons";
 import ClippedView from "@/components/product/clipped_view";
-import Checkbox from "expo-checkbox";
+import { Checkbox } from "expo-checkbox";
 import { Colors } from "@/constants/colors";
 
 const CartItemCard = ({ product, isChecked, onCheck, onRemove }) => {
@@ -11,7 +10,7 @@ const CartItemCard = ({ product, isChecked, onCheck, onRemove }) => {
         product?.price / (1 - product?.discountPercentage / 100);
 
     return (
-        <View className="flex-row p-3 mb-2.5 bg-white">
+        <View className="flex-row bg-white">
             <Image
                 className="w-[30%] h-full"
                 style={{ objectFit: "cover" }}

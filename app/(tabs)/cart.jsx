@@ -1,6 +1,13 @@
 import { useState, useMemo } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { View, Text, ScrollView, Pressable, Dimensions } from "react-native";
+import {
+    View,
+    Text,
+    ScrollView,
+    Pressable,
+    Dimensions,
+    Image,
+} from "react-native";
 import { Button } from "react-native-paper";
 import { Colors } from "@/constants/colors";
 import PageHeader from "@/components/page_header";
@@ -9,11 +16,12 @@ import {
     Ionicons,
     MaterialCommunityIcons,
 } from "@expo/vector-icons";
-import Checkbox from "expo-checkbox";
+import { Checkbox } from "expo-checkbox";
 import CartItemCard from "@/components/cart/cart_item_card";
 import OfferTiming from "@/components/cart/offer_timing";
 import useCartStore from "@/store/use_cart_store";
 import ShoppingBag from "@/assets/animations/shopping-bag.svg";
+import serviceBanner from "@/assets/images/service.png";
 
 const { width } = Dimensions.get("window");
 
@@ -236,6 +244,18 @@ export default function CartIndex() {
 
                         {/* Privacy Policy */}
                         <View>
+                            {/* Service Banner */}
+                            <Image
+                                source={serviceBanner}
+                                style={{
+                                    width: width - 32,
+                                    height: (width - 32) * (512 / 3156),
+                                    alignSelf: "center",
+                                    borderRadius: 8,
+                                    resizeMode: "contain",
+                                }}
+                            />
+
                             <Text className="px-4 py-3 text-center text-gray-500">
                                 By Placing the order, you agree to LilyStylee{" "}
                                 <Text
@@ -270,7 +290,8 @@ export default function CartIndex() {
                             textColor="white"
                             style={{
                                 borderRadius: 5,
-                                margin: 12,
+                                marginHorizontal: 16,
+                                marginTop: 12,
                                 marginBottom: 18,
                             }}
                             labelStyle={{ padding: 4 }}
@@ -283,7 +304,7 @@ export default function CartIndex() {
             ) : (
                 <View className="items-center flex-1 justify-center">
                     <ShoppingBag height={width * 0.8} width={"80%"} />
-                    <Text className="py-2 text-2xl font-bold text-center text-black">
+                    <Text className="px-4 py-2 text-2xl font-bold text-center text-black">
                         Hey, your shopping bag is empty!
                     </Text>
                     <Text className="px-4 text-xs text-center text-gray-500">
