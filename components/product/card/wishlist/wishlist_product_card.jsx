@@ -277,7 +277,8 @@ export const WishListProductCard2 = React.memo(({ product, width }) => {
             }}
         >
             <TouchableRipple
-                rippleColor={Colors.ripple}
+                borderless
+                // rippleColor={Colors.ripple}
                 onPress={() => {
                     router.push({
                         pathname: "/product_details",
