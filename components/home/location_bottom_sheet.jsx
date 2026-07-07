@@ -61,6 +61,7 @@ const LocationBottomSheet = forwardRef(({ onSelectLocation }, ref) => {
 
                     {/* GPS Current Location Option */}
                     <TouchableRipple
+                        borderless
                         onPress={() => {
                             onSelectLocation("Current location (GPS)");
                             toast.success("Location updated to GPS");
@@ -89,6 +90,7 @@ const LocationBottomSheet = forwardRef(({ onSelectLocation }, ref) => {
 
                     {/* Saved Location 1: Home */}
                     <TouchableRipple
+                        borderless
                         onPress={() => {
                             onSelectLocation("769008, Shakil Khan");
                             toast.success("Location updated to Home");
@@ -115,6 +117,7 @@ const LocationBottomSheet = forwardRef(({ onSelectLocation }, ref) => {
 
                     {/* Saved Location 2: Office */}
                     <TouchableRipple
+                        borderless
                         onPress={() => {
                             onSelectLocation("100012, Shakil Office");
                             toast.success("Location updated to Office");
