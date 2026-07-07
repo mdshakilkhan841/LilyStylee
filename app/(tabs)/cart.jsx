@@ -150,7 +150,7 @@ export default function CartIndex() {
                             <Text>
                                 Deliver to:{" "}
                                 <Text className="font-bold">
-                                    {selectedLocation}
+                                    {selectedLocation || "Select Location"}
                                 </Text>
                             </Text>
                             <Pressable

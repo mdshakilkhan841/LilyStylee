@@ -54,38 +54,13 @@ const customStorage = {
 const useLocationStore = create(
     persist(
         (set, get) => ({
-            selectedLocation: "Shakil Khan, 769008",
+            selectedLocation: "",
             setSelectedLocation: (location) =>
                 set({ selectedLocation: location }),
-            savedLocations: [
-                {
-                    id: "home",
-                    title: "Home",
-                    value: "Shakil Khan, 769008",
-                    subtext: "769008, Shakil Khan - Dhaka, BD",
-                    phone: "+880 1712-345678",
-                    isDefault: true,
-                    icon: "home-outline",
-                },
-                {
-                    id: "office",
-                    title: "Office",
-                    value: "Shakil Office, 100012",
-                    subtext: "100012, Shakil Office - Gulshan, BD",
-                    phone: "+880 1912-876543",
-                    isDefault: false,
-                    icon: "office-building-marker-outline",
-                },
-            ],
+            savedLocations: [],
             addLocation: (loc) => {
                 const newLoc = {
                     id: String(Date.now()),
-                    icon:
-                        loc.title.toLowerCase() === "home"
-                            ? "home-outline"
-                            : loc.title.toLowerCase() === "office"
-                              ? "office-building-marker-outline"
-                              : "map-marker-outline",
                     ...loc,
                 };
                 let updatedLocations = get().savedLocations;
@@ -104,13 +79,6 @@ const useLocationStore = create(
                         ? {
                               ...loc,
                               ...updatedFields,
-                              icon:
-                                  updatedFields.title?.toLowerCase() === "home"
-                                      ? "home-outline"
-                                      : updatedFields.title?.toLowerCase() ===
-                                          "office"
-                                        ? "office-building-marker-outline"
-                                        : "map-marker-outline",
                           }
                         : loc,
                 );
@@ -133,6 +101,21 @@ const useLocationStore = create(
                     );
                     if (oldLoc && currentSelected === oldLoc.value) {
                         set({ selectedLocation: updatedFields.value });
+                    }
+                }
+            },
+            deleteLocation: (id) => {
+                const locations = get().savedLocations;
+                const locToDelete = locations.find((l) => l.id === id);
+                const updated = locations.filter((l) => l.id !== id);
+                set({ savedLocations: updated });
+
+                if (locToDelete && get().selectedLocation === locToDelete.value) {
+                    const newDefault = updated.find((l) => l.isDefault) || updated[0];
+                    if (newDefault) {
+                        set({ selectedLocation: newDefault.value });
+                    } else {
+                        set({ selectedLocation: "" });
                     }
                 }
             },

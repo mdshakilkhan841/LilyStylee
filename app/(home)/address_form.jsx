@@ -7,11 +7,13 @@ import {
     ScrollView,
     KeyboardAvoidingView,
     Platform,
+    ActivityIndicator,
 } from "react-native";
 import { Button, IconButton, TouchableRipple } from "react-native-paper";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { router, useLocalSearchParams } from "expo-router";
 import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
+import * as Location from "expo-location";
 import { Colors } from "@/constants/colors";
 import toast from "@/utils/toast";
 import useLocationStore from "@/store/use_location_store";
@@ -30,16 +32,33 @@ export default function AddressForm() {
     const params = useLocalSearchParams();
     const isEditMode = !!params.id;
 
-    const { addLocation, updateLocation } = useLocationStore();
+    const { addLocation, updateLocation, deleteLocation } = useLocationStore();
 
     // Parse helpers for editing state
     const getInitialTitle = () => params.title || "Home";
-    const getInitialName = () => {
+    const getInitialContactName = () => {
+        if (params.contactName) return params.contactName;
+        if (params.name) return params.name; // legacy fallback
+        
         const valueStr = params.value || "";
         if (valueStr.includes(",")) {
             return valueStr.split(",")[0].trim();
         }
         return valueStr;
+    };
+    const getInitialAddress = () => {
+        if (params.addressLine) return params.addressLine;
+        
+        // Fallback to parsing left side of legacy subtext
+        const subtextStr = params.subtext || "";
+        if (subtextStr.includes("-")) {
+            const leftSide = subtextStr.split("-")[0].trim();
+            if (leftSide.includes(",")) {
+                return leftSide.split(",").slice(1).join(",").trim();
+            }
+            return leftSide;
+        }
+        return "";
     };
     const getInitialPincode = () => {
         const valueStr = params.value || "";
@@ -51,65 +70,142 @@ export default function AddressForm() {
     const getInitialCity = () => {
         const subtextStr = params.subtext || "";
         if (subtextStr.includes("-")) {
-            return subtextStr.split("-")[1].trim();
+            const rightSide = subtextStr.split("-")[1];
+            const parts = rightSide.split(",");
+            return parts[0] ? parts[0].trim() : "";
         }
-        return subtextStr;
+        return "";
+    };
+    const getInitialState = () => {
+        const subtextStr = params.subtext || "";
+        if (subtextStr.includes("-")) {
+            const rightSide = subtextStr.split("-")[1];
+            const parts = rightSide.split(",");
+            return parts[1] ? parts[1].trim() : "";
+        }
+        return "";
+    };
+    const getInitialCountry = () => {
+        const subtextStr = params.subtext || "";
+        if (subtextStr.includes("-")) {
+            const rightSide = subtextStr.split("-")[1];
+            const parts = rightSide.split(",");
+            return parts[2] ? parts[2].trim() : "";
+        }
+        return "";
     };
     const getInitialPhone = () => params.phone || "";
     const getInitialIsDefault = () => params.isDefault === "true";
 
     // Form fields states
     const [selectedType, setSelectedType] = useState(() => {
+        const initialType = params.type || "";
+        if (["Home", "Office"].includes(initialType)) {
+            return initialType;
+        }
         const initialTitle = getInitialTitle();
-        if (["Home", "Office", "Guest"].includes(initialTitle)) {
+        if (["Home", "Office"].includes(initialTitle)) {
             return initialTitle;
         }
         return "Custom";
     });
     const [customLabel, setCustomLabel] = useState(() => {
         const initialTitle = getInitialTitle();
-        if (["Home", "Office", "Guest"].includes(initialTitle)) {
+        const initialType = params.type || "";
+        if (["Home", "Office"].includes(initialType) || ["Home", "Office"].includes(initialTitle)) {
             return "";
         }
         return initialTitle;
     });
 
-    const [name, setName] = useState(getInitialName);
+    const [contactName, setContactName] = useState(getInitialContactName);
     const [phone, setPhone] = useState(getInitialPhone);
+    const [addressLine, setAddressLine] = useState(getInitialAddress);
     const [pincode, setPincode] = useState(getInitialPincode);
-    const [cityDetails, setCityDetails] = useState(getInitialCity);
+    const [city, setCity] = useState(getInitialCity);
+    const [stateVal, setStateVal] = useState(getInitialState);
+    const [country, setCountry] = useState(getInitialCountry);
     const [isDefault, setIsDefault] = useState(getInitialIsDefault);
+    const [isFetchingGps, setIsFetchingGps] = useState(false);
+
+    const handleDetectGpsAddress = async () => {
+        try {
+            setIsFetchingGps(true);
+            toast.success("Fetching current location...");
+
+            const { status } = await Location.requestForegroundPermissionsAsync();
+            if (status !== "granted") {
+                toast.danger("Permission to access location was denied");
+                return;
+            }
+
+            const location = await Location.getCurrentPositionAsync({
+                accuracy: Location.Accuracy.Balanced,
+            });
+
+            const geocode = await Location.reverseGeocodeAsync({
+                latitude: location.coords.latitude,
+                longitude: location.coords.longitude,
+            });
+
+            if (geocode && geocode.length > 0) {
+                const addressObj = geocode[0];
+                const streetName = addressObj.name || addressObj.street || "";
+                const pincodeVal = addressObj.postalCode || "";
+                const cityVal = addressObj.city || addressObj.subregion || "";
+                const stateVal = addressObj.region || "";
+                const countryVal = addressObj.country || "";
+
+                setAddressLine(streetName);
+                setPincode(pincodeVal);
+                setCity(cityVal);
+                setStateVal(stateVal);
+                setCountry(countryVal);
+                
+                toast.success("Address filled using GPS!");
+            } else {
+                toast.danger("Could not resolve address details");
+            }
+        } catch (error) {
+            console.error("GPS Form Fetch Error: ", error);
+            toast.danger("Error detecting current location");
+        } finally {
+            setIsFetchingGps(false);
+        }
+    };
 
     const handleSave = () => {
-        const finalTitle =
-            selectedType === "Custom" ? customLabel.trim() : selectedType;
-        const cleanedName = name.trim();
+        const finalTitle = selectedType === "Custom" ? customLabel.trim() : selectedType;
+        const cleanedContactName = contactName.trim();
         const cleanedPhone = phone.trim();
+        const cleanedAddress = addressLine.trim();
         const cleanedPincode = pincode.trim();
-        const cleanedCity = cityDetails.trim();
+        const cleanedCity = city.trim();
+        const cleanedState = stateVal.trim();
+        const cleanedCountry = country.trim();
 
-        if (
-            !finalTitle ||
-            !cleanedName ||
-            !cleanedPhone ||
-            !cleanedPincode ||
-            !cleanedCity
-        ) {
+        if (!finalTitle || !cleanedContactName || !cleanedPhone || !cleanedAddress || !cleanedPincode || !cleanedCity || !cleanedState || !cleanedCountry) {
             toast.warning("Please fill in all fields");
             return;
         }
 
-        // Validate phone structure (basic check)
         if (cleanedPhone.length < 8) {
             toast.warning("Please enter a valid mobile number");
             return;
         }
 
-        const value = `${cleanedName}, ${cleanedPincode}`;
-        const subtext = `${cleanedPincode}, ${cleanedName} - ${cleanedCity}`;
+        const value = `${cleanedAddress}, ${cleanedPincode}`;
+        const subtext = `${cleanedPincode}, ${cleanedAddress} - ${cleanedCity}, ${cleanedState}, ${cleanedCountry}`;
 
         const payload = {
             title: finalTitle,
+            type: selectedType,
+            contactName: cleanedContactName,
+            addressLine: cleanedAddress,
+            pincode: cleanedPincode,
+            city: cleanedCity,
+            stateVal: cleanedState,
+            country: cleanedCountry,
             value,
             subtext,
             phone: cleanedPhone,
@@ -127,9 +223,14 @@ export default function AddressForm() {
         router.back();
     };
 
+    const handleDelete = () => {
+        deleteLocation(params.id);
+        toast.success("Address deleted successfully!");
+        router.back();
+    };
+
     return (
         <SafeAreaView style={styles.container}>
-            {/* Header */}
             <View style={styles.header}>
                 <IconButton
                     icon="arrow-left"
@@ -140,7 +241,7 @@ export default function AddressForm() {
                 <Text style={styles.headerTitle}>
                     {isEditMode ? "Edit Address" : "Add Address"}
                 </Text>
-                <View style={{ width: 48 }} /> {/* Spacer */}
+                <View style={{ width: 48 }} />
             </View>
 
             <KeyboardAvoidingView
@@ -148,19 +249,16 @@ export default function AddressForm() {
                 style={{ flex: 1 }}
             >
                 <ScrollView contentContainerStyle={styles.formContainer}>
-                    {/* Section 1: Contact Details */}
                     <View style={styles.section}>
-                        <Text style={styles.sectionHeader}>
-                            CONTACT DETAILS
-                        </Text>
-
+                        <Text style={styles.sectionHeader}>CONTACT DETAILS</Text>
+                        
                         <View style={styles.inputGroup}>
                             <Text style={styles.label}>Name</Text>
                             <RNTextInput
                                 placeholder="Full Name"
                                 placeholderTextColor="#94a3b8"
-                                value={name}
-                                onChangeText={setName}
+                                value={contactName}
+                                onChangeText={setContactName}
                                 style={styles.textInput}
                             />
                         </View>
@@ -178,39 +276,92 @@ export default function AddressForm() {
                         </View>
                     </View>
 
-                    {/* Section 2: Address */}
                     <View style={styles.section}>
-                        <Text style={styles.sectionHeader}>
-                            ADDRESS DETAILS
-                        </Text>
+                        <View style={styles.sectionHeaderRow}>
+                            <Text style={styles.sectionHeader}>ADDRESS DETAILS</Text>
+                            <TouchableRipple
+                                borderless
+                                onPress={handleDetectGpsAddress}
+                                disabled={isFetchingGps}
+                                style={styles.detectRipple}
+                                rippleColor={Colors.ripple}
+                            >
+                                <View style={styles.detectContainer}>
+                                    {isFetchingGps ? (
+                                        <ActivityIndicator size={12} color={Colors.primary} />
+                                    ) : (
+                                        <MaterialCommunityIcons
+                                            name="crosshairs-gps"
+                                            size={16}
+                                            color={Colors.primary}
+                                        />
+                                    )}
+                                    <Text style={styles.detectText}>
+                                        {isFetchingGps ? "Detecting..." : "Detect GPS"}
+                                    </Text>
+                                </View>
+                            </TouchableRipple>
+                        </View>
 
                         <View style={styles.inputGroup}>
-                            <Text style={styles.label}>Post / PIN Code</Text>
+                            <Text style={styles.label}>Address (House, Street, Area)</Text>
                             <RNTextInput
-                                placeholder="e.g. 769008"
+                                placeholder="e.g. House 12, Road 5, Sector 3"
                                 placeholderTextColor="#94a3b8"
-                                value={pincode}
-                                onChangeText={setPincode}
-                                keyboardType="numeric"
+                                value={addressLine}
+                                onChangeText={setAddressLine}
                                 style={styles.textInput}
                             />
                         </View>
 
-                        <View style={styles.inputGroup}>
-                            <Text style={styles.label}>
-                                City, State & Country Details
-                            </Text>
-                            <RNTextInput
-                                placeholder="e.g. Dhaka, BD"
-                                placeholderTextColor="#94a3b8"
-                                value={cityDetails}
-                                onChangeText={setCityDetails}
-                                style={styles.textInput}
-                            />
+                        <View style={styles.formRow}>
+                            <View style={[styles.inputGroup, styles.halfColumn]}>
+                                <Text style={styles.label}>Post / PIN Code</Text>
+                                <RNTextInput
+                                    placeholder="e.g. 769008"
+                                    placeholderTextColor="#94a3b8"
+                                    value={pincode}
+                                    onChangeText={setPincode}
+                                    keyboardType="numeric"
+                                    style={styles.textInput}
+                                />
+                            </View>
+                            <View style={[styles.inputGroup, styles.halfColumn]}>
+                                <Text style={styles.label}>City</Text>
+                                <RNTextInput
+                                    placeholder="e.g. Dhaka"
+                                    placeholderTextColor="#94a3b8"
+                                    value={city}
+                                    onChangeText={setCity}
+                                    style={styles.textInput}
+                                />
+                            </View>
+                        </View>
+
+                        <View style={styles.formRow}>
+                            <View style={[styles.inputGroup, styles.halfColumn]}>
+                                <Text style={styles.label}>State</Text>
+                                <RNTextInput
+                                    placeholder="e.g. Dhaka Division"
+                                    placeholderTextColor="#94a3b8"
+                                    value={stateVal}
+                                    onChangeText={setStateVal}
+                                    style={styles.textInput}
+                                />
+                            </View>
+                            <View style={[styles.inputGroup, styles.halfColumn]}>
+                                <Text style={styles.label}>Country</Text>
+                                <RNTextInput
+                                    placeholder="e.g. Bangladesh"
+                                    placeholderTextColor="#94a3b8"
+                                    value={country}
+                                    onChangeText={setCountry}
+                                    style={styles.textInput}
+                                />
+                            </View>
                         </View>
                     </View>
 
-                    {/* Section 3: Address Type */}
                     <View style={styles.section}>
                         <Text style={styles.sectionHeader}>ADDRESS TYPE</Text>
                         <View style={styles.radioGroup}>
@@ -220,25 +371,15 @@ export default function AddressForm() {
                                     <TouchableRipple
                                         key={type.key}
                                         borderless
-                                        onPress={() =>
-                                            setSelectedType(type.key)
-                                        }
+                                        onPress={() => setSelectedType(type.key)}
                                         style={styles.radioOption}
                                         rippleColor={Colors.ripple}
                                     >
                                         <View style={styles.radioRow}>
                                             <MaterialCommunityIcons
-                                                name={
-                                                    active
-                                                        ? "radiobox-marked"
-                                                        : "radiobox-blank"
-                                                }
+                                                name={active ? "radiobox-marked" : "radiobox-blank"}
                                                 size={22}
-                                                color={
-                                                    active
-                                                        ? Colors.primary
-                                                        : "#64748b"
-                                                }
+                                                color={active ? Colors.primary : "#64748b"}
                                             />
                                             <MaterialCommunityIcons
                                                 name={type.icon}
@@ -246,16 +387,13 @@ export default function AddressForm() {
                                                 color="#475569"
                                                 style={{ marginLeft: 2 }}
                                             />
-                                            <Text style={styles.radioText}>
-                                                {type.label}
-                                            </Text>
+                                            <Text style={styles.radioText}>{type.label}</Text>
                                         </View>
                                     </TouchableRipple>
                                 );
                             })}
                         </View>
 
-                        {/* Custom label input if custom is selected */}
                         {selectedType === "Custom" && (
                             <View style={[styles.inputGroup, { marginTop: 4 }]}>
                                 <RNTextInput
@@ -269,7 +407,6 @@ export default function AddressForm() {
                         )}
                     </View>
 
-                    {/* Default Address Checkbox */}
                     <TouchableRipple
                         borderless
                         onPress={() => setIsDefault(!isDefault)}
@@ -278,21 +415,14 @@ export default function AddressForm() {
                     >
                         <View style={styles.checkboxRow}>
                             <MaterialCommunityIcons
-                                name={
-                                    isDefault
-                                        ? "checkbox-marked"
-                                        : "checkbox-blank-outline"
-                                }
+                                name={isDefault ? "checkbox-marked" : "checkbox-blank-outline"}
                                 size={22}
                                 color={isDefault ? Colors.primary : "#64748b"}
                             />
-                            <Text style={styles.checkboxLabel}>
-                                Mark this as my default address
-                            </Text>
+                            <Text style={styles.checkboxLabel}>Mark this as my default address</Text>
                         </View>
                     </TouchableRipple>
 
-                    {/* Save Button */}
                     <Button
                         mode="contained"
                         buttonColor={Colors.primary}
@@ -303,6 +433,18 @@ export default function AddressForm() {
                     >
                         {isEditMode ? "UPDATE ADDRESS" : "SAVE ADDRESS"}
                     </Button>
+
+                    {isEditMode && (
+                        <Button
+                            mode="outlined"
+                            textColor="#ef4444"
+                            style={styles.deleteButton}
+                            labelStyle={styles.deleteButtonLabel}
+                            onPress={handleDelete}
+                        >
+                            DELETE ADDRESS
+                        </Button>
+                    )}
                 </ScrollView>
             </KeyboardAvoidingView>
         </SafeAreaView>
@@ -336,14 +478,43 @@ const styles = StyleSheet.create({
     section: {
         gap: 10,
     },
+    sectionHeaderRow: {
+        flexDirection: "row",
+        alignItems: "center",
+        justifyContent: "space-between",
+        borderBottomColor: "#f1f5f9",
+    },
     sectionHeader: {
         fontSize: 11.5,
         fontWeight: "bold",
         color: "#64748b",
         letterSpacing: 0.5,
     },
+    detectRipple: {
+        borderRadius: 4,
+    },
+    detectContainer: {
+        flexDirection: "row",
+        alignItems: "center",
+        gap: 4,
+        paddingVertical: 2,
+        paddingHorizontal: 6,
+    },
+    detectText: {
+        fontSize: 11.5,
+        fontWeight: "bold",
+        color: Colors.primary,
+    },
     inputGroup: {
         gap: 4,
+    },
+    formRow: {
+        flexDirection: "row",
+        gap: 12,
+        width: "100%",
+    },
+    halfColumn: {
+        flex: 1,
     },
     label: {
         fontSize: 12,
@@ -398,6 +569,19 @@ const styles = StyleSheet.create({
         justifyContent: "center",
     },
     saveButtonLabel: {
+        fontSize: 13.5,
+        fontWeight: "bold",
+        letterSpacing: 0.5,
+    },
+    deleteButton: {
+        marginTop: 4,
+        borderRadius: 8,
+        height: 46,
+        justifyContent: "center",
+        borderColor: "#fecaca",
+        borderWidth: 1,
+    },
+    deleteButtonLabel: {
         fontSize: 13.5,
         fontWeight: "bold",
         letterSpacing: 0.5,

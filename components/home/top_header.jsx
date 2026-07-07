@@ -129,7 +129,7 @@ const TopHeader = () => {
                         >
                             Delever to{" "}
                             <Text className="font-semibold text-black">
-                                {selectedLocation}
+                                {selectedLocation || "Select Location"}
                             </Text>
                         </Text>
                         <MaterialCommunityIcons

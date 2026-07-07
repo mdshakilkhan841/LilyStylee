@@ -50,6 +50,13 @@ const LocationBottomSheet = forwardRef(
             return normalizedSelected === normalizedValue;
         };
 
+        const getIconForType = (type) => {
+            const lower = (type || "").toLowerCase().trim();
+            if (lower === "home") return "home-outline";
+            if (lower === "office") return "office-building-marker-outline";
+            return "map-marker-outline";
+        };
+
         const isGpsSelected = !!(
             selectedLocation &&
             !savedLocations.some((loc) => isSelected(loc.value))
@@ -265,7 +272,7 @@ const LocationBottomSheet = forwardRef(
                                 </Text>
                                 <Text style={styles.optionSub}>
                                     {isFetchingGps
-                                        ? "Querying coordinates..."
+                                        ? "Detecting current address..."
                                         : gpsAddressText}
                                 </Text>
                             </View>
@@ -301,11 +308,11 @@ const LocationBottomSheet = forwardRef(
                                     ]}
                                 >
                                     <View style={styles.optionContent}>
-                                        <MaterialCommunityIcons
-                                            name={loc.icon}
-                                            size={20}
-                                            color={Colors.primary}
-                                        />
+                                         <MaterialCommunityIcons
+                                             name={getIconForType(loc.type)}
+                                             size={20}
+                                             color={Colors.primary}
+                                         />
                                         <View
                                             style={styles.optionTextContainer}
                                         >
@@ -335,6 +342,9 @@ const LocationBottomSheet = forwardRef(
                                             params: {
                                                 id: loc.id,
                                                 title: loc.title,
+                                                type: loc.type || "",
+                                                contactName: loc.contactName || loc.name || "",
+                                                addressLine: loc.addressLine || "",
                                                 value: loc.value,
                                                 subtext: loc.subtext,
                                                 phone: loc.phone || "",
