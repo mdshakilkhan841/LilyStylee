@@ -1,20 +1,53 @@
-import React, { forwardRef, useCallback, useMemo, useState, useImperativeHandle, useRef } from "react";
+import React, {
+    forwardRef,
+    useCallback,
+    useMemo,
+    useState,
+    useImperativeHandle,
+    useRef,
+} from "react";
 import { View, Text, StyleSheet, TextInput } from "react-native";
-import BottomSheet, { BottomSheetView, BottomSheetBackdrop } from "@gorhom/bottom-sheet";
+import BottomSheet, {
+    BottomSheetBackdrop,
+    BottomSheetFlatList,
+} from "@gorhom/bottom-sheet";
 import { TouchableRipple, Portal, Button } from "react-native-paper";
 import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
 import { Colors } from "@/constants/colors";
 import toast from "@/utils/toast";
+
+const PRESET_COUPONS = [
+    {
+        code: "LILY50",
+        description: "Get 50% OFF on your order!",
+        minSubtotal: 0,
+    },
+    {
+        code: "FASHION20",
+        description: "Get 20% OFF on your order!",
+        minSubtotal: 0,
+    },
+    {
+        code: "LILYSTYLEE",
+        description: "Get Flat $10 OFF on orders above $50.",
+        minSubtotal: 50,
+    },
+];
 
 const CouponBottomSheet = forwardRef(({ onApplyCoupon, subtotal }, ref) => {
     const [isVisible, setIsVisible] = useState(false);
     const [customCode, setCustomCode] = useState("");
     const bottomSheetRef = useRef(null);
 
-    const snapPoints = useMemo(() => ["60%"], []);
+    const snapPoints = useMemo(() => ["50%", "70%"], []);
 
     useImperativeHandle(ref, () => ({
-        expand: () => setIsVisible(true),
+        expand: () => {
+            setIsVisible(true);
+            setTimeout(() => {
+                bottomSheetRef.current?.snapToIndex(0);
+            }, 50);
+        },
         close: () => {
             bottomSheetRef.current?.close();
             setIsVisible(false);
@@ -40,34 +73,33 @@ const CouponBottomSheet = forwardRef(({ onApplyCoupon, subtotal }, ref) => {
             return;
         }
 
-        if (cleanedCode === "LILYSTYLEE") {
-            if (subtotal < 50) {
-                toast.warning("Coupon valid for orders above $50 only");
-                return;
-            }
-            onApplyCoupon({ code: "LILYSTYLEE" });
-            toast.success("Coupon 'LILYSTYLEE' applied!");
-            ref.current?.close();
-        } else if (cleanedCode === "LILY50") {
-            onApplyCoupon({ code: "LILY50" });
-            toast.success("Coupon 'LILY50' applied!");
-            ref.current?.close();
-        } else if (cleanedCode === "FASHION20") {
-            onApplyCoupon({ code: "FASHION20" });
-            toast.success("Coupon 'FASHION20' applied!");
-            ref.current?.close();
-        } else {
+        const coupon = PRESET_COUPONS.find((c) => c.code === cleanedCode);
+        if (!coupon) {
             toast.danger("Invalid coupon code");
-        }
-    };
-
-    const handleSelectPreset = (code) => {
-        if (code === "LILYSTYLEE" && subtotal < 50) {
-            toast.warning("Coupon valid for orders above $50 only");
             return;
         }
-        onApplyCoupon({ code });
-        toast.success(`Coupon '${code}' applied!`);
+
+        if (coupon.minSubtotal > 0 && subtotal < coupon.minSubtotal) {
+            toast.warning(
+                `Coupon valid for orders above $${coupon.minSubtotal} only`,
+            );
+            return;
+        }
+
+        onApplyCoupon({ code: coupon.code });
+        toast.success(`Coupon '${coupon.code}' applied!`);
+        ref.current?.close();
+    };
+
+    const handleSelectPreset = (coupon) => {
+        if (coupon.minSubtotal > 0 && subtotal < coupon.minSubtotal) {
+            toast.warning(
+                `Coupon valid for orders above $${coupon.minSubtotal} only`,
+            );
+            return;
+        }
+        onApplyCoupon({ code: coupon.code });
+        toast.success(`Coupon '${coupon.code}' applied!`);
         ref.current?.close();
     };
 
@@ -79,11 +111,13 @@ const CouponBottomSheet = forwardRef(({ onApplyCoupon, subtotal }, ref) => {
                 ref={bottomSheetRef}
                 index={0}
                 snapPoints={snapPoints}
+                enableDynamicSizing={false}
                 enablePanDownToClose={true}
                 backdropComponent={renderBackdrop}
                 onClose={() => setIsVisible(false)}
             >
-                <BottomSheetView style={styles.sheetContainer}>
+                {/* Fixed Header Portion */}
+                <View style={styles.headerContainer}>
                     <Text style={styles.sheetTitle}>Apply Coupon</Text>
 
                     {/* Custom Coupon Input */}
@@ -107,81 +141,51 @@ const CouponBottomSheet = forwardRef(({ onApplyCoupon, subtotal }, ref) => {
                     </View>
 
                     <Text style={styles.sectionHeader}>Available Offers</Text>
+                </View>
 
-                    {/* Preset Coupon 1: LILY50 */}
-                    <TouchableRipple
-                        onPress={() => handleSelectPreset("LILY50")}
-                        rippleColor={Colors.ripple}
-                        style={styles.couponCard}
-                    >
-                        <View style={styles.couponCardContent}>
-                            <View style={styles.couponInfo}>
-                                <View style={styles.couponCodeBadge}>
-                                    <Text style={styles.couponCodeText}>LILY50</Text>
+                {/* Scrollable Coupon List Portion */}
+                <BottomSheetFlatList
+                    data={PRESET_COUPONS}
+                    keyExtractor={(item, index) => `${item.code}-${index}`}
+                    style={{ flex: 1, paddingHorizontal: 16 }}
+                    contentContainerStyle={styles.scrollContainer}
+                    showsVerticalScrollIndicator={false}
+                    renderItem={({ item }) => (
+                        <TouchableRipple
+                            borderless
+                            onPress={() => handleSelectPreset(item)}
+                            rippleColor={Colors.ripple}
+                            style={styles.couponCard}
+                        >
+                            <View style={styles.couponCardContent}>
+                                <View style={styles.iconContainer}>
+                                    <MaterialCommunityIcons
+                                        name="ticket-percent-outline"
+                                        size={20}
+                                        color={Colors.primary}
+                                    />
                                 </View>
-                                <Text style={styles.couponDescription}>
-                                    Get 50% OFF on your order!
-                                </Text>
-                                <Text style={styles.couponExpiry}>No minimum order value</Text>
-                            </View>
-                            <MaterialCommunityIcons
-                                name="chevron-right"
-                                size={22}
-                                color={Colors.primary}
-                            />
-                        </View>
-                    </TouchableRipple>
-
-                    {/* Preset Coupon 2: FASHION20 */}
-                    <TouchableRipple
-                        onPress={() => handleSelectPreset("FASHION20")}
-                        rippleColor={Colors.ripple}
-                        style={styles.couponCard}
-                    >
-                        <View style={styles.couponCardContent}>
-                            <View style={styles.couponInfo}>
-                                <View style={styles.couponCodeBadge}>
-                                    <Text style={styles.couponCodeText}>FASHION20</Text>
+                                <View style={styles.couponInfo}>
+                                    <Text style={styles.couponCodeText}>
+                                        {item.code.replace(
+                                            /_DUPLICATE_\d+/g,
+                                            "",
+                                        )}
+                                    </Text>
+                                    <Text style={styles.couponDescription}>
+                                        {item.description}
+                                    </Text>
+                                    <Text style={styles.couponExpiry}>
+                                        {item.minSubtotal > 0
+                                            ? `Orders above $${item.minSubtotal} • Current: $${subtotal.toFixed(2)}`
+                                            : "No minimum order limit"}
+                                    </Text>
                                 </View>
-                                <Text style={styles.couponDescription}>
-                                    Get 20% OFF on your order!
-                                </Text>
-                                <Text style={styles.couponExpiry}>No minimum order value</Text>
+                                <Text style={styles.applyText}>APPLY</Text>
                             </View>
-                            <MaterialCommunityIcons
-                                name="chevron-right"
-                                size={22}
-                                color={Colors.primary}
-                            />
-                        </View>
-                    </TouchableRipple>
-
-                    {/* Preset Coupon 3: LILYSTYLEE */}
-                    <TouchableRipple
-                        onPress={() => handleSelectPreset("LILYSTYLEE")}
-                        rippleColor={Colors.ripple}
-                        style={styles.couponCard}
-                    >
-                        <View style={styles.couponCardContent}>
-                            <View style={styles.couponInfo}>
-                                <View style={styles.couponCodeBadge}>
-                                    <Text style={styles.couponCodeText}>LILYSTYLEE</Text>
-                                </View>
-                                <Text style={styles.couponDescription}>
-                                    Get Flat $10 OFF on orders above $50.
-                                </Text>
-                                <Text style={styles.couponExpiry}>
-                                    Minimum order value: $50 • Current order: ${subtotal.toFixed(2)}
-                                </Text>
-                            </View>
-                            <MaterialCommunityIcons
-                                name="chevron-right"
-                                size={22}
-                                color={Colors.primary}
-                            />
-                        </View>
-                    </TouchableRipple>
-                </BottomSheetView>
+                        </TouchableRipple>
+                    )}
+                />
             </BottomSheet>
         </Portal>
     );
@@ -190,14 +194,20 @@ const CouponBottomSheet = forwardRef(({ onApplyCoupon, subtotal }, ref) => {
 CouponBottomSheet.displayName = "CouponBottomSheet";
 
 const styles = StyleSheet.create({
-    sheetContainer: {
-        padding: 20,
-        gap: 16,
+    headerContainer: {
+        paddingHorizontal: 16,
+        paddingTop: 10,
+        paddingBottom: 8,
+        gap: 10,
+    },
+    scrollContainer: {
+        paddingBottom: 30,
+        gap: 10,
     },
     sheetTitle: {
-        fontSize: 18,
+        fontSize: 16,
         fontWeight: "bold",
-        marginBottom: 4,
+        marginBottom: 0,
         color: Colors.textDark || "#000000",
     },
     inputContainer: {
@@ -211,62 +221,74 @@ const styles = StyleSheet.create({
     },
     textInput: {
         flex: 1,
-        height: 48,
-        paddingHorizontal: 16,
-        fontSize: 14,
+        height: 44,
+        paddingHorizontal: 12,
+        fontSize: 13,
         color: "#0f172a",
     },
     applyButton: {
         borderRadius: 6,
     },
     applyButtonLabel: {
-        fontSize: 12,
+        fontSize: 11,
         fontWeight: "bold",
-        marginHorizontal: 12,
+        marginHorizontal: 10,
     },
     sectionHeader: {
-        fontSize: 14,
+        fontSize: 13,
         fontWeight: "bold",
         color: "#475569",
-        marginTop: 8,
+        marginTop: 4,
     },
     couponCard: {
         borderWidth: 1,
-        borderColor: "#e2e8f0",
+        borderColor: Colors.primary,
+        borderStyle: "dashed",
         borderRadius: 8,
-        padding: 14,
-        backgroundColor: "#ffffff",
+        backgroundColor: "#fffdfd",
+        overflow: "hidden",
     },
     couponCardContent: {
         flexDirection: "row",
         alignItems: "center",
-        justifyContent: "between",
-        gap: 12,
+        paddingVertical: 8,
+        paddingHorizontal: 10,
+    },
+    iconContainer: {
+        width: 36,
+        height: 36,
+        borderRadius: 18,
+        backgroundColor: Colors.primaryLight || "#fce7f3",
+        justifyContent: "center",
+        alignItems: "center",
+        marginRight: 8,
     },
     couponInfo: {
         flex: 1,
-        gap: 4,
-    },
-    couponCodeBadge: {
-        alignSelf: "flex-start",
-        backgroundColor: Colors.primaryLight || "#fce7f3",
-        paddingHorizontal: 8,
-        paddingVertical: 4,
-        borderRadius: 4,
+        gap: 1,
     },
     couponCodeText: {
-        fontSize: 12,
+        fontSize: 13,
         fontWeight: "bold",
         color: Colors.primary,
+        letterSpacing: 0.5,
+        textTransform: "uppercase",
     },
     couponDescription: {
-        fontSize: 14,
-        fontWeight: "bold",
+        fontSize: 13,
+        fontWeight: "600",
         color: "#1e293b",
     },
     couponExpiry: {
-        fontSize: 11,
+        fontSize: 10.5,
         color: "#64748b",
+        marginTop: 1,
+    },
+    applyText: {
+        fontSize: 11.5,
+        fontWeight: "bold",
+        color: Colors.primary,
+        marginLeft: 10,
     },
 });
 
