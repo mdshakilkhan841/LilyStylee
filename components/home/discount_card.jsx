@@ -33,7 +33,7 @@ const DiscountCard = () => {
 
     const copyToClipboard = async () => {
         await Clipboard.setStringAsync("LILYSTYLEE");
-        toast.success("Code LILYSTYLEE copied!");
+        // toast.success("Code LILYSTYLEE copied!");
     };
 
     const { hours, minutes, seconds } = formatTime(timeLeft);
