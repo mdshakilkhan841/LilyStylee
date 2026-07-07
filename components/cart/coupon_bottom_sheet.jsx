@@ -3,15 +3,17 @@ import React, {
     useCallback,
     useMemo,
     useState,
+    useEffect,
     useImperativeHandle,
     useRef,
 } from "react";
-import { View, Text, StyleSheet, TextInput } from "react-native";
-import BottomSheet, {
+import { View, Text, StyleSheet, TextInput, BackHandler } from "react-native";
+import {
+    BottomSheetModal,
     BottomSheetBackdrop,
     BottomSheetFlatList,
 } from "@gorhom/bottom-sheet";
-import { TouchableRipple, Portal, Button } from "react-native-paper";
+import { TouchableRipple, Button } from "react-native-paper";
 import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
 import { Colors } from "@/constants/colors";
 import toast from "@/utils/toast";
@@ -35,24 +37,36 @@ const PRESET_COUPONS = [
 ];
 
 const CouponBottomSheet = forwardRef(({ onApplyCoupon, subtotal }, ref) => {
-    const [isVisible, setIsVisible] = useState(false);
     const [customCode, setCustomCode] = useState("");
     const bottomSheetRef = useRef(null);
+    const [sheetIndex, setSheetIndex] = useState(-1);
 
     const snapPoints = useMemo(() => ["50%", "70%"], []);
 
     useImperativeHandle(ref, () => ({
         expand: () => {
-            setIsVisible(true);
-            setTimeout(() => {
-                bottomSheetRef.current?.snapToIndex(0);
-            }, 50);
+            bottomSheetRef.current?.present();
         },
         close: () => {
-            bottomSheetRef.current?.close();
-            setIsVisible(false);
+            bottomSheetRef.current?.dismiss();
         },
     }));
+
+    useEffect(() => {
+        if (sheetIndex < 0) return;
+
+        const onBackPress = () => {
+            bottomSheetRef.current?.dismiss();
+            return true; // prevent default back action
+        };
+
+        const subscription = BackHandler.addEventListener(
+            "hardwareBackPress",
+            onBackPress
+        );
+
+        return () => subscription.remove();
+    }, [sheetIndex]);
 
     const renderBackdrop = useCallback(
         (props) => (
@@ -88,7 +102,7 @@ const CouponBottomSheet = forwardRef(({ onApplyCoupon, subtotal }, ref) => {
 
         onApplyCoupon({ code: coupon.code });
         toast.success(`Coupon '${coupon.code}' applied!`);
-        ref.current?.close();
+        bottomSheetRef.current?.dismiss();
     };
 
     const handleSelectPreset = (coupon) => {
@@ -100,94 +114,91 @@ const CouponBottomSheet = forwardRef(({ onApplyCoupon, subtotal }, ref) => {
         }
         onApplyCoupon({ code: coupon.code });
         toast.success(`Coupon '${coupon.code}' applied!`);
-        ref.current?.close();
+        bottomSheetRef.current?.dismiss();
     };
 
-    if (!isVisible) return null;
-
     return (
-        <Portal>
-            <BottomSheet
-                ref={bottomSheetRef}
-                index={0}
-                snapPoints={snapPoints}
-                enableDynamicSizing={false}
-                enablePanDownToClose={true}
-                backdropComponent={renderBackdrop}
-                onClose={() => setIsVisible(false)}
-            >
-                {/* Fixed Header Portion */}
-                <View style={styles.headerContainer}>
-                    <Text style={styles.sheetTitle}>Apply Coupon</Text>
+        <BottomSheetModal
+            ref={bottomSheetRef}
+            index={0}
+            snapPoints={snapPoints}
+            enableDynamicSizing={false}
+            enablePanDownToClose={true}
+            backdropComponent={renderBackdrop}
+            onChange={setSheetIndex}
+            onDismiss={() => setSheetIndex(-1)}
+        >
+            {/* Fixed Header Portion */}
+            <View style={styles.headerContainer}>
+                <Text style={styles.sheetTitle}>Apply Coupon</Text>
 
-                    {/* Custom Coupon Input */}
-                    <View style={styles.inputContainer}>
-                        <TextInput
-                            placeholder="Enter coupon code (e.g. LILY50)"
-                            value={customCode}
-                            onChangeText={setCustomCode}
-                            autoCapitalize="characters"
-                            style={styles.textInput}
-                        />
-                        <Button
-                            mode="contained"
-                            buttonColor={Colors.primary}
-                            onPress={handleApplyCustom}
-                            style={styles.applyButton}
-                            labelStyle={styles.applyButtonLabel}
-                        >
-                            APPLY
-                        </Button>
-                    </View>
-
-                    <Text style={styles.sectionHeader}>Available Offers</Text>
+                {/* Custom Coupon Input */}
+                <View style={styles.inputContainer}>
+                    <TextInput
+                        placeholder="Enter coupon code (e.g. LILY50)"
+                        value={customCode}
+                        onChangeText={setCustomCode}
+                        autoCapitalize="characters"
+                        style={styles.textInput}
+                    />
+                    <Button
+                        mode="contained"
+                        buttonColor={Colors.primary}
+                        onPress={handleApplyCustom}
+                        style={styles.applyButton}
+                        labelStyle={styles.applyButtonLabel}
+                    >
+                        APPLY
+                    </Button>
                 </View>
 
-                {/* Scrollable Coupon List Portion */}
-                <BottomSheetFlatList
-                    data={PRESET_COUPONS}
-                    keyExtractor={(item, index) => `${item.code}-${index}`}
-                    style={{ flex: 1, paddingHorizontal: 16 }}
-                    contentContainerStyle={styles.scrollContainer}
-                    showsVerticalScrollIndicator={false}
-                    renderItem={({ item }) => (
-                        <TouchableRipple
-                            borderless
-                            onPress={() => handleSelectPreset(item)}
-                            rippleColor={Colors.ripple}
-                            style={styles.couponCard}
-                        >
-                            <View style={styles.couponCardContent}>
-                                <View style={styles.iconContainer}>
-                                    <MaterialCommunityIcons
-                                        name="ticket-percent-outline"
-                                        size={20}
-                                        color={Colors.primary}
-                                    />
-                                </View>
-                                <View style={styles.couponInfo}>
-                                    <Text style={styles.couponCodeText}>
-                                        {item.code.replace(
-                                            /_DUPLICATE_\d+/g,
-                                            "",
-                                        )}
-                                    </Text>
-                                    <Text style={styles.couponDescription}>
-                                        {item.description}
-                                    </Text>
-                                    <Text style={styles.couponExpiry}>
-                                        {item.minSubtotal > 0
-                                            ? `Orders above $${item.minSubtotal} • Current: $${subtotal.toFixed(2)}`
-                                            : "No minimum order limit"}
-                                    </Text>
-                                </View>
-                                <Text style={styles.applyText}>APPLY</Text>
+                <Text style={styles.sectionHeader}>Available Offers</Text>
+            </View>
+
+            {/* Scrollable Coupon List Portion */}
+            <BottomSheetFlatList
+                data={PRESET_COUPONS}
+                keyExtractor={(item, index) => `${item.code}-${index}`}
+                style={{ flex: 1, paddingHorizontal: 16 }}
+                contentContainerStyle={styles.scrollContainer}
+                showsVerticalScrollIndicator={false}
+                renderItem={({ item }) => (
+                    <TouchableRipple
+                        borderless
+                        onPress={() => handleSelectPreset(item)}
+                        rippleColor={Colors.ripple}
+                        style={styles.couponCard}
+                    >
+                        <View style={styles.couponCardContent}>
+                            <View style={styles.iconContainer}>
+                                <MaterialCommunityIcons
+                                    name="ticket-percent-outline"
+                                    size={20}
+                                    color={Colors.primary}
+                                />
                             </View>
-                        </TouchableRipple>
-                    )}
-                />
-            </BottomSheet>
-        </Portal>
+                            <View style={styles.couponInfo}>
+                                <Text style={styles.couponCodeText}>
+                                    {item.code.replace(
+                                        /_DUPLICATE_\d+/g,
+                                        "",
+                                    )}
+                                </Text>
+                                <Text style={styles.couponDescription}>
+                                    {item.description}
+                                </Text>
+                                <Text style={styles.couponExpiry}>
+                                    {item.minSubtotal > 0
+                                        ? `Orders above $${item.minSubtotal} • Current: $${subtotal.toFixed(2)}`
+                                        : "No minimum order limit"}
+                                </Text>
+                            </View>
+                            <Text style={styles.applyText}>APPLY</Text>
+                        </View>
+                    </TouchableRipple>
+                )}
+            />
+        </BottomSheetModal>
     );
 });
 

@@ -3,15 +3,17 @@ import React, {
     useCallback,
     useMemo,
     useState,
+    useEffect,
     useImperativeHandle,
     useRef,
 } from "react";
-import { View, Text, StyleSheet } from "react-native";
-import BottomSheet, {
+import { View, Text, StyleSheet, BackHandler } from "react-native";
+import {
+    BottomSheetModal,
     BottomSheetView,
     BottomSheetBackdrop,
 } from "@gorhom/bottom-sheet";
-import { TouchableRipple, Portal, Button } from "react-native-paper";
+import { TouchableRipple, Button } from "react-native-paper";
 import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
 import { Colors } from "@/constants/colors";
 import toast from "@/utils/toast";
@@ -33,107 +35,144 @@ const SAVED_LOCATIONS = [
     },
 ];
 
-const LocationBottomSheet = forwardRef(
-    ({ onSelectLocation, selectedLocation }, ref) => {
-        const [isVisible, setIsVisible] = useState(false);
-        const bottomSheetRef = useRef(null);
+const LocationBottomSheet = forwardRef(({ onSelectLocation, selectedLocation }, ref) => {
+    const bottomSheetRef = useRef(null);
+    const [sheetIndex, setSheetIndex] = useState(-1);
 
-        const snapPoints = useMemo(() => ["56%"], []);
+    const snapPoints = useMemo(() => ["56%"], []);
 
-        useImperativeHandle(ref, () => ({
-            expand: () => setIsVisible(true),
-            close: () => {
-                bottomSheetRef.current?.close();
-                setIsVisible(false);
-            },
-        }));
+    useImperativeHandle(ref, () => ({
+        expand: () => {
+            bottomSheetRef.current?.present();
+        },
+        close: () => {
+            bottomSheetRef.current?.dismiss();
+        },
+    }));
 
-        const renderBackdrop = useCallback(
-            (props) => (
-                <BottomSheetBackdrop
-                    {...props}
-                    disappearsOnIndex={-1}
-                    appearsOnIndex={0}
-                    pressBehavior="close"
-                />
-            ),
-            [],
-        );
+    useEffect(() => {
+        if (sheetIndex < 0) return;
 
-        if (!isVisible) return null;
-
-        // Helper check function to match formats like "769008, Shakil Khan" and "Shakil Khan, 769008"
-        const isSelected = (value) => {
-            if (!selectedLocation) return false;
-            const normalizedSelected = selectedLocation
-                .replace(/\s+/g, "")
-                .toLowerCase();
-            const normalizedValue = value.replace(/\s+/g, "").toLowerCase();
-
-            // Also check reverse format if comma-separated
-            if (value.includes(",")) {
-                const parts = value.split(",");
-                const reversedValue = `${parts[1].trim()}, ${parts[0].trim()}`;
-                const normalizedReversed = reversedValue
-                    .replace(/\s+/g, "")
-                    .toLowerCase();
-                return (
-                    normalizedSelected === normalizedValue ||
-                    normalizedSelected === normalizedReversed
-                );
-            }
-
-            return normalizedSelected === normalizedValue;
+        const onBackPress = () => {
+            bottomSheetRef.current?.dismiss();
+            return true; // prevent default back action
         };
 
-        const isGpsSelected = selectedLocation === "Current location (GPS)";
+        const subscription = BackHandler.addEventListener(
+            "hardwareBackPress",
+            onBackPress
+        );
 
-        return (
-            <Portal>
-                <BottomSheet
-                    ref={bottomSheetRef}
-                    index={0}
-                    snapPoints={snapPoints}
-                    enablePanDownToClose={true}
-                    backdropComponent={renderBackdrop}
-                    onClose={() => setIsVisible(false)}
+        return () => subscription.remove();
+    }, [sheetIndex]);
+
+    const renderBackdrop = useCallback(
+        (props) => (
+            <BottomSheetBackdrop
+                {...props}
+                disappearsOnIndex={-1}
+                appearsOnIndex={0}
+                pressBehavior="close"
+            />
+        ),
+        [],
+    );
+
+    const isSelected = (value) => {
+        if (!selectedLocation) return false;
+        const normalizedSelected = selectedLocation.replace(/\s+/g, "").toLowerCase();
+        const normalizedValue = value.replace(/\s+/g, "").toLowerCase();
+
+        if (value.includes(",")) {
+            const parts = value.split(",");
+            const reversedValue = `${parts[1].trim()}, ${parts[0].trim()}`;
+            const normalizedReversed = reversedValue.replace(/\s+/g, "").toLowerCase();
+            return normalizedSelected === normalizedValue || normalizedSelected === normalizedReversed;
+        }
+
+        return normalizedSelected === normalizedValue;
+    };
+
+    const isGpsSelected = selectedLocation === "Current location (GPS)";
+
+    return (
+        <BottomSheetModal
+            ref={bottomSheetRef}
+            index={0}
+            snapPoints={snapPoints}
+            enablePanDownToClose={true}
+            backdropComponent={renderBackdrop}
+            onChange={setSheetIndex}
+            onDismiss={() => setSheetIndex(-1)}
+        >
+            <BottomSheetView style={styles.sheetContainer}>
+                <Text style={styles.sheetTitle}>
+                    Select Delivery Location
+                </Text>
+
+                {/* GPS Current Location Option */}
+                <TouchableRipple
+                    borderless
+                    onPress={() => {
+                        onSelectLocation?.("Current location (GPS)");
+                        toast.success("Location updated to GPS");
+                        bottomSheetRef.current?.dismiss();
+                    }}
+                    rippleColor={Colors.ripple}
+                    style={isGpsSelected ? styles.locationOptionActive : styles.locationOption}
                 >
-                    <BottomSheetView style={styles.sheetContainer}>
-                        <Text style={styles.sheetTitle}>
-                            Select Delivery Location
-                        </Text>
+                    <View style={styles.optionContent}>
+                        <MaterialCommunityIcons
+                            name="crosshairs-gps"
+                            size={22}
+                            color={Colors.primary}
+                        />
+                        <View style={styles.optionTextContainer}>
+                            <Text style={styles.optionTitle}>
+                                Use Current Location
+                            </Text>
+                            <Text style={styles.optionSub}>
+                                Using GPS tracking
+                            </Text>
+                        </View>
+                        {isGpsSelected && (
+                            <MaterialCommunityIcons
+                                name="check-circle"
+                                size={20}
+                                color={Colors.primary}
+                            />
+                        )}
+                    </View>
+                </TouchableRipple>
 
-                        {/* GPS Current Location Option */}
+                {/* Dynamic Mapped Saved Locations */}
+                {SAVED_LOCATIONS.map((loc) => {
+                    const active = isSelected(loc.value);
+                    return (
                         <TouchableRipple
+                            key={loc.id}
                             borderless
                             onPress={() => {
-                                onSelectLocation?.("Current location (GPS)");
-                                toast.success("Location updated to GPS");
-                                bottomSheetRef.current?.close();
-                                setIsVisible(false);
+                                onSelectLocation?.(loc.value);
+                                toast.success(`Location updated to ${loc.title}`);
+                                bottomSheetRef.current?.dismiss();
                             }}
                             rippleColor={Colors.ripple}
-                            style={
-                                isGpsSelected
-                                    ? styles.locationOptionActive
-                                    : styles.locationOption
-                            }
+                            style={active ? styles.locationOptionActive : styles.locationOption}
                         >
                             <View style={styles.optionContent}>
                                 <MaterialCommunityIcons
-                                    name="crosshairs-gps"
+                                    name={loc.icon}
                                     size={22}
                                     color={Colors.primary}
                                 />
                                 <View style={styles.optionTextContainer}>
-                                    <Text style={styles.optionTitle}>
-                                        Use Current Location
-                                    </Text>
+                                    <Text style={styles.optionTitle}>{loc.title}</Text>
                                     <Text style={styles.optionSub}>
-                                        Using GPS tracking
+                                        {loc.subtext}
                                     </Text>
                                 </View>
-                                {isGpsSelected && (
+                                {active && (
                                     <MaterialCommunityIcons
                                         name="check-circle"
                                         size={20}
@@ -142,78 +181,26 @@ const LocationBottomSheet = forwardRef(
                                 )}
                             </View>
                         </TouchableRipple>
+                    );
+                })}
 
-                        {/* Dynamic Mapped Saved Locations */}
-                        {SAVED_LOCATIONS.map((loc) => {
-                            const active = isSelected(loc.value);
-                            return (
-                                <TouchableRipple
-                                    key={loc.id}
-                                    borderless
-                                    onPress={() => {
-                                        onSelectLocation?.(loc.value);
-                                        toast.success(
-                                            `Location updated to ${loc.title}`,
-                                        );
-                                        bottomSheetRef.current?.close();
-                                        setIsVisible(false);
-                                    }}
-                                    rippleColor={Colors.ripple}
-                                    style={
-                                        active
-                                            ? styles.locationOptionActive
-                                            : styles.locationOption
-                                    }
-                                >
-                                    <View style={styles.optionContent}>
-                                        <MaterialCommunityIcons
-                                            name={loc.icon}
-                                            size={22}
-                                            color={Colors.primary}
-                                        />
-                                        <View
-                                            style={styles.optionTextContainer}
-                                        >
-                                            <Text style={styles.optionTitle}>
-                                                {loc.title}
-                                            </Text>
-                                            <Text style={styles.optionSub}>
-                                                {loc.subtext}
-                                            </Text>
-                                        </View>
-                                        {active && (
-                                            <MaterialCommunityIcons
-                                                name="check-circle"
-                                                size={20}
-                                                color={Colors.primary}
-                                            />
-                                        )}
-                                    </View>
-                                </TouchableRipple>
-                            );
-                        })}
-
-                        {/* Add New Address Button */}
-                        <Button
-                            mode="outlined"
-                            icon="plus"
-                            textColor={Colors.primary}
-                            style={styles.addButton}
-                            labelStyle={styles.addButtonLabel}
-                            onPress={() => {
-                                toast.success(
-                                    "Add Address screen coming soon!",
-                                );
-                            }}
-                        >
-                            ADD NEW ADDRESS
-                        </Button>
-                    </BottomSheetView>
-                </BottomSheet>
-            </Portal>
-        );
-    },
-);
+                {/* Add New Address Button */}
+                <Button
+                    mode="outlined"
+                    icon="plus"
+                    textColor={Colors.primary}
+                    style={styles.addButton}
+                    labelStyle={styles.addButtonLabel}
+                    onPress={() => {
+                        toast.success("Add Address screen coming soon!");
+                    }}
+                >
+                    ADD NEW ADDRESS
+                </Button>
+            </BottomSheetView>
+        </BottomSheetModal>
+    );
+});
 
 LocationBottomSheet.displayName = "LocationBottomSheet";
 
