@@ -1,4 +1,4 @@
-import { useState, useMemo } from "react";
+import { useState, useMemo, useRef } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import {
     View,
@@ -22,6 +22,7 @@ import OfferTiming from "@/components/cart/offer_timing";
 import useCartStore from "@/store/use_cart_store";
 import ShoppingBag from "@/assets/animations/shopping-bag.svg";
 import serviceBanner from "@/assets/images/service.png";
+import CouponBottomSheet from "@/components/cart/coupon_bottom_sheet";
 
 const { width } = Dimensions.get("window");
 
@@ -53,6 +54,24 @@ export default function CartIndex() {
             return sum + discount;
         }, 0);
     }, [selectedItems]);
+
+    const couponSheetRef = useRef(null);
+    const [appliedCoupon, setAppliedCoupon] = useState(null);
+
+    const couponDiscount = useMemo(() => {
+        if (!appliedCoupon) return 0;
+        const subtotal = totalMRP - totalDiscount;
+        if (subtotal <= 0) return 0;
+
+        if (appliedCoupon.code === "LILYSTYLEE") {
+            return subtotal >= 50 ? 10 : 0;
+        } else if (appliedCoupon.code === "LILY50") {
+            return subtotal * 0.5;
+        } else if (appliedCoupon.code === "FASHION20") {
+            return subtotal * 0.20;
+        }
+        return 0;
+    }, [appliedCoupon, totalMRP, totalDiscount]);
 
     const handleSelectAll = () => {
         if (checkedAll) {
@@ -258,16 +277,36 @@ export default function CartIndex() {
                                     </Text>
                                 </View>
                                 <View className="flex-row flex-wrap items-center justify-between">
-                                    <Text className="">Coupon Discount</Text>
-                                    <Pressable
-                                        onPress={() => {
-                                            console.log("Apply Coupon");
-                                        }}
-                                    >
-                                        <Text className="text-primary">
-                                            Apply Coupon
-                                        </Text>
-                                    </Pressable>
+                                    <View>
+                                        <Text className="">Coupon Discount</Text>
+                                        {appliedCoupon && (
+                                            <Text className="text-xs text-green-600 font-bold">
+                                                {appliedCoupon.code} Applied
+                                            </Text>
+                                        )}
+                                    </View>
+                                    {appliedCoupon ? (
+                                        <View className="flex-row items-center gap-2">
+                                            <Text className="text-green-600 font-bold">
+                                                - ${couponDiscount.toFixed(2)}
+                                            </Text>
+                                            <Pressable onPress={() => setAppliedCoupon(null)}>
+                                                <Text className="text-red-500 text-xs font-bold underline">
+                                                    Remove
+                                                </Text>
+                                            </Pressable>
+                                        </View>
+                                    ) : (
+                                        <Pressable
+                                            onPress={() => {
+                                                couponSheetRef.current?.expand();
+                                            }}
+                                        >
+                                            <Text className="text-primary font-bold">
+                                                Apply Coupon
+                                            </Text>
+                                        </Pressable>
+                                    )}
                                 </View>
                                 <View className="flex-row flex-wrap items-center justify-between">
                                     <Text className="">Shipping Fee</Text>
@@ -280,7 +319,7 @@ export default function CartIndex() {
                             <View className="flex-row flex-wrap items-center justify-between">
                                 <Text className="font-bold">Total Amount</Text>
                                 <Text className="font-bold">
-                                    ${(totalMRP - totalDiscount).toFixed()}
+                                    ${(totalMRP - totalDiscount - couponDiscount).toFixed()}
                                 </Text>
                             </View>
                         </View>
@@ -356,6 +395,12 @@ export default function CartIndex() {
                     </Text>
                 </View>
             )}
+
+            <CouponBottomSheet
+                ref={couponSheetRef}
+                onApplyCoupon={setAppliedCoupon}
+                subtotal={totalMRP - totalDiscount}
+            />
         </SafeAreaView>
     );
 }

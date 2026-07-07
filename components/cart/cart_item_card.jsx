@@ -79,8 +79,6 @@ const CartItemCard = ({ product, isChecked, onCheck, onRemove }) => {
                 rippleColor={Colors.ripple}
                 style={{
                     position: "absolute",
-                    top: 6,
-                    left: 6,
                     padding: 10,
                     borderRadius: 20,
                 }}
@@ -100,7 +98,7 @@ const CartItemCard = ({ product, isChecked, onCheck, onRemove }) => {
             {/* need to pass item id as an array */}
             <Pressable onPress={() => onRemove(product.id)}>
                 <Feather
-                    className="absolute right-4 top-3"
+                    className="absolute right-2 top-0"
                     name="x"
                     size={20}
                     color="black"
