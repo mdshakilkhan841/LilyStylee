@@ -157,7 +157,7 @@ const TopHeader = () => {
                         borderColor: Colors.primaryLight,
                         borderRadius: 8,
                         overflow: "hidden",
-                        marginVertical: 8,
+                        marginTop: 4,
                     }}
                 >
                     <View className="flex flex-row items-center justify-between px-5 h-11">
