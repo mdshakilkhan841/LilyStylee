@@ -97,6 +97,7 @@ const PageHeader = ({
                                         right: 3,
                                         backgroundColor: Colors.primary,
                                         fontSize: 10,
+                                        color: "white",
                                     }}
                                 >
                                     {cart.length}

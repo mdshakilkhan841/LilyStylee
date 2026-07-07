@@ -1,5 +1,5 @@
 import { View, Text } from "react-native";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import Lily from "@/assets/images/lily.svg";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import Feather from "@expo/vector-icons/Feather";
@@ -8,8 +8,13 @@ import { Appbar, Badge, TouchableRipple } from "react-native-paper";
 import { router } from "expo-router";
 import useCartStore from "@/store/use_cart_store";
 import { Colors } from "@/constants/colors";
+import LocationBottomSheet from "@/components/home/location_bottom_sheet";
 
 const TopHeader = () => {
+    const bottomSheetRef = useRef(null);
+    const [selectedLocation, setSelectedLocation] = useState(
+        "769008, Shakil Khan",
+    );
     const fullText = "Search for brands and products";
     const [displayedText, setDisplayedText] = useState("");
     const [typingIndex, setTypingIndex] = useState(0);
@@ -72,6 +77,7 @@ const TopHeader = () => {
                                         right: 3,
                                         backgroundColor: Colors.primary,
                                         fontSize: 10,
+                                        color: "white",
                                     }}
                                 >
                                     {cart.length}
@@ -104,7 +110,7 @@ const TopHeader = () => {
                 <TouchableRipple
                     borderless={true}
                     rippleColor={Colors.ripple}
-                    onPress={() => {}}
+                    onPress={() => bottomSheetRef.current?.expand()}
                     style={{
                         borderRadius: 4,
                         paddingVertical: 4,
@@ -124,8 +130,7 @@ const TopHeader = () => {
                         >
                             Delever to{" "}
                             <Text className="font-semibold text-black">
-                                Current location name Current location name
-                                Current location name
+                                {selectedLocation}
                             </Text>
                         </Text>
                         <MaterialCommunityIcons
@@ -201,6 +206,11 @@ const TopHeader = () => {
                     </View>
                 </TouchableRipple>
             </View>
+
+            <LocationBottomSheet
+                ref={bottomSheetRef}
+                onSelectLocation={setSelectedLocation}
+            />
         </View>
     );
 };
