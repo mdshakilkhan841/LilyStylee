@@ -23,6 +23,8 @@ import useCartStore from "@/store/use_cart_store";
 import ShoppingBag from "@/assets/animations/shopping-bag.svg";
 import serviceBanner from "@/assets/images/service.png";
 import CouponBottomSheet from "@/components/cart/coupon_bottom_sheet";
+import LocationBottomSheet from "@/components/home/location_bottom_sheet";
+import useLocationStore from "@/store/use_location_store";
 
 const { width } = Dimensions.get("window");
 
@@ -56,7 +58,9 @@ export default function CartIndex() {
     }, [selectedItems]);
 
     const couponSheetRef = useRef(null);
+    const locationSheetRef = useRef(null);
     const [appliedCoupon, setAppliedCoupon] = useState(null);
+    const { selectedLocation, setSelectedLocation } = useLocationStore();
 
     const couponDiscount = useMemo(() => {
         if (!appliedCoupon) return 0;
@@ -146,10 +150,14 @@ export default function CartIndex() {
                             <Text>
                                 Deliver to:{" "}
                                 <Text className="font-bold">
-                                    Shakil Khan, 769008
+                                    {selectedLocation}
                                 </Text>
                             </Text>
-                            <Pressable>
+                            <Pressable
+                                onPress={() => {
+                                    locationSheetRef.current?.expand();
+                                }}
+                            >
                                 <Text className="font-bold text-primary">
                                     Change
                                 </Text>
@@ -400,6 +408,12 @@ export default function CartIndex() {
                 ref={couponSheetRef}
                 onApplyCoupon={setAppliedCoupon}
                 subtotal={totalMRP - totalDiscount}
+            />
+
+            <LocationBottomSheet
+                ref={locationSheetRef}
+                onSelectLocation={setSelectedLocation}
+                selectedLocation={selectedLocation}
             />
         </SafeAreaView>
     );

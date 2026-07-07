@@ -7,14 +7,13 @@ import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
 import { Appbar, Badge, TouchableRipple } from "react-native-paper";
 import { router } from "expo-router";
 import useCartStore from "@/store/use_cart_store";
+import useLocationStore from "@/store/use_location_store";
 import { Colors } from "@/constants/colors";
 import LocationBottomSheet from "@/components/home/location_bottom_sheet";
 
 const TopHeader = () => {
     const bottomSheetRef = useRef(null);
-    const [selectedLocation, setSelectedLocation] = useState(
-        "769008, Shakil Khan",
-    );
+    const { selectedLocation, setSelectedLocation } = useLocationStore();
     const fullText = "Search for brands and products";
     const [displayedText, setDisplayedText] = useState("");
     const [typingIndex, setTypingIndex] = useState(0);
@@ -210,6 +209,7 @@ const TopHeader = () => {
             <LocationBottomSheet
                 ref={bottomSheetRef}
                 onSelectLocation={setSelectedLocation}
+                selectedLocation={selectedLocation}
             />
         </View>
     );
